@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --fuchsia: #d6236b;
+  --purple: #4b2e63;
+  --beige: #ede3d3;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Outfit, system-ui, sans-serif;
+  color: #2a1838;
+  background: #ede3d3;
+}
+
+.font-serif {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.page-light {
+  min-height: 100vh;
+  background-color: #ede3d3;
+  background-image: linear-gradient(180deg, rgba(237, 227, 211, 0.88), rgba(237, 227, 211, 0.94)),
+    url('/bg-light.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.page-dark {
+  min-height: 100vh;
+  color: #ede3d3;
+  background-color: #4b2e63;
+  background-image: linear-gradient(180deg, rgba(75, 46, 99, 0.82), rgba(42, 24, 56, 0.92)),
+    url('/bg-dark.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.nav-light {
+  background: rgba(237, 227, 211, 0.86);
+  border-bottom: 1px solid rgba(75, 46, 99, 0.08);
+}
+
+.nav-dark {
+  background: rgba(42, 24, 56, 0.72);
+  border-bottom: 1px solid rgba(237, 227, 211, 0.12);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #4b2e63;
+  color: #ede3d3;
+  padding: 0.85rem 1.4rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.page-dark .btn-primary {
+  background: #d6236b;
+  color: #fff;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(75, 46, 99, 0.35);
+  color: #4b2e63;
+  padding: 0.85rem 1.4rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.page-dark .btn-ghost {
+  border-color: rgba(237, 227, 211, 0.35);
+  color: #ede3d3;
+}
+
+.eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #d6236b;
+  font-weight: 500;
+}
+
+.card {
+  background: rgba(255, 252, 247, 0.72);
+  border: 1px solid rgba(75, 46, 99, 0.08);
+}
+
+.page-dark .card {
+  background: rgba(42, 24, 56, 0.45);
+  border-color: rgba(237, 227, 211, 0.12);
+}
+
+.whatsapp-fab {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 40;
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 999px;
+  background: #d6236b;
+  color: white;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 12px 30px rgba(214, 35, 107, 0.35);
+}

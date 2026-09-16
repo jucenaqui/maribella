@@ -1,0 +1,157 @@
+export const WHATSAPP = 'https://wa.me/573127442664'
+export const EMAIL = 'constelacionesmaribella@gmail.com'
+export const INSTAGRAM = 'https://instagram.com/maribella_conexion'
+export const PHONE_LABEL = '312 744 2664'
+
+export const nav = [
+  { to: '/', label: 'Inicio', theme: 'light' },
+  { to: '/servicios', label: 'Servicios', theme: 'light' },
+  { to: '/voces', label: 'Voces', theme: 'light' },
+  { to: '/mentoria', label: 'Mentoría', theme: 'dark' },
+  { to: '/taller', label: 'Taller', theme: 'dark' },
+  { to: '/recursos', label: 'Recursos', theme: 'dark' },
+  { to: '/sobre', label: 'Sobre mí', theme: 'light' },
+  { to: '/contacto', label: 'Contacto', theme: 'light' },
+]
+
+export const services = [
+  {
+    slug: 'constelaciones',
+    category: 'Sistémico',
+    title: 'Constelaciones Familiares',
+    summary:
+      'Identifica y sana patrones, conflictos o bloqueos heredados. Restaura el equilibrio, el amor y la paz en el sistema familiar.',
+    detail:
+      'Terapia sistémica que, a través de representaciones, devela desórdenes o exclusiones en el árbol familiar. El objetivo no es “arreglar” a nadie, sino devolverle un lugar a lo que fue excluido, para que el amor pueda fluir de nuevo.',
+  },
+  {
+    slug: 'feng-shui',
+    category: 'Espacio',
+    title: 'Feng Shui',
+    summary:
+      'Armoniza hogar u oficina: distribución, colores y objetos para que el Chi circule y sostenga abundancia, salud y relaciones.',
+    detail:
+      'Ocupación consciente del espacio. Estudiamos cómo tu entorno cotidiano influye en tu estado emocional y en las oportunidades que se abren — o se estancan — en la vida diaria.',
+  },
+  {
+    slug: 'astrologia',
+    category: 'Autoconocimiento',
+    title: 'Astrología terapéutica',
+    summary:
+      'Carta natal como mapa de personalidad, ciclos vitales y propósito. Herramienta de claridad, no de destino cerrado.',
+    detail:
+      'Utilizada de forma holística y psicológica: comprende tus patrones, ventanas de cambio y el “por qué ahora” de una crisis, sin recetas genéricas ni fatalismo.',
+  },
+  {
+    slug: 'limpieza',
+    category: 'Energético',
+    title: 'Limpieza energética',
+    summary:
+      'Libera densidades en el campo áurico y en espacios físicos con plantas sagradas, cuencos, cristales y decretos.',
+    detail:
+      'Práctica para restablecer un flujo ligero cuando un lugar o un proceso personal se siente “cargado”. Complementa el trabajo sistémico; no lo sustituye.',
+  },
+  {
+    slug: 'angelical',
+    category: 'Espiritual',
+    title: 'Terapias angelicales',
+    summary:
+      'Canalización de consuelo, mensajes y frecuencias de guía para soltar miedos y ganar claridad emocional.',
+    detail:
+      'Un espacio de contención espiritual. El terapeuta actúa como canal para transmitir guía, no como autoridad sobre tu historia.',
+  },
+  {
+    slug: 'acompanamiento',
+    category: 'Proceso',
+    title: 'Acompañamiento terapéutico',
+    summary:
+      'Guía continua en crisis, transiciones o sanación profunda. Escucha activa + herramientas holísticas a tu ritmo.',
+    detail:
+      'Caminar al lado, no delante. Integramos lo vivido en constelación, carta o espacio, para que el insight se vuelva vida cotidiana.',
+  },
+]
+
+export const offers = [
+  {
+    name: 'Diagnóstico e integración',
+    time: '75 min',
+    price: '65 USD',
+    note: 'Fase de penetración · sesión individual',
+  },
+  {
+    name: 'Carta natal o Feng Shui',
+    time: '60 min',
+    price: '85 USD',
+    note: 'Lectura focalizada',
+  },
+  {
+    name: 'Constelación individual',
+    time: '2 sesiones + WhatsApp',
+    price: '180 USD',
+    note: 'Proceso de sanación sistémica',
+  },
+  {
+    name: 'De la Herida a la Paz',
+    time: '4 semanas',
+    price: '390 USD',
+    note: '4 sesiones + ejercicios diarios',
+  },
+]
+
+export const voces = {
+  eyebrow: 'Voces · diagnóstico y procesos',
+  title: 'Quienes ya se sentaron aquí',
+  lead:
+    'No son recomendaciones de un producto. Son personas que tomaron una sesión de diagnóstico o un proceso con Maribella: claridad, no magia.',
+  featured: {
+    name: 'Consultante · 6 meses de proceso',
+    quote:
+      'Llevo 6 meses trabajando con Maribella y hoy entendí algo que 3 años de terapia convencional no me habían mostrado. No era yo la que repetía ese patrón con mi pareja. Era algo de mi familia que yo estaba cargando sin saberlo.',
+    note: 'Aviso real: la primera sesión de constelaciones remueve bastante (te lo avisan antes). Si dudas, quédate.',
+    image: '/voz-retrato.jpg',
+  },
+  quotes: [
+    {
+      tag: 'Diagnóstico',
+      text: 'Llevaba años sintiendo que algo no encajaba en mí. Con Maribella entendí que era un patrón de mi abuela, no mío.',
+    },
+    {
+      tag: 'Proceso',
+      text: 'Escéptica total al inicio. Terapia de años y sentía que faltaba algo. Esto conectó piezas que nadie más había conectado.',
+    },
+    {
+      tag: 'Diagnóstico',
+      text: 'Entendí en 2 sesiones algo que 3 años de terapia no me habían mostrado.',
+    },
+    {
+      tag: 'Proceso',
+      text: 'Después de probar de todo, esto es lo único que fue directo a la raíz. Sigo en proceso, pero ya veo el cambio.',
+    },
+    {
+      tag: 'Honestidad',
+      text: 'Gracias por ser honesta desde el principio. No prometiste magia, prometiste claridad, y eso cumplió.',
+    },
+    {
+      tag: 'Linaje',
+      text: '¿Esto es lo que hizo mi hermana? Me cambió la forma de ver a mi familia.',
+    },
+  ],
+  videos: [
+    {
+      id: 'diagnostico',
+      label: 'Video 1',
+      title: 'Después de la sesión de diagnóstico',
+      poster: '/voz-diagnostico.jpg',
+      youtubeId: '',
+      src: '/videos/despues-del-diagnostico.mp4',
+    },
+    {
+      id: 'proceso',
+      label: 'Video 2',
+      title: 'Un proceso, en sus palabras',
+      poster: '/voz-mensajes.jpg',
+      youtubeId: '',
+      src: '/videos/un-proceso.mp4',
+    },
+  ],
+}
