@@ -105,11 +105,19 @@ body {
   border-color: rgba(237, 227, 211, 0.12);
 }
 
+/* Netlify Drawer sits in the same corner on previews and can cover the FAB */
+iframe[title="Netlify Drawer"],
+iframe[title*="Netlify"],
+#netlify-drawer,
+div[data-netlify-deploy-id] {
+  display: none !important;
+}
+
 .whatsapp-fab {
   position: fixed;
   right: 1.25rem;
-  bottom: 1.25rem;
-  z-index: 40;
+  bottom: 5.75rem;
+  z-index: 2147483000;
   width: 3.4rem;
   height: 3.4rem;
   border-radius: 999px;
