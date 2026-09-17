@@ -1,13 +1,9 @@
-import { WHATSAPP } from '../data'
-
-const levels = [
-  { name: 'Básico', price: '85 USD', d: 'Carta natal terapéutica o Feng Shui personal · 60 min' },
-  { name: 'Intermedio', price: '180 USD', d: 'Constelación individual: 2 sesiones profundas + integración por WhatsApp' },
-  { name: 'Premium', price: '390 USD', d: "Mentoría «De la Herida a la Paz» · 4 semanas, 4 sesiones + ejercicios diarios" },
-  { name: 'VIP', price: '750 USD', d: '8 semanas: mapa astrológico, constelación familiar y armonización de espacios' },
-]
+import Price from '../components/Price.jsx'
+import { useRegion } from '../context/RegionContext'
+import { pricedServices, WHATSAPP } from '../data'
 
 export default function Mentoria() {
+  const { label } = useRegion()
   return (
     <div className="mx-auto max-w-6xl px-5 py-16">
       <p className="eyebrow">✦ Producto flagship</p>
@@ -49,16 +45,18 @@ export default function Mentoria() {
       </section>
 
       <section className="mt-16">
-        <h2 className="font-serif text-3xl">Anclaje de inversión</h2>
+        <h2 className="font-serif text-3xl">Anclaje de inversión · {label}</h2>
         <p className="mt-2 max-w-xl text-beige/70">
-          Las tarifas reflejan el valor de desatar un nudo de décadas, no los minutos del reloj. Se presenta primero el proceso integral.
+          Sesiones individuales según zona. El proceso de mentoría de 4 u 8 semanas se cotiza por WhatsApp.
         </p>
         <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {levels.map((l, i) => (
-            <article key={l.name} className={`card p-6 ${i === 3 ? 'ring-1 ring-fuchsia' : ''}`}>
-              <p className="eyebrow">{l.name}</p>
-              <p className="mt-3 font-serif text-4xl">{l.price}</p>
-              <p className="mt-3 text-sm text-beige/75">{l.d}</p>
+          {pricedServices.map((s, i) => (
+            <article key={s.slug} className={`card p-6 ${i === 0 ? 'ring-1 ring-fuchsia' : ''}`}>
+              <p className="eyebrow">{s.category}</p>
+              <p className="mt-3 font-serif text-3xl leading-tight">{s.title}</p>
+              <p className="mt-3 font-serif text-3xl text-fuchsia">
+                <Price value={s.price} />
+              </p>
             </article>
           ))}
         </div>

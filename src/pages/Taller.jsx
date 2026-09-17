@@ -15,7 +15,7 @@ export default function Taller() {
         {[
           { k: 'Duración', v: '4 horas' },
           { k: 'Cupo', v: 'Máx. 15' },
-          { k: 'Inversión taller grupal', v: '49 USD' },
+          { k: 'Inversión taller grupal', v: 'Consultar' },
         ].map((x) => (
           <div key={x.k} className="card p-6 text-center">
             <p className="eyebrow">{x.k}</p>
@@ -40,10 +40,10 @@ export default function Taller() {
           <p className="eyebrow">También</p>
           <h3 className="mt-2 font-serif text-3xl">Sanar el Linaje</h3>
           <p className="mt-3 text-beige/75">
-            Workshop online en vivo de constelaciones y liberación emocional. 4 horas grupales, cupo 12 personas. 49 USD.
+            Workshop online en vivo de constelaciones y liberación emocional. 4 horas grupales, cupo 12 personas. Inversión a convenir.
           </p>
           <p className="mt-6 text-sm text-beige/60">
-            Retiro de fin de semana «Reconciliación y Calma» en colaboración con centros rurales: 320 USD.
+            Retiro de fin de semana «Reconciliación y Calma» en colaboración con centros rurales: consultar.
           </p>
         </div>
       </section>

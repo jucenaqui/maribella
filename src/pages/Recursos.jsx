@@ -58,12 +58,12 @@ export default function Recursos() {
         <div className="card p-8">
           <p className="eyebrow">Cuaderno</p>
           <h3 className="mt-2 font-serif text-3xl">Manual de auto-perdón y reordenamiento emocional</h3>
-          <p className="mt-3 text-beige/70">eBook · 27 USD</p>
+          <p className="mt-3 text-beige/70">eBook · inversión a convenir</p>
         </div>
         <div className="card p-8">
           <p className="eyebrow">Mini-curso</p>
           <h3 className="mt-2 font-serif text-3xl">Astrología básica para comprender tus bloqueos inconscientes</h3>
-          <p className="mt-3 text-beige/70">4 módulos grabados · 67 USD</p>
+          <p className="mt-3 text-beige/70">4 módulos grabados · inversión a convenir</p>
         </div>
       </section>
     </div>

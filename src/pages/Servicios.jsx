@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom'
+import Price from '../components/Price.jsx'
+import { useRegion } from '../context/RegionContext'
 import { services, WHATSAPP } from '../data'
 
 export default function Servicios() {
+  const { label } = useRegion()
   return (
     <div className="mx-auto max-w-6xl px-5 py-16">
       <p className="eyebrow">Portafolio</p>
@@ -16,6 +19,12 @@ export default function Servicios() {
           <article key={s.slug} id={s.slug} className="card p-8">
             <p className="eyebrow">{s.category}</p>
             <h2 className="mt-3 font-serif text-3xl text-purple">{s.title}</h2>
+            {s.price ? (
+              <p className="mt-3 font-serif text-2xl text-fuchsia">
+                <Price value={s.price} />
+                <span className="ml-2 text-xs font-sans uppercase tracking-[0.16em] text-purple/50">{label}</span>
+              </p>
+            ) : null}
             <p className="mt-3 leading-relaxed text-purple/80">{s.detail}</p>
             <a className="mt-6 inline-block text-xs uppercase tracking-[0.16em] text-fuchsia" href={WHATSAPP} target="_blank" rel="noreferrer">
               Reservar este camino →

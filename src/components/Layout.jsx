@@ -2,6 +2,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Menu, X, MessageCircle } from 'lucide-react'
 import { useState } from 'react'
 import { INSTAGRAM, nav, WHATSAPP } from '../data'
+import RegionSwitch from './RegionSwitch.jsx'
 
 export default function Layout({ children, theme = 'light' }) {
   const [open, setOpen] = useState(false)
@@ -42,16 +43,22 @@ export default function Layout({ children, theme = 'light' }) {
             ))}
           </nav>
 
-          <button
-            className="lg:hidden"
-            aria-label="Abrir menú"
-            onClick={() => setOpen((v) => !v)}
-          >
-            {open ? <X /> : <Menu />}
-          </button>
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:block">
+              <RegionSwitch dark={dark} />
+            </div>
+            <button
+              className="lg:hidden"
+              aria-label="Abrir menú"
+              onClick={() => setOpen((v) => !v)}
+            >
+              {open ? <X /> : <Menu />}
+            </button>
+          </div>
         </div>
         {open && (
           <div className="flex flex-col gap-3 px-5 pb-4 lg:hidden">
+            <RegionSwitch dark={dark} />
             {nav.map((item) => (
               <Link
                 key={item.to}

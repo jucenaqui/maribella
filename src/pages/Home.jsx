@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom'
+import Price from '../components/Price.jsx'
 import VocesBlock from '../components/VocesBlock.jsx'
-import { offers, services, WHATSAPP } from '../data'
+import { useRegion } from '../context/RegionContext'
+import { pricedServices, services, WHATSAPP } from '../data'
 
 export default function Home() {
+  const { label } = useRegion()
   return (
     <>
       <section className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 lg:grid-cols-2 lg:py-24">
@@ -95,15 +98,16 @@ export default function Home() {
       <VocesBlock compact />
 
       <section className="mx-auto max-w-6xl px-5 py-16">
-        <p className="eyebrow">Inversión</p>
+        <p className="eyebrow">Inversión · {label}</p>
         <h2 className="font-serif text-4xl text-purple">Empieza por lo que tu momento pide</h2>
         <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {offers.map((o) => (
-            <div key={o.name} className="card p-5">
-              <p className="text-xs uppercase tracking-widest text-fuchsia">{o.time}</p>
-              <h3 className="mt-2 font-serif text-2xl">{o.name}</h3>
-              <p className="mt-4 font-serif text-3xl text-purple">{o.price}</p>
-              <p className="mt-1 text-xs text-purple/60">{o.note}</p>
+          {pricedServices.map((s) => (
+            <div key={s.slug} className="card p-5">
+              <p className="text-xs uppercase tracking-widest text-fuchsia">{s.category}</p>
+              <h3 className="mt-2 font-serif text-2xl">{s.title}</h3>
+              <p className="mt-4 font-serif text-3xl text-purple">
+                <Price value={s.price} />
+              </p>
             </div>
           ))}
         </div>

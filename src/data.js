@@ -23,6 +23,10 @@ export const services = [
       'Identifica y sana patrones, conflictos o bloqueos heredados. Restaura el equilibrio, el amor y la paz en el sistema familiar.',
     detail:
       'Terapia sistémica que, a través de representaciones, devela desórdenes o exclusiones en el árbol familiar. El objetivo no es “arreglar” a nadie, sino devolverle un lugar a lo que fue excluido, para que el amor pueda fluir de nuevo.',
+    price: {
+      cop: 170000,
+      usd: { from: 130, to: 180 },
+    },
   },
   {
     slug: 'feng-shui',
@@ -32,6 +36,10 @@ export const services = [
       'Armoniza hogar u oficina: distribución, colores y objetos para que el Chi circule y sostenga abundancia, salud y relaciones.',
     detail:
       'Ocupación consciente del espacio. Estudiamos cómo tu entorno cotidiano influye en tu estado emocional y en las oportunidades que se abren — o se estancan — en la vida diaria.',
+    price: {
+      cop: 500000,
+      usd: { from: 200, to: 350, note: 'según alcance' },
+    },
   },
   {
     slug: 'astrologia',
@@ -41,6 +49,10 @@ export const services = [
       'Carta natal como mapa de personalidad, ciclos vitales y propósito. Herramienta de claridad, no de destino cerrado.',
     detail:
       'Utilizada de forma holística y psicológica: comprende tus patrones, ventanas de cambio y el “por qué ahora” de una crisis, sin recetas genéricas ni fatalismo.',
+    price: {
+      cop: 450000,
+      usd: { from: 150, to: 220 },
+    },
   },
   {
     slug: 'limpieza',
@@ -59,6 +71,10 @@ export const services = [
       'Canalización de consuelo, mensajes y frecuencias de guía para soltar miedos y ganar claridad emocional.',
     detail:
       'Un espacio de contención espiritual. El terapeuta actúa como canal para transmitir guía, no como autoridad sobre tu historia.',
+    price: {
+      cop: 140000,
+      usd: { from: 90, to: 130 },
+    },
   },
   {
     slug: 'acompanamiento',
@@ -71,32 +87,9 @@ export const services = [
   },
 ]
 
-export const offers = [
-  {
-    name: 'Diagnóstico e integración',
-    time: '75 min',
-    price: '65 USD',
-    note: 'Fase de penetración · sesión individual',
-  },
-  {
-    name: 'Carta natal o Feng Shui',
-    time: '60 min',
-    price: '85 USD',
-    note: 'Lectura focalizada',
-  },
-  {
-    name: 'Constelación individual',
-    time: '2 sesiones + WhatsApp',
-    price: '180 USD',
-    note: 'Proceso de sanación sistémica',
-  },
-  {
-    name: 'De la Herida a la Paz',
-    time: '4 semanas',
-    price: '390 USD',
-    note: '4 sesiones + ejercicios diarios',
-  },
-]
+const PRICE_ORDER = ['constelaciones', 'angelical', 'astrologia', 'feng-shui']
+
+export const pricedServices = PRICE_ORDER.map((slug) => services.find((service) => service.slug === slug)).filter(Boolean)
 
 export const voces = {
   eyebrow: 'Voces · diagnóstico y procesos',
