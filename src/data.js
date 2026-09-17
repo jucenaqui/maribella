@@ -2,6 +2,7 @@ export const WHATSAPP = 'https://wa.me/573127442664'
 export const EMAIL = 'constelacionesmaribella@gmail.com'
 export const INSTAGRAM = 'https://instagram.com/maribella_conexion'
 export const PHONE_LABEL = '312 744 2664'
+export const GUIDE_PDF = '/guia-patrones-familiares.pdf'
 
 export const nav = [
   { to: '/', label: 'Inicio', theme: 'light' },
