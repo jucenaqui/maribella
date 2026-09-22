@@ -7,6 +7,7 @@ import Contacto from './pages/Contacto.jsx'
 import Mentoria from './pages/Mentoria.jsx'
 import Taller from './pages/Taller.jsx'
 import Recursos from './pages/Recursos.jsx'
+import Cotizador from './pages/Cotizador.jsx'
 import Voces from './pages/Voces.jsx'
 
 function Page({ theme, children }) {
@@ -18,6 +19,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Page theme="light"><Home /></Page>} />
       <Route path="/servicios" element={<Page theme="light"><Servicios /></Page>} />
+      <Route path="/cotizador" element={<Page theme="light"><Cotizador /></Page>} />
       <Route path="/sobre" element={<Page theme="light"><Sobre /></Page>} />
       <Route path="/voces" element={<Page theme="light"><Voces /></Page>} />
       <Route path="/contacto" element={<Page theme="light"><Contacto /></Page>} />

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import Price from '../components/Price.jsx'
 import { useRegion } from '../context/RegionContext'
-import { services, WHATSAPP } from '../data'
+import { services } from '../data'
 
 export default function Servicios() {
   const { label } = useRegion()
@@ -26,9 +26,9 @@ export default function Servicios() {
               </p>
             ) : null}
             <p className="mt-3 leading-relaxed text-purple/80">{s.detail}</p>
-            <a className="mt-6 inline-block text-xs uppercase tracking-[0.16em] text-fuchsia" href={WHATSAPP} target="_blank" rel="noreferrer">
-              Reservar este camino →
-            </a>
+            <Link className="mt-6 inline-block text-xs uppercase tracking-[0.16em] text-fuchsia" to={`/cotizador?servicio=${s.slug}`}>
+              Cotizar este camino →
+            </Link>
           </article>
         ))}
       </div>

@@ -1,4 +1,5 @@
-export const WHATSAPP = 'https://wa.me/573127442664'
+export const WHATSAPP_NUMBER = '573127442664'
+export const WHATSAPP = `https://wa.me/${WHATSAPP_NUMBER}`
 export const EMAIL = 'constelacionesmaribella@gmail.com'
 export const INSTAGRAM = 'https://instagram.com/maribella_conexion'
 export const PHONE_LABEL = '312 744 2664'
@@ -7,6 +8,7 @@ export const GUIDE_PDF = '/guia-patrones-familiares.pdf'
 export const nav = [
   { to: '/', label: 'Inicio', theme: 'light' },
   { to: '/servicios', label: 'Servicios', theme: 'light' },
+  { to: '/cotizador', label: 'Cotizar', theme: 'light' },
   { to: '/voces', label: 'Voces', theme: 'light' },
   { to: '/mentoria', label: 'Mentoría', theme: 'dark' },
   { to: '/taller', label: 'Taller', theme: 'dark' },
@@ -92,6 +94,16 @@ const PRICE_ORDER = ['constelaciones', 'angelical', 'astrologia', 'feng-shui']
 
 export const pricedServices = PRICE_ORDER.map((slug) => services.find((service) => service.slug === slug)).filter(Boolean)
 
+export const quoteCatalog = [
+  ...pricedServices.map((service) => ({
+    id: service.slug,
+    title: service.title,
+    desc: service.summary,
+    price: service.price,
+    tipo: 'unico',
+  })),
+]
+
 export const voces = {
   eyebrow: 'Voces · diagnóstico y procesos',
   title: 'Quienes ya se sentaron aquí',
@@ -146,6 +158,22 @@ export const voces = {
       poster: '/voz-mensajes.jpg',
       youtubeId: '',
       src: '/videos/un-proceso.mp4',
+    },
+    {
+      id: 'testimonio-3',
+      label: 'Video 3',
+      title: 'Otra voz, después de sentarse aquí',
+      poster: '/voz-retrato.jpg',
+      youtubeId: '',
+      src: '/videos/testimonio-3.mp4',
+    },
+    {
+      id: 'testimonio-4',
+      label: 'Video 4',
+      title: 'Lo que se entiende cuando se va a la raíz',
+      poster: '/voz-decision.jpg',
+      youtubeId: '',
+      src: '/videos/testimonio-4.mp4',
     },
   ],
 }

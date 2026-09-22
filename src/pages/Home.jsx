@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import Price from '../components/Price.jsx'
 import VocesBlock from '../components/VocesBlock.jsx'
 import { useRegion } from '../context/RegionContext'
-import { pricedServices, services, WHATSAPP } from '../data'
+import { pricedServices, services } from '../data'
 
 export default function Home() {
   const { label } = useRegion()
@@ -20,9 +20,9 @@ export default function Home() {
             Acompaño a personas listas para dejar de cargar una culpa invisible y comenzar a vivir con claridad, liviandad y paz — a través de constelaciones familiares, astrología terapéutica y armonización de espacios.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a className="btn-primary" href={WHATSAPP} target="_blank" rel="noreferrer">
-              Agendar diagnóstico →
-            </a>
+            <Link className="btn-primary" to="/cotizador">
+              Armar mi propuesta →
+            </Link>
             <Link className="btn-ghost" to="/servicios">
               Ver servicios
             </Link>
@@ -102,13 +102,13 @@ export default function Home() {
         <h2 className="font-serif text-4xl text-purple">Empieza por lo que tu momento pide</h2>
         <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {pricedServices.map((s) => (
-            <div key={s.slug} className="card p-5">
+            <Link key={s.slug} to={`/servicios#${s.slug}`} className="card block p-5 transition hover:-translate-y-0.5">
               <p className="text-xs uppercase tracking-widest text-fuchsia">{s.category}</p>
               <h3 className="mt-2 font-serif text-2xl">{s.title}</h3>
               <p className="mt-4 font-serif text-3xl text-purple">
                 <Price value={s.price} />
               </p>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

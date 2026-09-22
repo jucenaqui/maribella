@@ -44,9 +44,7 @@ export default function Layout({ children, theme = 'light' }) {
           </nav>
 
           <div className="flex items-center gap-3">
-            <div className="hidden sm:block">
-              <RegionSwitch dark={dark} />
-            </div>
+            <RegionSwitch dark={dark} />
             <button
               className="lg:hidden"
               aria-label="Abrir menú"
@@ -114,9 +112,11 @@ export default function Layout({ children, theme = 'light' }) {
         </p>
       </footer>
 
-      <a className="whatsapp-fab" href={WHATSAPP} target="_blank" rel="noreferrer" aria-label="WhatsApp">
-        <MessageCircle size={22} />
-      </a>
+      {location.pathname !== '/cotizador' && (
+        <a className="whatsapp-fab" href={WHATSAPP} target="_blank" rel="noreferrer" aria-label="WhatsApp">
+          <MessageCircle size={22} />
+        </a>
+      )}
     </div>
   )
 }

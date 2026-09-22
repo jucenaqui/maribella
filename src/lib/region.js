@@ -6,6 +6,20 @@ export function isRegion(value) {
   return value === REGION_CO || value === REGION_US
 }
 
+export function quoteAmount(price, region) {
+  if (!price) return null
+  if (region === REGION_CO) return typeof price.cop === 'number' ? price.cop : null
+  if (typeof price.usd === 'number') return price.usd
+  if (price.usd && typeof price.usd.from === 'number') return price.usd.from
+  return null
+}
+
+export function formatQuoteAmount(amount, region) {
+  if (amount == null) return 'Consultar'
+  if (region === REGION_CO) return `$${Number(amount).toLocaleString('es-CO')} COP`
+  return `$${Number(amount).toLocaleString('en-US')} USD`
+}
+
 export function formatPrice(price, region) {
   if (!price) return ''
 
@@ -18,8 +32,8 @@ export function formatPrice(price, region) {
   if (usd == null) return ''
   if (typeof usd === 'number') return `$${usd.toLocaleString('en-US')} USD`
 
-  const range = `$${usd.from} – ${usd.to} USD`
-  return usd.note ? `${range} (${usd.note})` : range
+  const range = `$${usd.from} – ${usd.to}`
+  return usd.note ? `${range} (${usd.note})` : `${range} USD`
 }
 
 export function regionLabel(region) {

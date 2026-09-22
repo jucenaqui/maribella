@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { EMAIL, INSTAGRAM, PHONE_LABEL, WHATSAPP } from '../data'
 
 export default function Contacto() {
@@ -41,9 +42,14 @@ export default function Contacto() {
         <input name="nombre" required className="mt-1 w-full border-b border-purple/20 bg-transparent py-2 outline-none" />
         <label className="mt-5 block text-xs uppercase tracking-widest text-purple/60">Mensaje</label>
         <textarea name="mensaje" rows="4" required className="mt-1 w-full border-b border-purple/20 bg-transparent py-2 outline-none" />
-        <button type="submit" className="btn-primary mt-8">
-          Enviar por WhatsApp
-        </button>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <button type="submit" className="btn-primary">
+            Enviar por WhatsApp
+          </button>
+          <Link to="/cotizador" className="btn-ghost">
+            Armar mi propuesta
+          </Link>
+        </div>
       </form>
     </div>
   )
