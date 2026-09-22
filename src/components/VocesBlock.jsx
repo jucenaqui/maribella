@@ -12,8 +12,14 @@ export default function VocesBlock({ compact = false }) {
       <Heading className="mt-2 font-serif text-4xl text-purple md:text-5xl">{voces.title}</Heading>
       <p className="mt-4 max-w-2xl text-purple/75">{voces.lead}</p>
 
-      <article className="mt-10 grid overflow-hidden rounded-sm shadow-soft lg:grid-cols-2">
-        <img src={voces.featured.image} alt="" className="h-full max-h-[520px] w-full object-cover object-top" />
+      <article className="mt-10 grid overflow-hidden rounded-sm shadow-soft lg:grid-cols-2 lg:items-start">
+        <div className="bg-[#e8dcc8]">
+          <img
+            src={voces.featured.image}
+            alt="Mensaje de una consultante después de 6 meses de proceso"
+            className="block h-auto w-full"
+          />
+        </div>
         <div className="card rounded-none p-8 lg:p-10">
           <p className="eyebrow">{voces.featured.name}</p>
           <h3 className="mt-3 font-serif text-3xl text-purple">No era ella. Era el linaje.</h3>
