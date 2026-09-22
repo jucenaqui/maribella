@@ -10,6 +10,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -17,6 +18,7 @@ body {
   font-family: Outfit, system-ui, sans-serif;
   color: #2a1838;
   background: #ede3d3;
+  overflow-x: hidden;
 }
 
 .font-serif {
@@ -116,7 +118,7 @@ div[data-netlify-deploy-id] {
 .whatsapp-fab {
   position: fixed;
   right: 1.25rem;
-  bottom: 5.75rem;
+  bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
   z-index: 2147483000;
   width: 3.4rem;
   height: 3.4rem;
@@ -126,4 +128,17 @@ div[data-netlify-deploy-id] {
   display: grid;
   place-items: center;
   box-shadow: 0 12px 30px rgba(214, 35, 107, 0.35);
+}
+
+@media (min-width: 768px) {
+  .whatsapp-fab {
+    bottom: 5.75rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .page-light,
+  .page-dark {
+    background-attachment: scroll;
+  }
 }

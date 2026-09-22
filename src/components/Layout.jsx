@@ -1,7 +1,7 @@
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Menu, X, MessageCircle } from 'lucide-react'
 import { useState } from 'react'
-import { INSTAGRAM, nav, WHATSAPP } from '../data'
+import { INSTAGRAM, nav, PHONE_LABEL, WHATSAPP } from '../data'
 import RegionSwitch from './RegionSwitch.jsx'
 
 export default function Layout({ children, theme = 'light' }) {
@@ -12,12 +12,12 @@ export default function Layout({ children, theme = 'light' }) {
   return (
     <div className={dark ? 'page-dark' : 'page-light'}>
       <header className={`sticky top-0 z-30 backdrop-blur-md ${dark ? 'nav-dark' : 'nav-light'}`}>
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
-          <Link to="/" className="flex items-center gap-3">
-            <img src="/logo.jpg" alt="Maribella" className="h-12 w-12 rounded-full object-cover ring-1 ring-purple/15" />
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3 sm:gap-4 sm:px-5">
+          <Link to="/" className="flex min-w-0 items-center gap-2 sm:gap-3">
+            <img src="/logo.jpg" alt="Maribella" className="h-10 w-10 shrink-0 rounded-full object-cover ring-1 ring-purple/15 sm:h-12 sm:w-12" />
             <span className="leading-tight">
-              <span className="block font-serif text-2xl italic">Maribella</span>
-              <span className={`block text-[10px] uppercase tracking-[0.22em] ${dark ? 'text-beige/70' : 'text-purple/70'}`}>
+              <span className="block font-serif text-xl italic sm:text-2xl">Maribella</span>
+              <span className={`hidden text-[10px] uppercase tracking-[0.22em] sm:block ${dark ? 'text-beige/70' : 'text-purple/70'}`}>
                 Sanación sistémica
               </span>
             </span>
@@ -43,8 +43,10 @@ export default function Layout({ children, theme = 'light' }) {
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
-            <RegionSwitch dark={dark} />
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+            <div className="hidden sm:block">
+              <RegionSwitch dark={dark} />
+            </div>
             <button
               className="lg:hidden"
               aria-label="Abrir menú"
@@ -96,7 +98,7 @@ export default function Layout({ children, theme = 'light' }) {
             <ul className="mt-3 space-y-2 text-sm">
               <li>
                 <a href={WHATSAPP} target="_blank" rel="noreferrer">
-                  WhatsApp
+                  WhatsApp {PHONE_LABEL}
                 </a>
               </li>
               <li>

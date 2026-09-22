@@ -8,7 +8,7 @@ export default function Servicios() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-16">
       <p className="eyebrow">Portafolio</p>
-      <h1 className="mt-3 font-serif text-5xl text-purple">Caminos para tu transformación</h1>
+      <h1 className="mt-3 font-serif text-4xl sm:text-5xl text-purple">Caminos para tu transformación</h1>
       <p className="mt-4 max-w-2xl text-lg text-purple/75">
         Espacio holístico multidisciplinario: sanación emocional, autoconocimiento y despertar de conciencia con herramientas energéticas y ancestrales.
       </p>
@@ -16,7 +16,7 @@ export default function Servicios() {
 
       <div className="mt-10 grid gap-6 md:grid-cols-2">
         {services.map((s) => (
-          <article key={s.slug} id={s.slug} className="card p-8">
+          <article key={s.slug} id={s.slug} className="card min-w-0 p-5 sm:p-8">
             <p className="eyebrow">{s.category}</p>
             <h2 className="mt-3 font-serif text-3xl text-purple">{s.title}</h2>
             {s.price ? (

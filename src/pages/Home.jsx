@@ -11,7 +11,7 @@ export default function Home() {
       <section className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 lg:grid-cols-2 lg:py-24">
         <div>
           <p className="eyebrow">✦ Terapeuta holística · Constelaciones y astrología</p>
-          <h1 className="mt-5 font-serif text-5xl leading-[1.05] text-purple md:text-6xl">
+          <h1 className="mt-5 font-serif text-4xl leading-[1.05] text-purple sm:text-5xl md:text-6xl">
             Sanar el origen
             <span className="mt-1 block italic text-fuchsia">para disfrutar tu presente.</span>
           </h1>
@@ -29,12 +29,12 @@ export default function Home() {
           </div>
         </div>
         <div className="relative overflow-hidden rounded-sm shadow-soft">
-          <img src="/bg-light.jpg" alt="" className="h-[520px] w-full object-cover" />
+          <img src="/bg-light.jpg" alt="" className="h-[320px] w-full object-cover sm:h-[520px]" />
           <div className="absolute inset-0 bg-gradient-to-t from-purple/50 to-transparent" />
           <img
             src="/logo.jpg"
             alt="Maribella, la sanación en todas tus dimensiones"
-            className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full object-cover ring-4 ring-beige/80"
+            className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full object-cover ring-4 ring-beige/80 sm:h-64 sm:w-64"
           />
           <p className="absolute bottom-4 left-4 text-[10px] uppercase tracking-[0.2em] text-beige">
             ✦ Maribella · 2026

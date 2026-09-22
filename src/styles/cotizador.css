@@ -108,9 +108,15 @@
 .cotizador-panel {
   background: rgba(255, 252, 247, 0.82);
   border: 1px solid var(--c-linea);
-  padding: 1.8rem;
+  padding: 1.2rem;
   max-width: 720px;
   margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .cotizador-panel {
+    padding: 1.8rem;
+  }
 }
 
 .cotizador label.f {
@@ -149,12 +155,23 @@
 
 .cotizador .phone {
   display: flex;
+  flex-direction: column;
   gap: 10px;
 }
 
 .cotizador .phone .sel {
-  max-width: 130px;
-  flex: 0 0 auto;
+  max-width: none;
+  flex: 1 1 auto;
+}
+
+@media (min-width: 520px) {
+  .cotizador .phone {
+    flex-direction: row;
+  }
+  .cotizador .phone .sel {
+    max-width: 130px;
+    flex: 0 0 auto;
+  }
 }
 
 .cotizador .hint,
@@ -178,6 +195,7 @@
 
 .cotizador-svc-item {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   gap: 0.9rem;
   border: 1px solid var(--c-linea);
@@ -186,6 +204,24 @@
   cursor: pointer;
   text-align: left;
   width: 100%;
+}
+
+.cotizador-svc-price {
+  width: 100%;
+  margin-left: 2.3rem;
+  font-weight: 700;
+  color: var(--c-fucsia);
+}
+
+@media (min-width: 640px) {
+  .cotizador-svc-item {
+    flex-wrap: nowrap;
+  }
+  .cotizador-svc-price {
+    width: auto;
+    margin-left: auto;
+    white-space: nowrap;
+  }
 }
 
 .cotizador-svc-item.sel {
@@ -219,13 +255,6 @@
   margin: 0.3rem 0 0;
 }
 
-.cotizador-svc-price {
-  margin-left: auto;
-  font-weight: 700;
-  color: var(--c-fucsia);
-  white-space: nowrap;
-}
-
 .cotizador-mini {
   position: sticky;
   bottom: 1rem;
@@ -234,13 +263,15 @@
   color: #ede3d3;
   padding: 1rem 1.2rem;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  gap: 0.4rem;
 }
 
 .cotizador-mini .val {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 1.6rem;
+  font-size: clamp(1.15rem, 5vw, 1.6rem);
 }
 
 .cotizador-total {
@@ -256,7 +287,9 @@
 
 .cotizador-drow {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
+  gap: 0.35rem 1rem;
   padding: 0.75rem 0;
   border-bottom: 1px solid var(--c-linea);
 }
@@ -275,9 +308,16 @@
 
 .cotizador-nav {
   display: flex;
+  flex-direction: column;
   gap: 0.75rem;
   margin: 1.5rem auto 0;
   max-width: 720px;
+}
+
+@media (min-width: 520px) {
+  .cotizador-nav {
+    flex-direction: row;
+  }
 }
 
 .cotizador-nav .btn-primary,
