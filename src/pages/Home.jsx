@@ -20,11 +20,11 @@ export default function Home() {
             Acompaño a personas listas para dejar de cargar una culpa invisible y comenzar a vivir con claridad, liviandad y paz — a través de constelaciones familiares, astrología terapéutica y armonización de espacios.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link className="btn-primary" to="/cotizador">
-              Armar mi propuesta →
+            <Link className="btn-primary" to="/tu-terapia">
+              ¿Qué terapia necesitas?
             </Link>
-            <Link className="btn-ghost" to="/servicios">
-              Ver servicios
+            <Link className="btn-ghost" to="/cotizador">
+              Armar mi propuesta
             </Link>
           </div>
         </div>

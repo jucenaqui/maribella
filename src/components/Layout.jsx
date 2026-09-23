@@ -114,7 +114,7 @@ export default function Layout({ children, theme = 'light' }) {
         </p>
       </footer>
 
-      {location.pathname !== '/cotizador' && (
+      {location.pathname !== '/cotizador' && location.pathname !== '/tu-terapia' && (
         <a className="whatsapp-fab" href={WHATSAPP} target="_blank" rel="noreferrer" aria-label="WhatsApp">
           <MessageCircle size={22} />
         </a>

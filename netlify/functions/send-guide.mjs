@@ -1,6 +1,6 @@
 const SITE_EMAIL = 'maribellaconexion@gmail.com'
 const FROM = 'Maribella <hola@maribellaconexion.com>'
-const PDF_URL = 'https://maribellaconexion.com/guia-patrones-familiares.pdf'
+const PDF_URL = 'https://maribellaconexion.com/guia-patrones-familiares-maribella.pdf'
 
 function json(statusCode, body) {
   return {

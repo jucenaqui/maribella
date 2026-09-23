@@ -9,6 +9,7 @@ import Taller from './pages/Taller.jsx'
 import Recursos from './pages/Recursos.jsx'
 import Cotizador from './pages/Cotizador.jsx'
 import Voces from './pages/Voces.jsx'
+import TuTerapia from './pages/TuTerapia.jsx'
 
 function Page({ theme, children }) {
   return <Layout theme={theme}>{children}</Layout>
@@ -20,6 +21,7 @@ export default function App() {
       <Route path="/" element={<Page theme="light"><Home /></Page>} />
       <Route path="/servicios" element={<Page theme="light"><Servicios /></Page>} />
       <Route path="/cotizador" element={<Page theme="light"><Cotizador /></Page>} />
+      <Route path="/tu-terapia" element={<Page theme="light"><TuTerapia /></Page>} />
       <Route path="/sobre" element={<Page theme="light"><Sobre /></Page>} />
       <Route path="/voces" element={<Page theme="light"><Voces /></Page>} />
       <Route path="/contacto" element={<Page theme="light"><Contacto /></Page>} />

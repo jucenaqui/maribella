@@ -3,12 +3,13 @@ export const WHATSAPP = `https://wa.me/${WHATSAPP_NUMBER}`
 export const EMAIL = 'maribellaconexion@gmail.com'
 export const INSTAGRAM = 'https://instagram.com/maribella_conexion'
 export const PHONE_LABEL = '312 744 2664'
-export const GUIDE_PDF = '/guia-patrones-familiares.pdf'
+export const GUIDE_PDF = '/guia-patrones-familiares-maribella.pdf'
 
 export const nav = [
   { to: '/', label: 'Inicio', theme: 'light' },
   { to: '/servicios', label: 'Servicios', theme: 'light' },
   { to: '/cotizador', label: 'Cotizar', theme: 'light' },
+  { to: '/tu-terapia', label: '¿Qué terapia?', theme: 'light' },
   { to: '/voces', label: 'Voces', theme: 'light' },
   { to: '/mentoria', label: 'Mentoría', theme: 'dark' },
   { to: '/taller', label: 'Taller', theme: 'dark' },
