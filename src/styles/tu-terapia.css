@@ -239,11 +239,17 @@
   display: grid;
   gap: 10px;
 }
-.tu-terapia .phone {
-  grid-template-columns: 118px 1fr;
-}
+.tu-terapia .phone,
 .tu-terapia .bday {
-  grid-template-columns: 1fr 1.5fr;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 480px) {
+  .tu-terapia .phone {
+    grid-template-columns: 118px 1fr;
+  }
+  .tu-terapia .bday {
+    grid-template-columns: 1fr 1.5fr;
+  }
 }
 
 .tu-terapia .hint {

@@ -4,12 +4,13 @@ import VideoCard from './VideoCard.jsx'
 
 export default function VocesBlock({ compact = false }) {
   const quotes = compact ? voces.quotes.slice(0, 3) : voces.quotes
+  const videos = compact ? voces.videos.slice(0, 2) : voces.videos
   const Heading = compact ? 'h2' : 'h1'
 
   return (
-    <section className="mx-auto max-w-6xl px-5 py-16" id="voces">
+    <section className="mx-auto max-w-6xl px-4 py-10 sm:px-5 sm:py-16" id="voces">
       <p className="eyebrow">{voces.eyebrow}</p>
-      <Heading className="mt-2 font-serif text-4xl text-purple md:text-5xl">{voces.title}</Heading>
+      <Heading className="display mt-2 text-purple">{voces.title}</Heading>
       <p className="mt-4 max-w-2xl text-purple/75">{voces.lead}</p>
 
       <article className="mt-10 grid overflow-hidden rounded-sm shadow-soft lg:grid-cols-2 lg:items-start">
@@ -20,9 +21,9 @@ export default function VocesBlock({ compact = false }) {
             className="block h-auto w-full"
           />
         </div>
-        <div className="card rounded-none p-8 lg:p-10">
+        <div className="card rounded-none p-5 sm:p-8 lg:p-10">
           <p className="eyebrow">{voces.featured.name}</p>
-          <h3 className="mt-3 font-serif text-3xl text-purple">No era ella. Era el linaje.</h3>
+          <h3 className="mt-3 font-serif text-2xl text-purple sm:text-3xl">No era ella. Era el linaje.</h3>
           <p className="mt-4 leading-relaxed text-purple/80">
             El recuadro de la izquierda es su mensaje, tal como lo escribió. Lo transcribimos aquí para que se pueda leer y para no tratarlo como una reseña anónima de un producto.
           </p>
@@ -31,7 +32,7 @@ export default function VocesBlock({ compact = false }) {
       </article>
 
       <div className="mt-10 grid justify-items-center gap-6 lg:grid-cols-2">
-        {voces.videos.map((video) => (
+        {videos.map((video) => (
           <VideoCard key={video.id} video={video} />
         ))}
       </div>
@@ -60,12 +61,12 @@ export default function VocesBlock({ compact = false }) {
         </div>
       )}
 
-      <div className="mt-10 flex flex-wrap gap-3">
-        <a className="btn-primary" href={WHATSAPP} target="_blank" rel="noreferrer">
+      <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        <a className="btn-primary w-full sm:w-auto" href={WHATSAPP} target="_blank" rel="noreferrer">
           Agendar diagnóstico
         </a>
         {compact && (
-          <Link className="btn-ghost" to="/voces">
+          <Link className="btn-ghost w-full sm:w-auto" to="/voces">
             Leer más voces
           </Link>
         )}

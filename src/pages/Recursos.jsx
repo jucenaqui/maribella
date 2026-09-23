@@ -24,19 +24,19 @@ export default function Recursos() {
   const [error, setError] = useState('')
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-16">
+    <div className="page-pad">
       <p className="eyebrow">Sabiduría ordenada</p>
-      <h1 className="mt-4 font-serif text-5xl leading-tight">
+      <h1 className="display mt-4">
         Micro-lecciones para <span className="italic text-fuchsia">comprender el origen</span>
       </h1>
       <p className="mt-5 max-w-2xl text-lg text-beige/80">
         Valor contundente, sin exponer de más. Guías claras para quien busca transformación real: el porqué y el cómo, en dosis que se pueden asimilar.
       </p>
 
-      <section className="card mt-12 grid gap-8 p-8 lg:grid-cols-[1.2fr_0.8fr]">
+      <section className="card mt-10 grid gap-6 p-5 sm:mt-12 sm:gap-8 sm:p-8 lg:grid-cols-[1.2fr_0.8fr]">
         <div>
           <p className="eyebrow">Lead magnet</p>
-          <h2 className="mt-2 font-serif text-4xl">Guía práctica para identificar patrones familiares repetitivos</h2>
+          <h2 className="mt-2 font-serif text-3xl sm:text-4xl">Guía práctica para identificar patrones familiares repetitivos</h2>
           <p className="mt-4 text-beige/75">PDF de presentación de Maribella: pedagógica, ética, aplicable a pareja, deudas emocionales y autoestima.</p>
         </div>
         {status === 'sent' ? (
@@ -67,7 +67,7 @@ export default function Recursos() {
               placeholder="Tu correo"
               className="border-b border-beige/30 bg-transparent py-3 outline-none placeholder:text-beige/40"
             />
-            <button className="btn-primary" type="submit" disabled={status === 'sending'}>
+            <button className="btn-primary w-full sm:w-auto" type="submit" disabled={status === 'sending'}>
               {status === 'sending' ? 'Enviando…' : 'Recibir la guía'}
             </button>
             {error ? <p className="text-xs text-fuchsia">{error}</p> : null}
@@ -89,12 +89,12 @@ export default function Recursos() {
       </div>
 
       <section className="mt-16 grid gap-6 md:grid-cols-2">
-        <div className="card p-8">
+        <div className="card p-5 sm:p-8">
           <p className="eyebrow">Cuaderno</p>
           <h3 className="mt-2 font-serif text-3xl">Manual de auto-perdón y reordenamiento emocional</h3>
           <p className="mt-3 text-beige/70">eBook · inversión a convenir</p>
         </div>
-        <div className="card p-8">
+        <div className="card p-5 sm:p-8">
           <p className="eyebrow">Mini-curso</p>
           <h3 className="mt-2 font-serif text-3xl">Astrología básica para comprender tus bloqueos inconscientes</h3>
           <p className="mt-3 text-beige/70">4 módulos grabados · inversión a convenir</p>

@@ -2,9 +2,9 @@ import { WHATSAPP } from '../data'
 
 export default function Taller() {
   return (
-    <div className="mx-auto max-w-6xl px-5 py-16">
+    <div className="page-pad">
       <p className="eyebrow">Evento propio</p>
-      <h1 className="mt-4 font-serif text-5xl leading-tight md:text-6xl">
+      <h1 className="display mt-4">
         El Camino del <span className="italic text-fuchsia">Perdón Sistémico</span>
       </h1>
       <p className="mt-5 max-w-2xl text-lg text-beige/80">
@@ -48,7 +48,7 @@ export default function Taller() {
         </div>
       </section>
 
-      <a className="btn-primary mt-12" href={WHATSAPP} target="_blank" rel="noreferrer">
+      <a className="btn-primary mt-12 w-full sm:w-auto" href={WHATSAPP} target="_blank" rel="noreferrer">
         Reservar plaza
       </a>
     </div>

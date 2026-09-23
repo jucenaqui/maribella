@@ -57,14 +57,18 @@ body {
 .btn-primary {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 0.5rem;
   background: #4b2e63;
   color: #ede3d3;
-  padding: 0.85rem 1.4rem;
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
+  padding: 0.85rem 1.15rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 500;
+  white-space: normal;
+  line-height: 1.3;
 }
 
 .page-dark .btn-primary {
@@ -75,18 +79,51 @@ body {
 .btn-ghost {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 0.5rem;
   border: 1px solid rgba(75, 46, 99, 0.35);
   color: #4b2e63;
-  padding: 0.85rem 1.4rem;
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
+  padding: 0.85rem 1.15rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  white-space: normal;
+  line-height: 1.3;
 }
 
 .page-dark .btn-ghost {
   border-color: rgba(237, 227, 211, 0.35);
   color: #ede3d3;
+}
+
+@media (min-width: 640px) {
+  .btn-primary,
+  .btn-ghost {
+    letter-spacing: 0.14em;
+    padding: 0.85rem 1.4rem;
+    font-size: 0.72rem;
+  }
+}
+
+.display {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.85rem, 7vw, 3.4rem);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.page-pad {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 72rem;
+  padding: 2.25rem 1.15rem 3rem;
+}
+
+@media (min-width: 640px) {
+  .page-pad {
+    padding: 3.5rem 1.25rem 4rem;
+  }
 }
 
 .eyebrow {
@@ -117,23 +154,17 @@ div[data-netlify-deploy-id] {
 
 .whatsapp-fab {
   position: fixed;
-  right: 1.25rem;
-  bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
+  right: 1rem;
+  bottom: max(1rem, env(safe-area-inset-bottom, 0px));
   z-index: 2147483000;
-  width: 3.4rem;
-  height: 3.4rem;
+  width: 3.25rem;
+  height: 3.25rem;
   border-radius: 999px;
   background: #d6236b;
   color: white;
   display: grid;
   place-items: center;
   box-shadow: 0 12px 30px rgba(214, 35, 107, 0.35);
-}
-
-@media (min-width: 768px) {
-  .whatsapp-fab {
-    bottom: 5.75rem;
-  }
 }
 
 @media (max-width: 767px) {

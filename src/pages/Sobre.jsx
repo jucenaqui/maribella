@@ -2,9 +2,9 @@ import { WHATSAPP } from '../data'
 
 export default function Sobre() {
   return (
-    <div className="mx-auto max-w-6xl px-5 py-16">
+    <div className="page-pad">
       <p className="eyebrow">Maribella · 2026</p>
-      <h1 className="mt-3 max-w-3xl font-serif text-5xl leading-tight text-purple">
+      <h1 className="display mt-3 max-w-3xl text-purple">
         La sanación en <span className="italic text-fuchsia">todas tus dimensiones</span>
       </h1>
       <p className="mt-6 max-w-2xl text-lg leading-relaxed text-purple/80">

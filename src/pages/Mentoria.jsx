@@ -5,16 +5,16 @@ import { pricedServices, WHATSAPP } from '../data'
 export default function Mentoria() {
   const { label } = useRegion()
   return (
-    <div className="mx-auto max-w-6xl px-5 py-16">
+    <div className="page-pad">
       <p className="eyebrow">✦ Producto flagship</p>
-      <h1 className="mt-4 max-w-3xl font-serif text-5xl leading-tight md:text-6xl">
+      <h1 className="display mt-4 max-w-3xl">
         De la herida <span className="italic text-fuchsia">a la paz</span>
       </h1>
       <p className="mt-5 max-w-2xl text-lg text-beige/80">
         Cambia tu vida desde la raíz. Programa de acompañamiento sistémico con sesiones en vivo, mapa personalizado y contención ética. Haz de la reconciliación un camino, no un evento.
       </p>
 
-      <div className="mt-10 grid gap-4 sm:grid-cols-4">
+      <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
         {['4–8 semanas', 'Sesiones 1:1', 'WhatsApp de integración', 'A tu ritmo'].map((x) => (
           <div key={x} className="card px-4 py-5 text-center text-sm tracking-wide">
             {x}
@@ -60,7 +60,7 @@ export default function Mentoria() {
             </article>
           ))}
         </div>
-        <a className="btn-primary mt-10" href={WHATSAPP} target="_blank" rel="noreferrer">
+        <a className="btn-primary mt-10 w-full sm:w-auto" href={WHATSAPP} target="_blank" rel="noreferrer">
           Solicitar entrevista de ingreso
         </a>
       </section>

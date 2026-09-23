@@ -8,14 +8,56 @@ export const GUIDE_PDF = '/guia-patrones-familiares-maribella.pdf'
 export const nav = [
   { to: '/', label: 'Inicio', theme: 'light' },
   { to: '/servicios', label: 'Servicios', theme: 'light' },
+  { to: '/tu-terapia', label: 'Terapia', theme: 'light' },
   { to: '/cotizador', label: 'Cotizar', theme: 'light' },
-  { to: '/tu-terapia', label: '¿Qué terapia?', theme: 'light' },
   { to: '/voces', label: 'Voces', theme: 'light' },
   { to: '/mentoria', label: 'Mentoría', theme: 'dark' },
   { to: '/taller', label: 'Taller', theme: 'dark' },
   { to: '/recursos', label: 'Recursos', theme: 'dark' },
   { to: '/sobre', label: 'Sobre mí', theme: 'light' },
   { to: '/contacto', label: 'Contacto', theme: 'light' },
+]
+
+export const navPrimary = [
+  { to: '/servicios', label: 'Servicios' },
+  { to: '/tu-terapia', label: 'Terapia' },
+  { to: '/cotizador', label: 'Cotizar' },
+  { to: '/contacto', label: 'Contacto' },
+]
+
+export const navGroups = [
+  {
+    title: 'Empezar',
+    items: [
+      { to: '/tu-terapia', label: '¿Qué terapia necesitas?' },
+      { to: '/cotizador', label: 'Cotizar' },
+      { to: '/servicios', label: 'Servicios' },
+    ],
+  },
+  {
+    title: 'Profundizar',
+    items: [
+      { to: '/voces', label: 'Voces' },
+      { to: '/mentoria', label: 'Mentoría' },
+      { to: '/taller', label: 'Taller' },
+      { to: '/recursos', label: 'Recursos' },
+    ],
+  },
+  {
+    title: 'Maribella',
+    items: [
+      { to: '/sobre', label: 'Sobre mí' },
+      { to: '/contacto', label: 'Contacto' },
+    ],
+  },
+]
+
+export const navMore = [
+  { to: '/voces', label: 'Voces' },
+  { to: '/mentoria', label: 'Mentoría' },
+  { to: '/taller', label: 'Taller' },
+  { to: '/recursos', label: 'Recursos' },
+  { to: '/sobre', label: 'Sobre mí' },
 ]
 
 export const services = [

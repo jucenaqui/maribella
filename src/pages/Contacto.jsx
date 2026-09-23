@@ -3,9 +3,9 @@ import { EMAIL, INSTAGRAM, PHONE_LABEL, WHATSAPP } from '../data'
 
 export default function Contacto() {
   return (
-    <div className="mx-auto max-w-6xl px-5 py-10 sm:py-16">
+    <div className="page-pad">
       <p className="eyebrow">Contacto</p>
-      <h1 className="mt-3 font-serif text-4xl sm:text-5xl text-purple">Estoy feliz de que estés acá</h1>
+      <h1 className="display mt-3 text-purple">Estoy feliz de que estés acá</h1>
       <p className="mt-4 max-w-2xl text-lg text-purple/75">
         Cuando sientes una carga invisible, culpa o falta de dirección que no se resuelve con métodos convencionales, es momento de mirar el origen. Escríbeme y te acompaño.
       </p>

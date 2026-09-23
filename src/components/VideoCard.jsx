@@ -9,7 +9,7 @@ export default function VideoCard({ video }) {
 
   return (
     <article className="card overflow-hidden">
-      <div className="relative mx-auto aspect-[9/16] max-h-[540px] w-full max-w-[300px] bg-purple">
+      <div className="relative mx-auto aspect-[9/16] max-h-[420px] w-full max-w-[300px] bg-purple sm:max-h-[540px]">
         {showEmbed ? (
           <iframe
             className="h-full w-full"

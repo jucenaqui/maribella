@@ -8,10 +8,10 @@ export default function Home() {
   const { label } = useRegion()
   return (
     <>
-      <section className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 lg:grid-cols-2 lg:py-24">
+      <section className="mx-auto grid max-w-6xl items-center gap-8 px-4 py-10 sm:px-5 sm:py-16 lg:grid-cols-2 lg:gap-12 lg:py-24">
         <div>
           <p className="eyebrow">✦ Terapeuta holística · Constelaciones y astrología</p>
-          <h1 className="mt-5 font-serif text-4xl leading-[1.05] text-purple sm:text-5xl md:text-6xl">
+          <h1 className="display mt-4 text-purple sm:mt-5">
             Sanar el origen
             <span className="mt-1 block italic text-fuchsia">para disfrutar tu presente.</span>
           </h1>
@@ -19,22 +19,22 @@ export default function Home() {
           <p className="mt-6 max-w-md text-base leading-relaxed text-purple/80">
             Acompaño a personas listas para dejar de cargar una culpa invisible y comenzar a vivir con claridad, liviandad y paz — a través de constelaciones familiares, astrología terapéutica y armonización de espacios.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link className="btn-primary" to="/tu-terapia">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <Link className="btn-primary w-full sm:w-auto" to="/tu-terapia">
               ¿Qué terapia necesitas?
             </Link>
-            <Link className="btn-ghost" to="/cotizador">
+            <Link className="btn-ghost w-full sm:w-auto" to="/cotizador">
               Armar mi propuesta
             </Link>
           </div>
         </div>
         <div className="relative overflow-hidden rounded-sm shadow-soft">
-          <img src="/bg-light.jpg" alt="" className="h-[320px] w-full object-cover sm:h-[520px]" />
+            <img src="/bg-light.jpg" alt="" className="h-[240px] w-full object-cover sm:h-[520px]" />
           <div className="absolute inset-0 bg-gradient-to-t from-purple/50 to-transparent" />
           <img
             src="/logo.jpg"
             alt="Maribella, la sanación en todas tus dimensiones"
-            className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full object-cover ring-4 ring-beige/80 sm:h-64 sm:w-64"
+            className="absolute left-1/2 top-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full object-cover ring-4 ring-beige/80 sm:h-64 sm:w-64"
           />
           <p className="absolute bottom-4 left-4 text-[10px] uppercase tracking-[0.2em] text-beige">
             ✦ Maribella · 2026
@@ -58,9 +58,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-16">
+      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-5 sm:py-16">
         <p className="eyebrow">Caminos</p>
-        <h2 className="mt-2 font-serif text-4xl text-purple">Herramientas para tu transformación</h2>
+        <h2 className="mt-2 font-serif text-3xl text-purple sm:text-4xl">Herramientas para tu transformación</h2>
         <p className="mt-3 max-w-2xl text-purple/75">
           Sanación sistémica, autoconocimiento y orden en el espacio. Encuentra el camino que resuena contigo.
         </p>
@@ -79,7 +79,7 @@ export default function Home() {
       <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-8 lg:grid-cols-2">
         <div>
           <p className="eyebrow">Sobre Maribella</p>
-          <h2 className="mt-2 font-serif text-4xl text-purple">Del observador sabio al espacio seguro</h2>
+          <h2 className="mt-2 font-serif text-3xl text-purple sm:text-4xl">Del observador sabio al espacio seguro</h2>
           <p className="mt-4 leading-relaxed text-purple/80">
             Voz de marca serena, fundamentada y ética. Desmitifico lo esotérico para convertirlo en herramientas comprensibles: el porqué y el cómo de cada proceso, con respeto absoluto a tus tiempos.
           </p>
@@ -97,9 +97,9 @@ export default function Home() {
 
       <VocesBlock compact />
 
-      <section className="mx-auto max-w-6xl px-5 py-16">
+      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-5 sm:py-16">
         <p className="eyebrow">Inversión · {label}</p>
-        <h2 className="font-serif text-4xl text-purple">Empieza por lo que tu momento pide</h2>
+        <h2 className="font-serif text-3xl text-purple sm:text-4xl">Empieza por lo que tu momento pide</h2>
         <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {pricedServices.map((s) => (
             <Link key={s.slug} to={`/servicios#${s.slug}`} className="card block p-5 transition hover:-translate-y-0.5">
@@ -114,15 +114,15 @@ export default function Home() {
       </section>
 
       <section className="mx-auto max-w-6xl px-5 pb-8 text-center">
-        <h2 className="font-serif text-4xl text-purple md:text-5xl">Tu paz no está en huir del origen.</h2>
+        <h2 className="font-serif text-3xl text-purple sm:text-4xl md:text-5xl">Tu paz no está en huir del origen.</h2>
         <p className="mx-auto mt-4 max-w-xl text-purple/75">
           Está en comprenderlo, perdonarlo y habitar tus días con confianza interior.
         </p>
-        <div className="mt-8 flex justify-center gap-3">
-          <Link className="btn-primary" to="/mentoria">
+        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <Link className="btn-primary w-full sm:w-auto" to="/mentoria">
             Ver mentoría
           </Link>
-          <Link className="btn-ghost" to="/recursos">
+          <Link className="btn-ghost w-full sm:w-auto" to="/recursos">
             Guía gratuita
           </Link>
         </div>

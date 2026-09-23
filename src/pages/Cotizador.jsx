@@ -217,7 +217,7 @@ export default function Cotizador() {
   for (let d = 1; d <= diasMes; d += 1) days.push(d)
 
   return (
-    <div className="cotizador mx-auto max-w-6xl px-5 py-10">
+    <div className="cotizador mx-auto max-w-6xl px-4 py-8 sm:px-5 sm:py-10">
       {!logged && (
         <div className="cotizador-overlay">
           <div className="cotizador-modal">
@@ -268,7 +268,7 @@ export default function Cotizador() {
       {step === 0 && (
         <div className="cotizador-hero">
           <span className="cotizador-kicker">Hola, <b>{nombre || 'alma'}</b></span>
-          <h1 className="font-serif text-5xl leading-tight text-purple md:text-6xl">
+          <h1 className="display text-purple">
             Deja de repetir <em className="italic text-fuchsia">la misma historia</em>
           </h1>
           <p className="cotizador-sub mt-5">Arma tu propuesta con los precios de tu zona y confírmala por WhatsApp.</p>
@@ -277,7 +277,7 @@ export default function Cotizador() {
             <div className="cotizador-bene"><h3>Suelta lo que no es tuyo</h3><p>Heridas y mandatos que arrastras sin darte cuenta.</p></div>
             <div className="cotizador-bene"><h3>Vuelve a ti</h3><p>Reconecta con quién eres y con lo que viniste a hacer.</p></div>
           </div>
-          <button className="btn-primary" onClick={() => setStep(1)}>Empezar mi camino →</button>
+          <button className="btn-primary w-full sm:w-auto" onClick={() => setStep(1)}>Empezar mi camino →</button>
         </div>
       )}
 
