@@ -1,32 +1,28 @@
 import { WHATSAPP } from '../data'
+import { useLocale } from '../context/LocaleContext'
 
 export default function Sobre() {
+  const { t } = useLocale()
   return (
     <div className="page-pad">
       <p className="eyebrow">Maribella · 2026</p>
       <h1 className="display mt-3 max-w-3xl text-purple">
-        La sanación en <span className="italic text-fuchsia">todas tus dimensiones</span>
+        {t('sobre.titleA')} <span className="italic text-fuchsia">{t('sobre.titleB')}</span>
       </h1>
-      <p className="mt-6 max-w-2xl text-lg leading-relaxed text-purple/80">
-        Acompaño a personas en búsqueda de sentido y paz interior a descifrar los bloqueos emocionales y genealógicos que frenan su bienestar, integrando astrología reflexiva, constelaciones familiares y terapias energéticas en un método claro, ético y personalizado.
-      </p>
+      <p className="mt-6 max-w-2xl text-lg leading-relaxed text-purple/80">{t('sobre.lead')}</p>
 
       <section className="mt-16 grid gap-10 lg:grid-cols-2">
         <div>
-          <h2 className="font-serif text-3xl text-purple">Una mirada estructurada a lo sutil</h2>
-          <p className="mt-4 leading-relaxed text-purple/80">
-            Como observadora e investigadora, aporto rigor analítico a la astrología, las constelaciones y el feng shui: desmitificar lo esotérico para volverlo aplicable. Mi voz es serena, fundamentada y reflexiva. Genero confianza en quien busca transformación real, sin superficialidades ni urgencia digital.
-          </p>
-          <p className="mt-4 leading-relaxed text-purple/80">
-            Explico el porqué y el cómo de cada terapia con analogías cotidianas. Valido tu proceso emocional con honestidad y respeto absoluto a tus tiempos de asimilación.
-          </p>
+          <h2 className="font-serif text-3xl text-purple">{t('sobre.look')}</h2>
+          <p className="mt-4 leading-relaxed text-purple/80">{t('sobre.p1')}</p>
+          <p className="mt-4 leading-relaxed text-purple/80">{t('sobre.p2')}</p>
         </div>
         <ul className="space-y-4">
           {[
-            ['Arquetipos', 'El Sabio + El Sanador / Cuidador'],
-            ['Categoría', 'Mentoría holística sistémica para el auto-perdón y la reconciliación vital'],
-            ['Promesa', 'Compréndete, perdónate y reconcíliate con tu destino'],
-            ['Ética', 'Espacio seguro: sin recetas genéricas ni promesas instantáneas'],
+            [t('sobre.a1k'), t('sobre.a1v')],
+            [t('sobre.a2k'), t('sobre.a2v')],
+            [t('sobre.a3k'), t('sobre.a3v')],
+            [t('sobre.a4k'), t('sobre.a4v')],
           ].map(([k, v]) => (
             <li key={k} className="card p-5">
               <p className="eyebrow">{k}</p>
@@ -37,12 +33,12 @@ export default function Sobre() {
       </section>
 
       <section className="mt-16">
-        <h2 className="font-serif text-3xl text-purple">Cómo trabajo</h2>
+        <h2 className="font-serif text-3xl text-purple">{t('sobre.how')}</h2>
         <div className="mt-6 grid gap-5 md:grid-cols-3">
           {[
-            { t: 'Diagnóstico multidimensional', d: 'La terapia exacta que el alma y el momento vital requieren, no un paquete cerrado.' },
-            { t: 'Espiritualidad aterrizada', d: 'Une profundidad con aplicación práctica: pareja, deudas emocionales, autoestima, casa.' },
-            { t: 'Contención ética', d: 'Perdón consciente y respeto incondicional por la historia de cada consultante.' },
+            { t: t('sobre.h1t'), d: t('sobre.h1d') },
+            { t: t('sobre.h2t'), d: t('sobre.h2d') },
+            { t: t('sobre.h3t'), d: t('sobre.h3d') },
           ].map((x) => (
             <div key={x.t} className="card p-6">
               <h3 className="font-serif text-2xl">{x.t}</h3>
@@ -53,9 +49,7 @@ export default function Sobre() {
       </section>
 
       <div className="mt-16 text-center">
-        <a className="btn-primary" href={WHATSAPP} target="_blank" rel="noreferrer">
-          Conversemos por WhatsApp
-        </a>
+        <a className="btn-primary" href={WHATSAPP} target="_blank" rel="noreferrer">{t('sobre.cta')}</a>
       </div>
     </div>
   )

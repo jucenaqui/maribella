@@ -1,17 +1,20 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { detectRegion, formatPrice, persistRegion, REGION_CO, REGION_US, regionLabel } from '../lib/region'
+import { detectGeo } from '../lib/geo'
+import { formatPrice, REGION_CO, REGION_US, regionLabel } from '../lib/region'
+import { useLocale } from './LocaleContext'
 
 const RegionContext = createContext(null)
 
 export function RegionProvider({ children }) {
-  const [region, setRegionState] = useState(REGION_US)
+  const [region, setRegion] = useState(REGION_US)
   const [ready, setReady] = useState(false)
+  const { t } = useLocale()
 
   useEffect(() => {
     let active = true
-    detectRegion().then((next) => {
+    detectGeo().then(({ region: next }) => {
       if (!active) return
-      setRegionState(next)
+      setRegion(next)
       setReady(true)
     })
     return () => {
@@ -19,20 +22,13 @@ export function RegionProvider({ children }) {
     }
   }, [])
 
-  const value = useMemo(() => {
-    const setRegion = (next) => {
-      setRegionState(next)
-      persistRegion(next)
-    }
-    return {
-      region,
-      ready,
-      setRegion,
-      isColombia: region === REGION_CO,
-      format: (price) => formatPrice(price, region),
-      label: regionLabel(region),
-    }
-  }, [region, ready])
+  const value = useMemo(() => ({
+    region,
+    ready,
+    isColombia: region === REGION_CO,
+    format: (price) => formatPrice(price, region, t('price.scope')),
+    label: regionLabel(region, t('price.colombia'), t('price.usa')),
+  }), [region, ready, t])
 
   return <RegionContext.Provider value={value}>{children}</RegionContext.Provider>
 }

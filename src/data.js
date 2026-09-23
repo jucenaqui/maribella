@@ -6,58 +6,58 @@ export const PHONE_LABEL = '312 744 2664'
 export const GUIDE_PDF = '/guia-patrones-familiares-maribella.pdf'
 
 export const nav = [
-  { to: '/', label: 'Inicio', theme: 'light' },
-  { to: '/servicios', label: 'Servicios', theme: 'light' },
-  { to: '/tu-terapia', label: 'Terapia', theme: 'light' },
-  { to: '/cotizador', label: 'Cotizar', theme: 'light' },
-  { to: '/voces', label: 'Voces', theme: 'light' },
-  { to: '/mentoria', label: 'Mentoría', theme: 'dark' },
-  { to: '/taller', label: 'Taller', theme: 'dark' },
-  { to: '/recursos', label: 'Recursos', theme: 'dark' },
-  { to: '/sobre', label: 'Sobre mí', theme: 'light' },
-  { to: '/contacto', label: 'Contacto', theme: 'light' },
+  { to: '/', key: 'nav.home' },
+  { to: '/servicios', key: 'nav.services' },
+  { to: '/tu-terapia', key: 'nav.therapy' },
+  { to: '/cotizador', key: 'nav.quote' },
+  { to: '/voces', key: 'nav.voices' },
+  { to: '/mentoria', key: 'nav.mentorship' },
+  { to: '/taller', key: 'nav.workshop' },
+  { to: '/recursos', key: 'nav.resources' },
+  { to: '/sobre', key: 'nav.about' },
+  { to: '/contacto', key: 'nav.contact' },
 ]
 
 export const navPrimary = [
-  { to: '/servicios', label: 'Servicios' },
-  { to: '/tu-terapia', label: 'Terapia' },
-  { to: '/cotizador', label: 'Cotizar' },
-  { to: '/contacto', label: 'Contacto' },
+  { to: '/servicios', key: 'nav.services' },
+  { to: '/tu-terapia', key: 'nav.therapy' },
+  { to: '/cotizador', key: 'nav.quote' },
+  { to: '/contacto', key: 'nav.contact' },
 ]
 
 export const navGroups = [
   {
-    title: 'Empezar',
+    titleKey: 'nav.start',
     items: [
-      { to: '/tu-terapia', label: '¿Qué terapia necesitas?' },
-      { to: '/cotizador', label: 'Cotizar' },
-      { to: '/servicios', label: 'Servicios' },
+      { to: '/tu-terapia', key: 'nav.quiz' },
+      { to: '/cotizador', key: 'nav.quote' },
+      { to: '/servicios', key: 'nav.services' },
     ],
   },
   {
-    title: 'Profundizar',
+    titleKey: 'nav.deepen',
     items: [
-      { to: '/voces', label: 'Voces' },
-      { to: '/mentoria', label: 'Mentoría' },
-      { to: '/taller', label: 'Taller' },
-      { to: '/recursos', label: 'Recursos' },
+      { to: '/voces', key: 'nav.voices' },
+      { to: '/mentoria', key: 'nav.mentorship' },
+      { to: '/taller', key: 'nav.workshop' },
+      { to: '/recursos', key: 'nav.resources' },
     ],
   },
   {
-    title: 'Maribella',
+    titleKey: 'nav.brand',
     items: [
-      { to: '/sobre', label: 'Sobre mí' },
-      { to: '/contacto', label: 'Contacto' },
+      { to: '/sobre', key: 'nav.about' },
+      { to: '/contacto', key: 'nav.contact' },
     ],
   },
 ]
 
 export const navMore = [
-  { to: '/voces', label: 'Voces' },
-  { to: '/mentoria', label: 'Mentoría' },
-  { to: '/taller', label: 'Taller' },
-  { to: '/recursos', label: 'Recursos' },
-  { to: '/sobre', label: 'Sobre mí' },
+  { to: '/voces', key: 'nav.voices' },
+  { to: '/mentoria', key: 'nav.mentorship' },
+  { to: '/taller', key: 'nav.workshop' },
+  { to: '/recursos', key: 'nav.resources' },
+  { to: '/sobre', key: 'nav.about' },
 ]
 
 export const services = [
@@ -84,7 +84,7 @@ export const services = [
       'Ocupación consciente del espacio. Estudiamos cómo tu entorno cotidiano influye en tu estado emocional y en las oportunidades que se abren — o se estancan — en la vida diaria.',
     price: {
       cop: 500000,
-      usd: { from: 200, to: 350, note: 'según alcance' },
+      usd: { from: 200, to: 350, note: 'scope' },
     },
   },
   {
@@ -133,7 +133,7 @@ export const services = [
   },
 ]
 
-const PRICE_ORDER = ['constelaciones', 'angelical', 'astrologia', 'feng-shui']
+export const PRICE_ORDER = ['constelaciones', 'angelical', 'astrologia', 'feng-shui']
 
 export const pricedServices = PRICE_ORDER.map((slug) => services.find((service) => service.slug === slug)).filter(Boolean)
 

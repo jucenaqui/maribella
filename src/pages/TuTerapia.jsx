@@ -1,15 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { GUIDE_PDF, WHATSAPP_NUMBER } from '../data'
+import { useLocale } from '../context/LocaleContext'
+import { quizQuestions, quizResult } from '../i18n/quiz'
 import '../styles/tu-terapia.css'
 
 const SHEET_ENDPOINT =
   'https://script.google.com/macros/s/AKfycbxZnRJaqICFl3JxY1XKupIV92--qcP0pKsrWmWN2Q5DQHykFnx3SwKep_Qkk9OBm9Q/exec'
-
-const MESES = [
-  'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
-]
 
 const PAISES = [
   { c: 'CO', d: '57', f: '🇨🇴' }, { c: 'MX', d: '52', f: '🇲🇽' }, { c: 'US', d: '1', f: '🇺🇸' },
@@ -20,128 +17,6 @@ const PAISES = [
   { c: 'HN', d: '504', f: '🇭🇳' }, { c: 'SV', d: '503', f: '🇸🇻' }, { c: 'NI', d: '505', f: '🇳🇮' },
   { c: 'DO', d: '1', f: '🇩🇴' }, { c: 'BR', d: '55', f: '🇧🇷' },
 ]
-
-const QUESTIONS = [
-  {
-    q: '¿Qué describe mejor lo que estás sintiendo ahora?',
-    step: 'Tu momento',
-    options: [
-      { t: 'Repito los mismos ciclos y no entiendo por qué', w: { cons: 3 } },
-      { t: 'Cargo algo que siento heredado de mi familia', w: { cons: 2, akas: 1 } },
-      { t: 'Vivo en automático; no sé quién soy ni mi propósito', w: { astro: 2, akas: 1 } },
-      { t: 'Tengo logros, pero por dentro siento un vacío', w: { acomp: 2, akas: 1 } },
-      { t: 'Mi casa u oficina se siente pesada y me afecta', w: { feng: 3 } },
-    ],
-  },
-  {
-    q: 'Cuando imaginas sanar, ¿qué te llama más?',
-    step: 'Lo que buscas',
-    options: [
-      { t: 'Entender la raíz en mi historia familiar', w: { cons: 3 } },
-      { t: 'Conocerme a través de mi carta y mis ciclos', w: { astro: 3 } },
-      { t: 'Reconectar con mi alma y mi propósito', w: { akas: 2, angel: 1 } },
-      { t: 'Un acompañamiento cercano y sostenido', w: { acomp: 3 } },
-      { t: 'Armonizar mi espacio físico', w: { feng: 3 } },
-      { t: 'Sentir protección y paz espiritual', w: { angel: 3 } },
-    ],
-  },
-  {
-    q: '¿Cómo te relacionas con lo espiritual?',
-    step: 'Tu mirada',
-    options: [
-      { t: 'Quiero método y fundamento, sin “magia”', w: { cons: 1, acomp: 2 } },
-      { t: 'Me atraen los astros y los ciclos de la vida', w: { astro: 3 } },
-      { t: 'Creo en guías, ángeles o una fuerza mayor', w: { angel: 3 } },
-      { t: 'Me interesa el registro del alma', w: { akas: 3 } },
-      { t: 'Siento que el lugar y su energía influyen', w: { feng: 2 } },
-    ],
-  },
-  {
-    q: '¿Qué vínculo te pesa más hoy?',
-    step: 'Tus vínculos',
-    options: [
-      { t: 'Mi familia de origen (padres, hermanos)', w: { cons: 3 } },
-      { t: 'Mi pareja o mis relaciones', w: { cons: 2, acomp: 1 } },
-      { t: 'La relación conmigo misma o mismo', w: { acomp: 2, astro: 1 } },
-      { t: 'Mi entorno y mi hogar', w: { feng: 3 } },
-      { t: 'Lo trascendente y mi fe', w: { angel: 2, akas: 1 } },
-    ],
-  },
-  {
-    q: '¿Cómo prefieres transitar tu proceso?',
-    step: 'Tu ritmo',
-    options: [
-      { t: 'En un espacio íntimo, uno a uno', w: { acomp: 2, cons: 1 } },
-      { t: 'En grupo, con personas que me entiendan', w: { taller: 3 } },
-      { t: 'Con una experiencia vivencial y dinámica', w: { taller: 2, cons: 1 } },
-      { t: 'A mi ritmo, con una guía puntual', w: { astro: 1, akas: 1, acomp: 1 } },
-    ],
-  },
-  {
-    q: '¿Qué te gustaría lograr primero?',
-    step: 'Tu meta',
-    options: [
-      { t: 'Cortar un patrón que se repite', w: { cons: 3 } },
-      { t: 'Encontrar sentido y dirección', w: { astro: 1, akas: 2 } },
-      { t: 'Calma emocional y sostén', w: { acomp: 3 } },
-      { t: 'Que mi casa y mi vida vuelvan a fluir', w: { feng: 3 } },
-      { t: 'Sentirme acompañada o acompañado espiritualmente', w: { angel: 3 } },
-      { t: 'Pertenecer a una comunidad', w: { taller: 3 } },
-    ],
-  },
-]
-
-const RESULTS = {
-  cons: {
-    name: 'Constelaciones Familiares',
-    tag: 'Desenreda lo que se repite',
-    desc: 'Miramos el sistema familiar al que perteneces para reconocer los patrones, lealtades y cargas que arrastras sin darte cuenta. Al devolver a cada quien su lugar, lo que se repetía empieza a soltarse y recuperas tu propia fuerza.',
-    why: 'Tus respuestas apuntan a ciclos y cargas con raíz familiar. Este es el trabajo que va directo a esa raíz.',
-    next: '/cotizador?servicio=constelaciones',
-  },
-  astro: {
-    name: 'Astrología Terapéutica',
-    tag: 'Tu carta como mapa, no como horóscopo',
-    desc: 'Leemos tu carta natal como un mapa de tu forma de ser, tus ciclos y tu potencial. Es una herramienta para reconocerte, entender el momento que atraviesas y reencontrar tu dirección cuando sientes que vives en automático.',
-    why: 'Buscas conocerte y encontrar sentido. La astrología terapéutica te da un lenguaje para leerte con más claridad.',
-    next: '/cotizador?servicio=astrologia',
-  },
-  akas: {
-    name: 'Registros Akáshicos',
-    tag: 'Preguntas de alma y propósito',
-    desc: 'Una lectura del registro de tu alma para las preguntas más profundas: por qué estás aquí, qué viniste a aprender y qué patrones traes de más atrás. Un espacio para el sentido, más allá de lo material.',
-    why: 'Lo que te mueve son preguntas de propósito y trascendencia. Los registros abren justo esa puerta.',
-    next: '/cotizador',
-  },
-  acomp: {
-    name: 'Acompañamiento Terapéutico Integrativo',
-    tag: 'Alguien que camina a tu lado',
-    desc: 'Un proceso cercano y sostenido en el tiempo para atravesar la ansiedad, el vacío o los momentos de cambio. No una respuesta rápida, sino un acompañamiento continuo que integra distintas herramientas según lo que necesites.',
-    why: 'Describes un momento que pide sostén y continuidad, no una sesión aislada. Este acompañamiento es esa base.',
-    next: '/mentoria',
-  },
-  feng: {
-    name: 'Feng Shui · Armonización de Espacios',
-    tag: 'Tu entorno también sana',
-    desc: 'Tu casa u oficina influyen en tu ánimo, tus relaciones y tu prosperidad más de lo que crees. Limpiamos y reordenamos la energía de tu espacio para que deje de drenarte y vuelva a acompañarte.',
-    why: 'Señalaste que tu espacio pesa o te afecta. El feng shui trabaja exactamente ahí, en tu entorno.',
-    next: '/cotizador?servicio=feng-shui',
-  },
-  angel: {
-    name: 'Terapias Angelicales',
-    tag: 'Sostén desde lo trascendente',
-    desc: 'Un espacio de conexión, protección y paz espiritual para cuando necesitas apoyarte en algo más grande. Un acompañamiento suave para recuperar la calma y la confianza.',
-    why: 'Buscas paz y sostén espiritual. Esta terapia te ofrece ese refugio y esa conexión.',
-    next: '/cotizador?servicio=angelical',
-  },
-  taller: {
-    name: 'Talleres Vivenciales',
-    tag: 'Sanar en comunidad',
-    desc: 'Experiencias grupales para crecer y sanar junto a otras personas que transitan procesos parecidos al tuyo. El grupo sostiene, refleja y acompaña de un modo que el camino en soledad no logra.',
-    why: 'Prefieres transitar en compañía y sentir comunidad. Los talleres vivenciales son ese espacio compartido.',
-    next: '/taller',
-  },
-}
 
 const PRIORITY = ['cons', 'acomp', 'astro', 'feng', 'akas', 'angel', 'taller']
 
@@ -179,7 +54,16 @@ function sendGuide(email) {
   }).catch(() => {})
 }
 
+function GiftLine({ text }) {
+  const parts = String(text).split(/\{\/?b\}/)
+  if (parts.length < 3) return text
+  return <>{parts[0]}<b>{parts[1]}</b>{parts[2]}</>
+}
+
 export default function TuTerapia() {
+  const { t, locale } = useLocale()
+  const QUESTIONS = quizQuestions(locale)
+  const months = t('quiz.months')
   const [screen, setScreen] = useState('intro')
   const [i, setI] = useState(0)
   const [answers, setAnswers] = useState([])
@@ -212,7 +96,7 @@ export default function TuTerapia() {
   const canQuiz = nombre.trim().length >= 2 && okTel && okMail && giro.trim().length >= 2
   const pais = PAISES[paisIdx]
   const telFull = `${pais.d}${digits}`
-  const nacimiento = dia !== '' && mes !== '' ? `${dia} de ${MESES[Number(mes)]}` : ''
+  const nacimiento = dia !== '' && mes !== '' ? t('quiz.bornOnDate', { d: dia, m: months[Number(mes)] }) : ''
 
   const outcome = useMemo(() => {
     if (answers.length < QUESTIONS.length) return null
@@ -228,7 +112,7 @@ export default function TuTerapia() {
       return PRIORITY.indexOf(a) - PRIORITY.indexOf(b)
     })
     return { top: ranked[0], second: ranked[1], scores }
-  }, [answers])
+  }, [answers, QUESTIONS])
 
   function startQuiz() {
     const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 7)
@@ -278,8 +162,8 @@ export default function TuTerapia() {
     })
     const top = ranked[0]
     const second = ranked[1]
-    const R = RESULTS[top]
-    const seg = scores[second] > 0 ? RESULTS[second].name : ''
+    const R = quizResult(top, locale)
+    const seg = scores[second] > 0 ? quizResult(second, locale).name : ''
     postSheet({ leadId, terapia: R.name, segunda: seg, estado: 'completó' })
     notifyNetlify({
       nombre: nombre.trim(),
@@ -298,22 +182,22 @@ export default function TuTerapia() {
   }
 
   const Q = QUESTIONS[i]
-  const R = outcome ? RESULTS[outcome.top] : null
-  const secondName = outcome && outcome.scores[outcome.second] > 0 ? RESULTS[outcome.second].name : ''
+  const R = outcome ? quizResult(outcome.top, locale) : null
+  const secondName = outcome && outcome.scores[outcome.second] > 0 ? quizResult(outcome.second, locale).name : ''
 
   const waHref = useMemo(() => {
     if (!R) return `https://wa.me/${WHATSAPP_NUMBER}`
     const lines = [
-      `Hola Maribella, soy ${nombre.trim()}.`,
-      `Hice el test ¿Qué terapia necesitas? y me orientó hacia: ${R.name}.`,
+      t('quiz.wa1', { name: nombre.trim() }),
+      t('quiz.wa2', { therapy: R.name }),
     ]
-    if (giro.trim()) lines.push(`Lo que me trae: ${giro.trim()}.`)
-    let dl = `Mis datos — WhatsApp: +${telFull} · Correo: ${mail.trim()}`
-    if (nacimiento) dl += ` · Nacimiento: ${nacimiento}`
+    if (giro.trim()) lines.push(t('quiz.wa3', { giro: giro.trim() }))
+    let dl = t('quiz.wa4', { tel: telFull, mail: mail.trim() })
+    if (nacimiento) dl += t('quiz.waBorn', { born: nacimiento })
     lines.push(`${dl}.`)
-    lines.push('Me gustaría saber más.')
+    lines.push(t('quiz.wa5'))
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`
-  }, [R, nombre, giro, telFull, mail, nacimiento])
+  }, [R, nombre, giro, telFull, mail, nacimiento, t])
 
   return (
     <div className="tu-terapia">
@@ -324,56 +208,52 @@ export default function TuTerapia() {
             <span className="d" />
             <span className="l" />
           </div>
-          <h1 className="h1-intro">¿Qué terapia necesitas?</h1>
-          <p className="lead">
-            Tantas herramientas —constelaciones, astrología, feng shui, registros akáshicos— y no siempre es claro por dónde empezar. Responde 6 preguntas y descubre el camino que mejor acompaña tu momento.
-          </p>
+          <h1 className="h1-intro">{t('quiz.title')}</h1>
+          <p className="lead">{t('quiz.lead')}</p>
           <div className="giftnote">
             <span>
-              De regalo: al terminar te enviamos gratis la <b>Guía para identificar patrones familiares repetitivos</b>.
+              <GiftLine text={t('quiz.gift')} />
             </span>
           </div>
           <button className="btn btn-wide" type="button" onClick={() => { setScreen('datos'); window.scrollTo(0, 0) }}>
-            Comenzar
+            {t('quiz.start')}
           </button>
-          <p className="meta">Toma menos de 2 minutos · Es una orientación, no un diagnóstico</p>
+          <p className="meta">{t('quiz.meta')}</p>
         </section>
       )}
 
       {screen === 'datos' && (
         <section>
           <div className="progress-head">
-            <span className="step">Paso 1 de 2 · Tus datos</span>
-            <span className="count">Casi empezamos</span>
+            <span className="step">{t('quiz.step1')}</span>
+            <span className="count">{t('quiz.almost')}</span>
           </div>
           <div className="bar"><span style={{ width: '20%' }} /></div>
-          <h2 className="q">Antes de empezar, cuéntame de ti</h2>
-          <p className="lead lead-left">
-            Con esto te envío tu resultado y tu guía de regalo, y Maribella puede acompañarte en el siguiente paso.
-          </p>
+          <h2 className="q">{t('quiz.tell')}</h2>
+          <p className="lead lead-left">{t('quiz.tellLead')}</p>
           <label className="f first" htmlFor="dNombre">
-            ¿Cómo te gusta que te llamen? <span className="req">*</span>
+            {t('quiz.call')} <span className="req">*</span>
           </label>
-          <input className="inp" id="dNombre" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Tu nombre" autoComplete="name" />
+          <input className="inp" id="dNombre" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder={t('quiz.namePh')} autoComplete="name" />
 
           <label className="f">
-            ¿Cuándo naciste? <small style={{ fontWeight: 400, color: 'var(--muted)' }}>(opcional)</small>
+            {t('quiz.born')} <small style={{ fontWeight: 400, color: 'var(--muted)' }}>{t('quiz.optional')}</small>
           </label>
           <div className="bday">
-            <select className="sel" aria-label="Día de nacimiento" value={dia} onChange={(e) => setDia(e.target.value)}>
-              <option value="">Día</option>
+            <select className="sel" aria-label={t('quiz.day')} value={dia} onChange={(e) => setDia(e.target.value)}>
+              <option value="">{t('quiz.day')}</option>
               {Array.from({ length: 31 }, (_, n) => (
                 <option key={n + 1} value={n + 1}>{n + 1}</option>
               ))}
             </select>
-            <select className="sel" aria-label="Mes de nacimiento" value={mes} onChange={(e) => setMes(e.target.value)}>
-              <option value="">Mes</option>
-              {MESES.map((x, idx) => (
+            <select className="sel" aria-label={t('quiz.month')} value={mes} onChange={(e) => setMes(e.target.value)}>
+              <option value="">{t('quiz.month')}</option>
+              {months.map((x, idx) => (
                 <option key={x} value={idx}>{x.charAt(0).toUpperCase() + x.slice(1)}</option>
               ))}
             </select>
           </div>
-          <p className="hint">Tu fecha ayuda a Maribella a leer tu energía (astrología).</p>
+          <p className="hint">{t('quiz.bornHint')}</p>
 
           <label className="f" htmlFor="dTel">
             WhatsApp <span className="req">*</span>
@@ -384,37 +264,37 @@ export default function TuTerapia() {
                 <option key={x.c + x.d} value={idx}>{x.f} +{x.d}</option>
               ))}
             </select>
-            <input className="inp" id="dTel" type="tel" inputMode="numeric" value={tel} onChange={(e) => setTel(e.target.value)} placeholder="Tu número" autoComplete="tel" />
+            <input className="inp" id="dTel" type="tel" inputMode="numeric" value={tel} onChange={(e) => setTel(e.target.value)} placeholder={t('quiz.phonePh')} autoComplete="tel" />
           </div>
-          <p className="hint">Por aquí Maribella te envía tu orientación y responde tus dudas.</p>
-          {digits.length > 0 && !okTel ? <p className="err">Escribe un número de WhatsApp válido.</p> : null}
+          <p className="hint">{t('quiz.waHint')}</p>
+          {digits.length > 0 && !okTel ? <p className="err">{t('quiz.badPhone')}</p> : null}
 
           <label className="f" htmlFor="dMail">
-            Correo <span className="req">*</span>
+            {t('quiz.email')} <span className="req">*</span>
           </label>
-          <input className="inp" id="dMail" type="email" value={mail} onChange={(e) => setMail(e.target.value)} placeholder="tucorreo@ejemplo.com" autoComplete="email" />
-          <p className="hint">Aquí te llega tu guía de regalo.</p>
-          {mail.length > 0 && !okMail ? <p className="err">Ese correo no parece válido.</p> : null}
+          <input className="inp" id="dMail" type="email" value={mail} onChange={(e) => setMail(e.target.value)} placeholder={t('quiz.emailPh')} autoComplete="email" />
+          <p className="hint">{t('quiz.mailHint')}</p>
+          {mail.length > 0 && !okMail ? <p className="err">{t('quiz.badEmail')}</p> : null}
 
           <label className="f" htmlFor="dGiro">
-            ¿Qué te trae aquí hoy? <span className="req">*</span>
+            {t('quiz.reason')} <span className="req">*</span>
           </label>
-          <input className="inp" id="dGiro" value={giro} onChange={(e) => setGiro(e.target.value)} placeholder="Ej: siento que repito lo mismo en mis relaciones…" />
-          <p className="hint">En una frase. No hay respuestas correctas ni incorrectas.</p>
+          <input className="inp" id="dGiro" value={giro} onChange={(e) => setGiro(e.target.value)} placeholder={t('quiz.reasonPh')} />
+          <p className="hint">{t('quiz.reasonHint')}</p>
 
           <button className="btn btn-wide" type="button" disabled={!canQuiz} onClick={startQuiz}>
-            Ir al test →
+            {t('quiz.toQuiz')}
           </button>
-          <button className="back" type="button" onClick={() => setScreen('intro')}>← Volver</button>
-          <p className="disclaimer">Tus datos se comparten solo con Maribella para acompañarte. Nada se publica.</p>
+          <button className="back" type="button" onClick={() => setScreen('intro')}>{t('quiz.back')}</button>
+          <p className="disclaimer">{t('quiz.privacy')}</p>
         </section>
       )}
 
       {screen === 'quiz' && (
         <section>
           <div className="progress-head">
-            <span className="step">Paso 2 · {Q.step}</span>
-            <span className="count">Pregunta {i + 1} de {QUESTIONS.length}</span>
+            <span className="step">{t('quiz.step2', { step: Q.step })}</span>
+            <span className="count">{t('quiz.qCount', { n: i + 1, total: QUESTIONS.length })}</span>
           </div>
           <div className="bar"><span style={{ width: `${20 + (i / QUESTIONS.length) * 80}%` }} /></div>
           <h2 className="q">{Q.q}</h2>
@@ -434,51 +314,48 @@ export default function TuTerapia() {
               else setScreen('datos')
             }}
           >
-            ← Anterior
+            {t('quiz.prev')}
           </button>
         </section>
       )}
 
       {screen === 'result' && R && (
         <section>
-          <p className="res-eyebrow">Tu camino sugerido</p>
-          {nombre.trim() ? <p className="res-hi">Para ti, {nombre.trim()}:</p> : null}
+          <p className="res-eyebrow">{t('quiz.path')}</p>
+          {nombre.trim() ? <p className="res-hi">{t('quiz.forYou', { name: nombre.trim() })}</p> : null}
           <div className="result-card">
             <h2 className="rname">{R.name}</h2>
             <p className="rtag">{R.tag}</p>
             <div className="rgold" />
             <p className="rdesc">{R.desc}</p>
-            <div className="rwhy"><b>Por qué esta recomendación:</b> {R.why}</div>
+            <div className="rwhy"><b>{t('quiz.why')}</b> {R.why}</div>
           </div>
           {secondName ? (
             <p className="secondary">
-              También podría acompañarte muy bien: <b>{secondName}</b>.
+              {t('quiz.also')} <b>{secondName}</b>.
             </p>
           ) : null}
 
           <div className="gift">
-            <div className="gk">Tu regalo de bienvenida</div>
-            <div className="gt">Guía de patrones familiares repetitivos</div>
+            <div className="gk">{t('quiz.giftK')}</div>
+            <div className="gt">{t('quiz.giftT')}</div>
             <p className="gd">
               {guideStatus === 'sent'
-                ? 'Ya te la enviamos al correo que dejaste. Revisa también la carpeta de spam.'
+                ? t('quiz.giftSent')
                 : guideStatus === 'sending'
-                  ? 'Estamos enviando la guía a tu correo…'
-                  : 'Un primer paso para reconocer eso que se repite en tu historia. Si no llega el correo, ábrela aquí.'}
+                  ? t('quiz.giftSending')
+                  : t('quiz.giftIdle')}
             </p>
-            <a className="dl" href={GUIDE_PDF}>
-              Abrir la guía
+            <a className="dl" href={GUIDE_PDF} download="guia-patrones-familiares-maribella.pdf">
+              {t('quiz.openGuide')}
             </a>
           </div>
 
           <div className="cta">
-            <a className="wa" href={waHref} target="_blank" rel="noreferrer">Escríbele a Maribella</a>
-            <Link className="alt" to={R.next}>Cotiza tu proceso</Link>
-            <Link className="web" to="/">Explorar el sitio →</Link>
+            <a className="wa" href={waHref} target="_blank" rel="noreferrer">{t('quiz.write')}</a>
+            <Link className="alt" to="/cotizador">{t('quiz.quote')}</Link>
           </div>
-          <p className="disclaimer">
-            Este test es una guía de autoconocimiento inspirada en las terapias holísticas de Maribella. No sustituye un diagnóstico ni un tratamiento clínico.
-          </p>
+          <p className="disclaimer">{t('quiz.disclaimer')}</p>
           <button
             className="restart"
             type="button"
@@ -490,7 +367,7 @@ export default function TuTerapia() {
               setGuideStatus('idle')
             }}
           >
-            Volver a empezar
+            {t('quiz.restart')}
           </button>
         </section>
       )}

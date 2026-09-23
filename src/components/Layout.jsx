@@ -2,7 +2,8 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Menu, X, MessageCircle, ChevronDown } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { INSTAGRAM, nav, navGroups, navMore, navPrimary, PHONE_LABEL, WHATSAPP } from '../data'
-import RegionSwitch from './RegionSwitch.jsx'
+import LanguageSwitch from './LanguageSwitch.jsx'
+import { useLocale } from '../context/LocaleContext'
 
 function linkClass(isActive, dark) {
   return `whitespace-nowrap text-[11px] uppercase tracking-[0.14em] ${
@@ -16,6 +17,7 @@ export default function Layout({ children, theme = 'light' }) {
   const location = useLocation()
   const dark = theme === 'dark'
   const hideFab = location.pathname === '/cotizador' || location.pathname === '/tu-terapia'
+  const { t } = useLocale()
 
   useEffect(() => {
     setOpen(false)
@@ -29,6 +31,10 @@ export default function Layout({ children, theme = 'light' }) {
     }
   }, [open])
 
+  useEffect(() => {
+    document.title = t('meta.title')
+  }, [t])
+
   return (
     <div className={dark ? 'page-dark' : 'page-light'}>
       <header className={`relative sticky top-0 z-40 backdrop-blur-md ${dark ? 'nav-dark' : 'nav-light'}`}>
@@ -38,15 +44,15 @@ export default function Layout({ children, theme = 'light' }) {
             <span className="leading-tight">
               <span className="block font-serif text-xl italic sm:text-2xl">Maribella</span>
               <span className={`hidden text-[10px] uppercase tracking-[0.18em] sm:block ${dark ? 'text-beige/70' : 'text-purple/70'}`}>
-                Sanación sistémica
+                {t('layout.tagline')}
               </span>
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-4 xl:flex" aria-label="Menú principal">
+          <nav className="hidden items-center gap-4 xl:flex" aria-label={t('nav.mainMenu')}>
             {navPrimary.map((item) => (
               <NavLink key={item.to} to={item.to} className={({ isActive }) => linkClass(isActive, dark)}>
-                {item.label}
+                {t(item.key)}
               </NavLink>
             ))}
             <div className="relative">
@@ -56,7 +62,7 @@ export default function Layout({ children, theme = 'light' }) {
                 aria-expanded={moreOpen}
                 onClick={() => setMoreOpen((v) => !v)}
               >
-                Más
+                {t('nav.more')}
                 <ChevronDown size={14} />
               </button>
               {moreOpen && (
@@ -71,7 +77,7 @@ export default function Layout({ children, theme = 'light' }) {
                       to={item.to}
                       className={`block px-4 py-2 text-sm ${location.pathname === item.to ? 'text-fuchsia' : ''}`}
                     >
-                      {item.label}
+                      {t(item.key)}
                     </Link>
                   ))}
                 </div>
@@ -81,11 +87,11 @@ export default function Layout({ children, theme = 'light' }) {
 
           <div className="flex shrink-0 items-center gap-2">
             <div className="hidden md:block">
-              <RegionSwitch dark={dark} />
+              <LanguageSwitch dark={dark} />
             </div>
             <button
               className="grid h-11 w-11 place-items-center xl:hidden"
-              aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
+              aria-label={open ? t('nav.closeMenu') : t('nav.openMenu')}
               aria-expanded={open}
               onClick={() => setOpen((v) => !v)}
             >
@@ -101,11 +107,11 @@ export default function Layout({ children, theme = 'light' }) {
             }`}
           >
             <div className="mb-5 md:hidden">
-              <RegionSwitch dark={dark} />
+              <LanguageSwitch dark={dark} />
             </div>
             {navGroups.map((group) => (
-              <div key={group.title} className="mb-6">
-                <p className="eyebrow mb-1">{group.title}</p>
+              <div key={group.titleKey} className="mb-6">
+                <p className="eyebrow mb-1">{t(group.titleKey)}</p>
                 <div className="flex flex-col">
                   {group.items.map((item) => (
                     <Link
@@ -115,7 +121,7 @@ export default function Layout({ children, theme = 'light' }) {
                         dark ? 'border-beige/10' : 'border-purple/10'
                       } ${location.pathname === item.to ? 'text-fuchsia' : ''}`}
                     >
-                      {item.label}
+                      {t(item.key)}
                     </Link>
                   ))}
                 </div>
@@ -132,21 +138,21 @@ export default function Layout({ children, theme = 'light' }) {
           <div>
             <p className="font-serif text-3xl italic">Maribella</p>
             <p className={`mt-2 max-w-sm text-sm leading-relaxed ${dark ? 'text-beige/75' : 'text-purple/75'}`}>
-              Acompaño a personas en búsqueda de sentido y paz interior a descifrar bloqueos emocionales y genealógicos, con un método claro, ético y personalizado.
+              {t('layout.footer')}
             </p>
           </div>
           <div>
-            <p className="eyebrow">Explora</p>
+            <p className="eyebrow">{t('layout.explore')}</p>
             <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
               {nav.map((item) => (
                 <li key={item.to}>
-                  <Link to={item.to}>{item.label}</Link>
+                  <Link to={item.to}>{t(item.key)}</Link>
                 </li>
               ))}
             </ul>
           </div>
           <div>
-            <p className="eyebrow">Conecta</p>
+            <p className="eyebrow">{t('layout.connect')}</p>
             <ul className="mt-3 space-y-2 text-sm">
               <li>
                 <a href={WHATSAPP} target="_blank" rel="noreferrer">
@@ -162,7 +168,7 @@ export default function Layout({ children, theme = 'light' }) {
           </div>
         </div>
         <p className={`px-5 pb-24 text-center text-xs md:pb-8 ${dark ? 'text-beige/50' : 'text-purple/50'}`}>
-          © {new Date().getFullYear()} Maribella · La sanación en todas tus dimensiones
+          © {new Date().getFullYear()} {t('layout.copy')}
         </p>
       </footer>
 

@@ -2,14 +2,12 @@ import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { jsPDF } from 'jspdf'
 import { useRegion } from '../context/RegionContext'
-import { quoteCatalog, WHATSAPP_NUMBER } from '../data'
+import { useLocale } from '../context/LocaleContext'
+import { useCatalog } from '../lib/catalog'
+import { WHATSAPP_NUMBER } from '../data'
 import { formatQuoteAmount, quoteAmount, REGION_CO } from '../lib/region'
 import '../styles/cotizador.css'
 
-const MESES = [
-  'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
-]
 const PAISES = [
   { c: 'CO', d: '57', f: '🇨🇴' }, { c: 'MX', d: '52', f: '🇲🇽' }, { c: 'US', d: '1', f: '🇺🇸' },
   { c: 'ES', d: '34', f: '🇪🇸' }, { c: 'AR', d: '54', f: '🇦🇷' }, { c: 'PE', d: '51', f: '🇵🇪' },
@@ -32,6 +30,11 @@ function notifyLead(payload) {
 
 export default function Cotizador() {
   const { region } = useRegion()
+  const { t, locale } = useLocale()
+  const { quoteCatalog } = useCatalog()
+  const months = t('quote.months')
+  const dow = t('quote.dow')
+  const ask = t('price.ask')
   const [params] = useSearchParams()
   const preset = params.get('servicio')
   const [step, setStep] = useState(0)
@@ -44,7 +47,7 @@ export default function Cotizador() {
   const [tel, setTel] = useState('')
   const [mail, setMail] = useState('')
   const [giro, setGiro] = useState('')
-  const [sel, setSel] = useState(() => new Set(preset && quoteCatalog.some((s) => s.id === preset) ? [preset] : []))
+  const [sel, setSel] = useState(() => new Set(preset ? [preset] : []))
   const [calRef, setCalRef] = useState(() => {
     const d = new Date()
     d.setDate(1)
@@ -57,18 +60,26 @@ export default function Cotizador() {
     setPaisIdx(region === REGION_CO ? 0 : 2)
   }, [region])
 
+  useEffect(() => {
+    if (preset) setSel(new Set([preset]))
+  }, [preset])
+
   const pais = PAISES[paisIdx]
   const telFull = `${pais.d}${tel.replace(/\D/g, '')}`
-  const cumple = dia !== '' && mes !== '' ? `${dia} de ${MESES[Number(mes)]}` : ''
+  const cumple = dia !== '' && mes !== '' ? t('quote.bornOnDate', { d: dia, m: months[Number(mes)] }) : ''
   const okTel = tel.replace(/\D/g, '').length >= 7
   const okMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail.trim())
   const okGiro = giro.trim().length >= 2
   const canLogin = nombre.trim() && dia !== '' && mes !== ''
   const canStep1 = okTel && okMail && okGiro
 
-  const chosen = useMemo(() => quoteCatalog.filter((s) => sel.has(s.id)), [sel])
+  const chosen = useMemo(() => quoteCatalog.filter((s) => sel.has(s.id)), [quoteCatalog, sel])
   const total = chosen.reduce((sum, s) => sum + (quoteAmount(s.price, region) || 0), 0)
-  const totalLabel = formatQuoteAmount(total, region)
+  const totalLabel = formatQuoteAmount(total, region, ask)
+
+  function money(price) {
+    return formatQuoteAmount(quoteAmount(price, region), region, ask)
+  }
 
   function toggle(id) {
     setSel((prev) => {
@@ -80,15 +91,15 @@ export default function Cotizador() {
   }
 
   function fechaTxt(d) {
-    return `${d.getDate()} de ${MESES[d.getMonth()]} de ${d.getFullYear()}`
+    return t('quote.dateFull', { d: d.getDate(), m: months[d.getMonth()], y: d.getFullYear() })
   }
 
   function resumenTexto() {
-    const servs = chosen.map((i) => `• ${i.title} (${formatQuoteAmount(quoteAmount(i.price, region), region)})`).join('\n')
-    return `¡Hola Maribella! Quiero reservar mi sesión.\n\n` +
-      `Nombre: ${nombre}\nNací el: ${cumple}\nWhatsApp: +${telFull}\nCorreo: ${mail}\n` +
-      `Qué me trae: ${giro}\n\nMi camino:\n${servs || '• Por confirmar'}\n\n` +
-      `Inversión estimada: ${totalLabel}\nSesión: ${fecha ? fechaTxt(fecha) : ''} a las ${hora || ''}`
+    const servs = chosen.map((i) => `• ${i.title} (${money(i.price)})`).join('\n')
+    return `${t('quote.waBody')}\n\n` +
+      `${t('quote.name')}: ${nombre}\n${t('quote.bornOn')}: ${cumple}\nWhatsApp: +${telFull}\n${t('quote.email')}: ${mail}\n` +
+      `${t('quote.reasonLine')}: ${giro}\n\n${t('quote.myPath')}:\n${servs || `• ${t('quote.pending')}`}\n\n` +
+      `${t('quote.investLine')}: ${totalLabel}\n${t('quote.sessionLine')}: ${fecha ? fechaTxt(fecha) : ''} ${t('quote.at')} ${hora || ''}`
   }
 
   function confirmar() {
@@ -121,9 +132,9 @@ export default function Cotizador() {
     const fin = new Date(ini.getTime() + 75 * 60000)
     const z = (n) => String(n).padStart(2, '0')
     const fmtDT = (d) => `${d.getFullYear()}${z(d.getMonth() + 1)}${z(d.getDate())}T${z(d.getHours())}${z(d.getMinutes())}00`
-    const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Maribella//ES\nBEGIN:VEVENT\n` +
+    const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Maribella//${locale.toUpperCase()}\nBEGIN:VEVENT\n` +
       `UID:${Date.now()}@maribellaconexion.com\nDTSTAMP:${fmtDT(new Date())}\nDTSTART:${fmtDT(ini)}\nDTEND:${fmtDT(fin)}\n` +
-      `SUMMARY:Sesión con Maribella\nDESCRIPTION:${giro}. Contacto: ${mail} / +${telFull}\nEND:VEVENT\nEND:VCALENDAR`
+      `SUMMARY:${t('quote.icsSummary')}\nDESCRIPTION:${giro}. ${t('quote.icsContact')}: ${mail} / +${telFull}\nEND:VEVENT\nEND:VCALENDAR`
     const blob = new Blob([ics], { type: 'text/calendar' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
@@ -149,19 +160,19 @@ export default function Cotizador() {
     doc.text('Maribella', foto ? 112 : 40, 58)
     doc.setFont('helvetica', 'normal')
     doc.setFontSize(11)
-    doc.text('Sanar el origen para disfrutar tu presente', foto ? 112 : 40, 78)
+    doc.text(t('quote.tagline'), foto ? 112 : 40, 78)
     let y = 160
     doc.setTextColor(42, 24, 56)
     doc.setFont('times', 'bold')
     doc.setFontSize(17)
-    doc.text(`Tu camino, ${nombre}`, 40, y)
+    doc.text(t('quote.pdfPath', { name: nombre }), 40, y)
     y += 26
     doc.setFont('helvetica', 'normal')
     doc.setFontSize(11)
     doc.setTextColor(122, 106, 133)
-    doc.text(`WhatsApp: +${telFull}   ·   Correo: ${mail}`, 40, y)
+    doc.text(`WhatsApp: +${telFull}   ·   ${t('quote.email')}: ${mail}`, 40, y)
     y += 16
-    doc.text(`Nacimiento: ${cumple}`, 40, y)
+    doc.text(`${t('quote.born')}: ${cumple}`, 40, y)
     y += 34
     doc.setDrawColor(231, 221, 207)
     doc.line(40, y, W - 40, y)
@@ -169,7 +180,7 @@ export default function Cotizador() {
     doc.setTextColor(42, 24, 56)
     doc.setFont('times', 'bold')
     doc.setFontSize(13)
-    doc.text('Tu camino incluye', 40, y)
+    doc.text(t('quote.pdfIncludes'), 40, y)
     y += 22
     chosen.forEach((i) => {
       doc.setFont('helvetica', 'normal')
@@ -177,7 +188,7 @@ export default function Cotizador() {
       doc.text(i.title, 48, y)
       doc.setFont('helvetica', 'bold')
       doc.setTextColor(214, 35, 107)
-      doc.text(formatQuoteAmount(quoteAmount(i.price, region), region), W - 48, y, { align: 'right' })
+      doc.text(money(i.price), W - 48, y, { align: 'right' })
       y += 20
     })
     y += 8
@@ -188,7 +199,7 @@ export default function Cotizador() {
     doc.setFont('times', 'bold')
     doc.setFontSize(15)
     doc.setTextColor(42, 24, 56)
-    doc.text('Inversion estimada', 48, y)
+    doc.text(t('quote.pdfInvest'), 48, y)
     doc.setTextColor(214, 35, 107)
     doc.text(totalLabel, W - 48, y, { align: 'right' })
     y += 38
@@ -198,7 +209,7 @@ export default function Cotizador() {
       doc.setTextColor(42, 24, 56)
       doc.setFont('times', 'bold')
       doc.setFontSize(12)
-      doc.text('Tu sesion agendada', 56, y + 24)
+      doc.text(t('quote.pdfSession'), 56, y + 24)
       doc.setFont('helvetica', 'normal')
       doc.setTextColor(122, 106, 133)
       doc.text(`${fechaTxt(fecha)} · ${hora}`, 56, y + 42)
@@ -221,28 +232,28 @@ export default function Cotizador() {
       {!logged && (
         <div className="cotizador-overlay">
           <div className="cotizador-modal">
-            <p className="eyebrow">Antes de empezar</p>
-            <h2 className="mt-3 font-serif text-3xl text-purple">¿Cómo te gusta que te llamen?</h2>
-            <label className="f" style={{ textAlign: 'left' }}>Nombre</label>
-            <input className="inp" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Tu nombre" />
-            <label className="f" style={{ textAlign: 'left' }}>¿Cuándo naciste?</label>
+            <p className="eyebrow">{t('quote.before')}</p>
+            <h2 className="mt-3 font-serif text-3xl text-purple">{t('quote.howName')}</h2>
+            <label className="f" style={{ textAlign: 'left' }}>{t('quote.name')}</label>
+            <input className="inp" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder={t('quote.namePh')} />
+            <label className="f" style={{ textAlign: 'left' }}>{t('quote.born')}</label>
             <div className="cotizador-bday">
               <select className="sel" value={dia} onChange={(e) => setDia(e.target.value)}>
-                <option value="">Día</option>
+                <option value="">{t('quote.day')}</option>
                 {Array.from({ length: 31 }, (_, i) => i + 1).map((n) => <option key={n} value={n}>{n}</option>)}
               </select>
               <select className="sel" value={mes} onChange={(e) => setMes(e.target.value)}>
-                <option value="">Mes</option>
-                {MESES.map((name, i) => <option key={name} value={i}>{name}</option>)}
+                <option value="">{t('quote.month')}</option>
+                {months.map((name, i) => <option key={name} value={i}>{name}</option>)}
               </select>
             </div>
             <div className="cotizador-avatar">
               <div className="ph">{foto ? <img src={foto} alt="" /> : '🙂'}</div>
               <div>
-                <b>Foto (opcional)</b>
-                <small className="block text-purple/60">Aparece en tu propuesta PDF.</small>
+                <b>{t('quote.photo')}</b>
+                <small className="block text-purple/60">{t('quote.photoHint')}</small>
                 <label className="text-fuchsia text-sm font-semibold cursor-pointer">
-                  Subir foto
+                  {t('quote.upload')}
                   <input
                     type="file"
                     accept="image/*"
@@ -259,7 +270,7 @@ export default function Cotizador() {
               </div>
             </div>
             <button className="btn-primary mt-6 w-full justify-center" disabled={!canLogin} onClick={() => setLogged(true)}>
-              Entrar
+              {t('quote.enter')}
             </button>
           </div>
         </div>
@@ -267,25 +278,25 @@ export default function Cotizador() {
 
       {step === 0 && (
         <div className="cotizador-hero">
-          <span className="cotizador-kicker">Hola, <b>{nombre || 'alma'}</b></span>
+          <span className="cotizador-kicker">{t('quote.hello')} <b>{nombre || t('quote.soul')}</b></span>
           <h1 className="display text-purple">
-            Deja de repetir <em className="italic text-fuchsia">la misma historia</em>
+            {t('quote.h1a')} <em className="italic text-fuchsia">{t('quote.h1b')}</em>
           </h1>
-          <p className="cotizador-sub mt-5">Arma tu propuesta con los precios de tu zona y confírmala por WhatsApp.</p>
+          <p className="cotizador-sub mt-5">{t('quote.heroLead')}</p>
           <div className="cotizador-benes">
-            <div className="cotizador-bene"><h3>Entiende por qué se repite</h3><p>El patrón detrás de lo que vives en pareja, dinero y familia.</p></div>
-            <div className="cotizador-bene"><h3>Suelta lo que no es tuyo</h3><p>Heridas y mandatos que arrastras sin darte cuenta.</p></div>
-            <div className="cotizador-bene"><h3>Vuelve a ti</h3><p>Reconecta con quién eres y con lo que viniste a hacer.</p></div>
+            <div className="cotizador-bene"><h3>{t('quote.b1t')}</h3><p>{t('quote.b1d')}</p></div>
+            <div className="cotizador-bene"><h3>{t('quote.b2t')}</h3><p>{t('quote.b2d')}</p></div>
+            <div className="cotizador-bene"><h3>{t('quote.b3t')}</h3><p>{t('quote.b3d')}</p></div>
           </div>
-          <button className="btn-primary w-full sm:w-auto" onClick={() => setStep(1)}>Empezar mi camino →</button>
+          <button className="btn-primary w-full sm:w-auto" onClick={() => setStep(1)}>{t('quote.start')}</button>
         </div>
       )}
 
       {step === 1 && (
         <>
           <div className="cotizador-wizhead">
-            <h2>Cuéntame de ti</h2>
-            <p className="cotizador-sub">Con esto preparo tu propuesta y te escribo por WhatsApp.</p>
+            <h2>{t('quote.aboutYou')}</h2>
+            <p className="cotizador-sub">{t('quote.aboutLead')}</p>
           </div>
           <div className="cotizador-steps">{[0, 1, 2, 3].map((i) => <div key={i} className={`cotizador-dot${i === 0 ? ' on' : ''}`} />)}</div>
           <div className="cotizador-panel">
@@ -294,18 +305,18 @@ export default function Cotizador() {
               <select className="sel" value={paisIdx} onChange={(e) => setPaisIdx(Number(e.target.value))}>
                 {PAISES.map((p, i) => <option key={p.c} value={i}>{p.f} +{p.d}</option>)}
               </select>
-              <input className="inp" type="tel" inputMode="numeric" placeholder="Tu número" value={tel} onChange={(e) => setTel(e.target.value)} />
+              <input className="inp" type="tel" inputMode="numeric" placeholder={t('quote.phonePh')} value={tel} onChange={(e) => setTel(e.target.value)} />
             </div>
-            {tel && !okTel && <p className="err">Escribe un número de WhatsApp válido.</p>}
-            <label className="f">Correo <span className="req">*</span></label>
+            {tel && !okTel && <p className="err">{t('quote.badPhone')}</p>}
+            <label className="f">{t('quote.email')} <span className="req">*</span></label>
             <input className="inp" type="email" placeholder="tucorreo@ejemplo.com" value={mail} onChange={(e) => setMail(e.target.value)} />
-            {mail && !okMail && <p className="err">Ese correo no parece válido.</p>}
-            <label className="f">¿Qué te trae aquí hoy? <span className="req">*</span></label>
-            <input className="inp" value={giro} onChange={(e) => setGiro(e.target.value)} placeholder="Ej: siento que repito lo mismo en mis relaciones…" />
+            {mail && !okMail && <p className="err">{t('quote.badEmail')}</p>}
+            <label className="f">{t('quote.reason')} <span className="req">*</span></label>
+            <input className="inp" value={giro} onChange={(e) => setGiro(e.target.value)} placeholder={t('quote.reasonPh')} />
           </div>
           <div className="cotizador-nav">
-            <button className="btn-ghost" onClick={() => setStep(0)}>← Atrás</button>
-            <button className="btn-primary" disabled={!canStep1} onClick={() => setStep(2)}>Siguiente →</button>
+            <button className="cotizador-back" onClick={() => setStep(0)}>{t('quote.back')}</button>
+            <button className="btn-primary" disabled={!canStep1} onClick={() => setStep(2)}>{t('quote.next')}</button>
           </div>
         </>
       )}
@@ -313,8 +324,8 @@ export default function Cotizador() {
       {step === 2 && (
         <>
           <div className="cotizador-wizhead">
-            <h2>¿Qué quieres transformar?</h2>
-            <p className="cotizador-sub">Precios según {region === REGION_CO ? 'Colombia (COP)' : 'Estados Unidos (USD)'}.</p>
+            <h2>{t('quote.transform')}</h2>
+            <p className="cotizador-sub">{region === REGION_CO ? t('quote.pricesCo') : t('quote.pricesUs')}</p>
           </div>
           <div className="cotizador-steps">{[0, 1, 2, 3].map((i) => <div key={i} className={`cotizador-dot${i <= 1 ? ' on' : ''}`} />)}</div>
           <div className="cotizador-panel">
@@ -329,20 +340,20 @@ export default function Cotizador() {
                       <h4>{s.title}</h4>
                       <p>{s.desc}</p>
                     </span>
-                    <span className="cotizador-svc-price">{amount != null ? `+ ${formatQuoteAmount(amount, region)}` : 'Consultar'}</span>
+                    <span className="cotizador-svc-price">{amount != null ? `+ ${formatQuoteAmount(amount, region, ask)}` : ask}</span>
                   </button>
                 )
               })}
             </div>
             <div className="cotizador-mini">
-              <div className="text-sm opacity-80">Tu inversión estimada</div>
+              <div className="text-sm opacity-80">{t('quote.estimated')}</div>
               <div className="val">{totalLabel}</div>
             </div>
-            {region !== REGION_CO && <p className="hint mt-3">En EE.UU. usamos el inicio del rango; el alcance se confirma en sesión.</p>}
+            {region !== REGION_CO && <p className="hint mt-3">{t('quote.usHint')}</p>}
           </div>
           <div className="cotizador-nav">
-            <button className="btn-ghost" onClick={() => setStep(1)}>← Atrás</button>
-            <button className="btn-primary" disabled={sel.size === 0} onClick={() => setStep(3)}>Ver mi propuesta →</button>
+            <button className="cotizador-back" onClick={() => setStep(1)}>{t('quote.back')}</button>
+            <button className="btn-primary" disabled={sel.size === 0} onClick={() => setStep(3)}>{t('quote.seeQuote')}</button>
           </div>
         </>
       )}
@@ -350,31 +361,31 @@ export default function Cotizador() {
       {step === 3 && (
         <>
           <div className="cotizador-wizhead">
-            <h2>Tu camino, tu inversión</h2>
-            <p className="cotizador-sub">Todo claro. Tú decides hasta dónde llegar.</p>
+            <h2>{t('quote.pathTitle')}</h2>
+            <p className="cotizador-sub">{t('quote.pathLead')}</p>
           </div>
           <div className="cotizador-steps">{[0, 1, 2, 3].map((i) => <div key={i} className={`cotizador-dot${i <= 2 ? ' on' : ''}`} />)}</div>
           <div className="cotizador-panel">
             <div className="cotizador-total">
-              <div className="text-sm text-purple/60">Inversión estimada</div>
+              <div className="text-sm text-purple/60">{t('quote.invest')}</div>
               <div className="num">{totalLabel}</div>
             </div>
             <div className="mt-6">
               {chosen.map((i) => (
                 <div key={i.id} className="cotizador-drow">
                   <span>{i.title}</span>
-                  <span className="p">{formatQuoteAmount(quoteAmount(i.price, region), region)}</span>
+                  <span className="p">{money(i.price)}</span>
                 </div>
               ))}
               <div className="cotizador-drow sum">
-                <span>Total</span>
+                <span>{t('quote.total')}</span>
                 <span className="p">{totalLabel}</span>
               </div>
             </div>
           </div>
           <div className="cotizador-nav">
-            <button className="btn-ghost" onClick={() => setStep(2)}>← Ajustar</button>
-            <button className="btn-primary" onClick={() => setStep(4)}>Agendar mi sesión →</button>
+            <button className="cotizador-back" onClick={() => setStep(2)}>{t('quote.adjust')}</button>
+            <button className="btn-primary" onClick={() => setStep(4)}>{t('quote.book')}</button>
           </div>
         </>
       )}
@@ -382,20 +393,35 @@ export default function Cotizador() {
       {step === 4 && (
         <>
           <div className="cotizador-wizhead">
-            <h2>Agenda tu sesión</h2>
-            <p className="cotizador-sub">Elige el día y la hora. Luego confirma por WhatsApp.</p>
+            <h2>{t('quote.agenda')}</h2>
+            <p className="cotizador-sub">{t('quote.agendaLead')}</p>
           </div>
           <div className="cotizador-steps">{[0, 1, 2, 3].map((i) => <div key={i} className="cotizador-dot on" />)}</div>
           <div className="cotizador-panel">
             <div className="cotizador-calwrap">
               <div className="cotizador-cal">
                 <div className="cotizador-calnav">
-                  <button type="button" className="btn-ghost !px-3 !py-2" disabled={y === hoy.getFullYear() && m <= hoy.getMonth()} onClick={() => setCalRef(new Date(y, m - 1, 1))}>‹</button>
-                  <b>{MESES[m]} {y}</b>
-                  <button type="button" className="btn-ghost !px-3 !py-2" onClick={() => setCalRef(new Date(y, m + 1, 1))}>›</button>
+                  <button
+                    type="button"
+                    className="cotizador-calbtn"
+                    aria-label="Previous month"
+                    disabled={y === hoy.getFullYear() && m <= hoy.getMonth()}
+                    onClick={() => setCalRef(new Date(y, m - 1, 1))}
+                  >
+                    ‹
+                  </button>
+                  <b>{months[m]} {y}</b>
+                  <button
+                    type="button"
+                    className="cotizador-calbtn"
+                    aria-label="Next month"
+                    onClick={() => setCalRef(new Date(y, m + 1, 1))}
+                  >
+                    ›
+                  </button>
                 </div>
                 <div className="cotizador-calgrid">
-                  {['D', 'L', 'Ma', 'Mi', 'J', 'V', 'S'].map((d) => <div key={d} className="dow">{d === 'Ma' ? 'M' : d === 'Mi' ? 'M' : d}</div>)}
+                  {dow.map((d, i) => <div key={`${d}-${i}`} className="dow">{d}</div>)}
                   {days.map((d, i) => {
                     if (!d) return <div key={`e-${i}`} />
                     const date = new Date(y, m, d)
@@ -416,7 +442,9 @@ export default function Cotizador() {
                 </div>
               </div>
               <div>
-                <h4 className="font-serif text-xl text-purple mb-3">{fecha ? `Horarios para el ${fecha.getDate()} de ${MESES[fecha.getMonth()]}` : 'Elige un día primero'}</h4>
+                <h4 className="font-serif text-xl text-purple mb-3">
+                  {fecha ? t('quote.slotsFor', { d: fecha.getDate(), m: months[fecha.getMonth()] }) : t('quote.pickDay')}
+                </h4>
                 <div className="cotizador-slotgrid">
                   {fecha && HORAS.map((h) => (
                     <button key={h} type="button" className={`cotizador-slot${hora === h ? ' sel' : ''}`} onClick={() => setHora(h)}>{h}</button>
@@ -426,30 +454,30 @@ export default function Cotizador() {
             </div>
           </div>
           <div className="cotizador-nav">
-            <button className="btn-ghost" onClick={() => setStep(3)}>← Atrás</button>
-            <button className="btn-primary" disabled={!(fecha && hora)} onClick={confirmar}>Confirmar mi sesión →</button>
+            <button className="cotizador-back" onClick={() => setStep(3)}>{t('quote.back')}</button>
+            <button className="btn-primary" disabled={!(fecha && hora)} onClick={confirmar}>{t('quote.confirm')}</button>
           </div>
         </>
       )}
 
       {step === 5 && (
         <div className="cotizador-done">
-          <p className="eyebrow">Reserva lista</p>
-          <h2 className="mt-3 font-serif text-4xl text-purple">Tu lugar está reservado, {nombre}</h2>
-          <p className="cotizador-sub mt-3">Descarga tu propuesta y confírmame por WhatsApp para asegurar el espacio.</p>
+          <p className="eyebrow">{t('quote.ready')}</p>
+          <h2 className="mt-3 font-serif text-4xl text-purple">{t('quote.reserved', { name: nombre })}</h2>
+          <p className="cotizador-sub mt-3">{t('quote.readyLead')}</p>
           <div className="cotizador-resumen">
-            <div className="r"><span>Nombre</span><span>{nombre}</span></div>
+            <div className="r"><span>{t('quote.name')}</span><span>{nombre}</span></div>
             <div className="r"><span>WhatsApp</span><span>+{telFull}</span></div>
-            <div className="r"><span>Correo</span><span>{mail}</span></div>
-            <div className="r"><span>Qué te trae</span><span>{giro}</span></div>
-            <div className="r"><span>Tu camino</span><span>{chosen.map((s) => s.title).join(', ')}</span></div>
-            <div className="r"><span>Inversión</span><span>{totalLabel}</span></div>
-            <div className="r"><span>Sesión</span><span>{fecha && hora ? `${fechaTxt(fecha)} · ${hora}` : ''}</span></div>
+            <div className="r"><span>{t('quote.email')}</span><span>{mail}</span></div>
+            <div className="r"><span>{t('quote.whatBrings')}</span><span>{giro}</span></div>
+            <div className="r"><span>{t('quote.yourPath')}</span><span>{chosen.map((s) => s.title).join(', ')}</span></div>
+            <div className="r"><span>{t('quote.invest')}</span><span>{totalLabel}</span></div>
+            <div className="r"><span>{t('quote.session')}</span><span>{fecha && hora ? `${fechaTxt(fecha)} · ${hora}` : ''}</span></div>
           </div>
           <div className="cotizador-acts">
-            <button className="btn-primary w-full justify-center" onClick={enviarWhatsApp}>Confirmar por WhatsApp</button>
-            <button className="btn-ghost w-full justify-center" onClick={descargarPDF}>Descargar mi propuesta en PDF</button>
-            <button className="btn-ghost w-full justify-center" onClick={agendarCalendario}>Agregar a mi calendario</button>
+            <button className="btn-primary w-full justify-center" onClick={enviarWhatsApp}>{t('quote.waConfirm')}</button>
+            <button className="btn-ghost w-full justify-center" onClick={descargarPDF}>{t('quote.pdf')}</button>
+            <button className="btn-ghost w-full justify-center" onClick={agendarCalendario}>{t('quote.calendar')}</button>
           </div>
         </div>
       )}
