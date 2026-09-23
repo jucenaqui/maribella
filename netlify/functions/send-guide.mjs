@@ -17,7 +17,7 @@ export async function handler(event) {
   const apiKey = process.env.RESEND_API_KEY
   if (!apiKey) {
     return json(501, {
-      error: 'Falta RESEND_API_KEY. Configúrala en Netlify para enviar la guía por correo.',
+      error: 'El envío por correo aún no está configurado en el servidor.',
     })
   }
 
@@ -37,7 +37,7 @@ export async function handler(event) {
   if (!pdfRes.ok) return json(500, { error: 'No se pudo leer el PDF de la guía' })
   const pdfBase64 = Buffer.from(await pdfRes.arrayBuffer()).toString('base64')
 
-  const from = process.env.GUIDE_FROM || 'Maribella <beth.t@example.com>'
+  const from = process.env.GUIDE_FROM || 'Maribella <noreply@maribellaconexion.com>'
   const sent = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
