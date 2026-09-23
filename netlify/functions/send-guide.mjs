@@ -8,6 +8,23 @@ function json(statusCode, body) {
   }
 }
 
+function publicError(resendText) {
+  const raw = String(resendText || '')
+  if (/only send testing emails/i.test(raw)) {
+    return 'Resend sigue en modo prueba: por ahora solo envía al correo de esa cuenta.'
+  }
+  if (/invalid api key|unauthorized/i.test(raw)) {
+    return 'La clave de envío no es válida. Revisa RESEND_API_KEY en Netlify.'
+  }
+  if (/domain is not verified|from domain/i.test(raw)) {
+    return 'El dominio de envío no está verificado en Resend.'
+  }
+  if (/from/i.test(raw) && /invalid|must/i.test(raw)) {
+    return 'El remitente GUIDE_FROM no está autorizado en Resend.'
+  }
+  return 'No se pudo enviar el correo'
+}
+
 export async function handler(event) {
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 204, headers: { 'Access-Control-Allow-Origin': '*' } }
@@ -31,13 +48,13 @@ export async function handler(event) {
     return json(400, { error: 'Correo inválido' })
   }
 
-  const origin = process.env.URL || process.env.DEPLOY_PRIME_URL || 'https://maribellaconexion.com'
-  const pdfUrl = `${origin.replace(/\/$/, '')}/guia-patrones-familiares.pdf`
-  const pdfRes = await fetch(pdfUrl)
-  if (!pdfRes.ok) return json(500, { error: 'No se pudo leer el PDF de la guía' })
-  const pdfBase64 = Buffer.from(await pdfRes.arrayBuffer()).toString('base64')
+  const origin = (process.env.URL || process.env.DEPLOY_PRIME_URL || 'https://maribellaconexion.com').replace(
+    /\/$/,
+    '',
+  )
+  const pdfUrl = `${origin}/guia-patrones-familiares.pdf`
+  const from = process.env.GUIDE_FROM || 'Maribella <hola@maribellaconexion.com>'
 
-  const from = process.env.GUIDE_FROM || 'Maribella <noreply@maribellaconexion.com>'
   const sent = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -58,7 +75,7 @@ export async function handler(event) {
       attachments: [
         {
           filename: 'Guia-patrones-familiares-Maribella.pdf',
-          content: pdfBase64,
+          path: pdfUrl,
         },
       ],
     }),
@@ -66,7 +83,8 @@ export async function handler(event) {
 
   if (!sent.ok) {
     const detail = await sent.text()
-    return json(502, { error: 'No se pudo enviar el correo', detail })
+    console.error('resend', sent.status, detail.slice(0, 500))
+    return json(502, { error: publicError(detail) })
   }
 
   return json(200, { ok: true })
