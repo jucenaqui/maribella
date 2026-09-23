@@ -1,4 +1,6 @@
 const SITE_EMAIL = 'maribellaconexion@gmail.com'
+const FROM = 'Maribella <hola@maribellaconexion.com>'
+const PDF_URL = 'https://maribellaconexion.com/guia-patrones-familiares.pdf'
 
 function json(statusCode, body) {
   return {
@@ -8,21 +10,48 @@ function json(statusCode, body) {
   }
 }
 
-function publicError(resendText) {
-  const raw = String(resendText || '')
-  if (/only send testing emails/i.test(raw)) {
-    return 'Resend sigue en modo prueba: por ahora solo envía al correo de esa cuenta.'
+function configuredFrom() {
+  const raw = String(process.env.GUIDE_FROM || '')
+    .trim()
+    .replace(/^['"]|['"]$/g, '')
+  return /@maribellaconexion\.com>/i.test(raw) || /@maribellaconexion\.com$/i.test(raw) ? raw : FROM
+}
+
+function resendMessage(text) {
+  try {
+    const parsed = JSON.parse(text)
+    const msg = parsed.message ?? parsed.error ?? parsed.name
+    if (Array.isArray(msg)) return msg.map((item) => item.message || item).join(' ')
+    if (msg && typeof msg === 'object') return JSON.stringify(msg)
+    return String(msg || text)
+  } catch {
+    return String(text || '')
   }
-  if (/invalid api key|unauthorized/i.test(raw)) {
+}
+
+function publicError(text) {
+  const raw = resendMessage(text).replace(/re_[A-Za-z0-9]+/g, '[key]').slice(0, 280)
+  if (/only send testing emails|not (yet )?verified|own email/i.test(raw)) {
+    return 'Resend sigue en modo prueba o el dominio no está listo. En Resend revisa Domains y envía primero al correo de esa cuenta.'
+  }
+  if (/invalid api key|unauthorized|restricted_api_key/i.test(raw)) {
     return 'La clave de envío no es válida. Revisa RESEND_API_KEY en Netlify.'
   }
-  if (/domain is not verified|from domain/i.test(raw)) {
-    return 'El dominio de envío no está verificado en Resend.'
-  }
-  if (/from/i.test(raw) && /invalid|must/i.test(raw)) {
-    return 'El remitente GUIDE_FROM no está autorizado en Resend.'
-  }
+  if (raw && !/bearer|authorization/i.test(raw)) return raw
   return 'No se pudo enviar el correo'
+}
+
+async function sendResend(apiKey, payload) {
+  const sent = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+  const detail = await sent.text()
+  return { ok: sent.ok, status: sent.status, detail }
 }
 
 export async function handler(event) {
@@ -48,44 +77,41 @@ export async function handler(event) {
     return json(400, { error: 'Correo inválido' })
   }
 
-  const origin = (process.env.URL || process.env.DEPLOY_PRIME_URL || 'https://maribellaconexion.com').replace(
-    /\/$/,
-    '',
-  )
-  const pdfUrl = `${origin}/guia-patrones-familiares.pdf`
-  const from = process.env.GUIDE_FROM || 'Maribella <hola@maribellaconexion.com>'
+  const from = configuredFrom()
+  const html = `<p>Hola,</p>
+<p>Gracias por pedirme la guía. La encuentras adjunta y también en este enlace:</p>
+<p><a href="${PDF_URL}">${PDF_URL}</a></p>
+<p>Con cariño,<br>Maribella</p>`
 
-  const sent = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from,
-      to: [email],
-      bcc: [SITE_EMAIL],
-      reply_to: SITE_EMAIL,
-      subject: 'Tu guía de Maribella: patrones familiares repetitivos',
-      html: `<p>Hola,</p>
-<p>Gracias por pedirme la guía. Te la adjunto en este correo.</p>
-<p>Si no ves el archivo, también puedes abrirla aquí:<br>
-<a href="${pdfUrl}">${pdfUrl}</a></p>
-<p>Con cariño,<br>Maribella</p>`,
-      attachments: [
-        {
-          filename: 'Guia-patrones-familiares-Maribella.pdf',
-          path: pdfUrl,
-        },
-      ],
-    }),
+  const base = {
+    from,
+    to: [email],
+    reply_to: SITE_EMAIL,
+    subject: 'Tu guía de Maribella: patrones familiares repetitivos',
+    html,
+  }
+
+  let result = await sendResend(apiKey, {
+    ...base,
+    attachments: [{ filename: 'Guia-patrones-familiares-Maribella.pdf', path: PDF_URL }],
   })
 
-  if (!sent.ok) {
-    const detail = await sent.text()
-    console.error('resend', sent.status, detail.slice(0, 500))
-    return json(502, { error: publicError(detail) })
+  if (!result.ok) {
+    console.error('resend-with-pdf', result.status, result.detail.slice(0, 500))
+    result = await sendResend(apiKey, base)
   }
+
+  if (!result.ok) {
+    console.error('resend', result.status, result.detail.slice(0, 500))
+    return json(502, { error: publicError(result.detail) })
+  }
+
+  sendResend(apiKey, {
+    from,
+    to: [SITE_EMAIL],
+    subject: `Nueva solicitud de guía: ${email}`,
+    html: `<p>${email} pidió la guía de patrones familiares.</p>`,
+  }).catch((err) => console.error('notify', err))
 
   return json(200, { ok: true })
 }
