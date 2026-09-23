@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { EMAIL, GUIDE_PDF } from '../data'
+import { EMAIL } from '../data'
 
 const lessons = [
   { n: '01', t: '¿Por qué se repite lo mismo en tu linaje?', d: 'Micro-lección sobre lealtades invisibles y el “no tengo derecho a estar mejor que…”.' },
@@ -7,30 +7,21 @@ const lessons = [
   { n: '03', t: 'Tu carta no te condena', d: 'Astrología terapéutica: ciclos, no fatalismo. Leer el momento, no el miedo.' },
 ]
 
-function downloadGuide() {
-  const link = document.createElement('a')
-  link.href = GUIDE_PDF
-  link.download = 'Guia-patrones-familiares-Maribella.pdf'
-  link.rel = 'noopener'
-  document.body.appendChild(link)
-  link.click()
-  link.remove()
-}
-
-async function notifyLead(email) {
-  const body = new URLSearchParams()
-  body.set('form-name', 'guia')
-  body.set('email', email)
-  await fetch('/', {
+async function sendGuide(email) {
+  const res = await fetch('/.netlify/functions/send-guide', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: body.toString(),
-    signal: AbortSignal.timeout(4000),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
   })
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok) {
+    throw new Error(data.error || 'No se pudo enviar la guía')
+  }
 }
 
 export default function Recursos() {
   const [status, setStatus] = useState('idle')
+  const [error, setError] = useState('')
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-16">
@@ -50,31 +41,25 @@ export default function Recursos() {
         </div>
         {status === 'sent' ? (
           <p className="flex items-center font-serif text-2xl text-beige">
-            La guía se está descargando. Revisa tu carpeta de descargas.
+            Listo. Revisa tu correo — también la carpeta de spam.
           </p>
         ) : (
           <form
             className="flex flex-col justify-center gap-3"
-            name="guia"
-            method="POST"
-            data-netlify="true"
-            netlify-honeypot="bot-field"
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault()
               const email = e.currentTarget.email.value.trim()
+              setError('')
               setStatus('sending')
-              downloadGuide()
-              notifyLead(email).catch(() => {})
-              setStatus('sent')
+              try {
+                await sendGuide(email)
+                setStatus('sent')
+              } catch (err) {
+                setStatus('idle')
+                setError(err.message || 'No se pudo enviar. Inténtalo de nuevo.')
+              }
             }}
           >
-            <input type="hidden" name="form-name" value="guia" />
-            <p className="hidden" aria-hidden="true">
-              <label>
-                No completar
-                <input name="bot-field" tabIndex={-1} autoComplete="off" />
-              </label>
-            </p>
             <input
               name="email"
               type="email"
@@ -85,8 +70,9 @@ export default function Recursos() {
             <button className="btn-primary" type="submit" disabled={status === 'sending'}>
               {status === 'sending' ? 'Enviando…' : 'Recibir la guía'}
             </button>
+            {error ? <p className="text-xs text-fuchsia">{error}</p> : null}
             <p className="text-xs text-beige/50">
-              El PDF se descarga al instante. El correo se registra para enviarte novedades a {EMAIL}.
+              Te enviamos el PDF a tu correo. También llega una copia a {EMAIL}.
             </p>
           </form>
         )}
