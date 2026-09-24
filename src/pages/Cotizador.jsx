@@ -6,7 +6,7 @@ import { useLocale } from '../context/LocaleContext'
 import { useCatalog } from '../lib/catalog'
 import { WHATSAPP_NUMBER } from '../data'
 import { formatQuoteAmount, quoteAmount, REGION_CO } from '../lib/region'
-import { dateKey, formatSlotLabel, icsStamp, isPastDay, SESSION_MINUTES } from '../lib/schedule'
+import { dateKey, formatSlotLabel, icsStamp, isPastDay, SESSION_MINUTES, SESSION_TZ } from '../lib/schedule'
 import { createCalBooking, fetchCalSlots } from '../lib/cal'
 import '../styles/cotizador.css'
 
@@ -170,22 +170,44 @@ export default function Cotizador() {
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(resumenTexto())}`, '_blank')
   }
 
-  function agendarCalendario() {
-    if (!fecha || !hora) return
+  function sessionBounds() {
+    if (!hora) return null
     const picked = daySlots.find((slot) => slot.start === hora)
-    const startStamp = icsStamp(hora)
-    const endStamp = picked?.end ? icsStamp(picked.end) : icsStamp(hora, SESSION_MINUTES)
-    const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Maribella//${locale.toUpperCase()}\nBEGIN:VEVENT\n` +
-      `UID:${Date.now()}@maribellaconexion.com\nDTSTAMP:${icsStamp(new Date().toISOString())}\n` +
-      `DTSTART;TZID=America/Bogota:${startStamp}\nDTEND;TZID=America/Bogota:${endStamp}\n` +
-      `SUMMARY:${t('quote.icsSummary')}\nDESCRIPTION:${giro}. ${t('quote.icsContact')}: ${mail} / +${telFull}\nEND:VEVENT\nEND:VCALENDAR`
-    const blob = new Blob([ics], { type: 'text/calendar' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'sesion-maribella.ics'
-    a.click()
-    URL.revokeObjectURL(url)
+    const start = icsStamp(hora)
+    const end = picked?.end ? icsStamp(picked.end) : icsStamp(hora, SESSION_MINUTES)
+    const iso = (stamp) => `${stamp.slice(0, 4)}-${stamp.slice(4, 6)}-${stamp.slice(6, 8)}T${stamp.slice(9, 11)}:${stamp.slice(11, 13)}:${stamp.slice(13, 15)}`
+    return { start, end, isoStart: iso(start), isoEnd: iso(end) }
+  }
+
+  function calendarDetails() {
+    return `${giro}. ${t('quote.icsContact')}: ${mail} / +${telFull}`
+  }
+
+  function abrirGoogleCalendar() {
+    const bounds = sessionBounds()
+    if (!bounds) return
+    const params = new URLSearchParams({
+      action: 'TEMPLATE',
+      text: t('quote.icsSummary'),
+      dates: `${bounds.start}/${bounds.end}`,
+      ctz: SESSION_TZ,
+      details: calendarDetails(),
+    })
+    window.open(`https://calendar.google.com/calendar/render?${params}`, '_blank', 'noopener')
+  }
+
+  function abrirOutlook() {
+    const bounds = sessionBounds()
+    if (!bounds) return
+    const params = new URLSearchParams({
+      path: '/calendar/action/compose',
+      rru: 'addevent',
+      subject: t('quote.icsSummary'),
+      startdt: bounds.isoStart,
+      enddt: bounds.isoEnd,
+      body: calendarDetails(),
+    })
+    window.open(`https://outlook.live.com/calendar/0/deeplink/compose?${params}`, '_blank', 'noopener')
   }
 
   function descargarPDF() {
@@ -559,9 +581,10 @@ export default function Cotizador() {
             <div className="r"><span>{t('quote.session')}</span><span>{fecha && hora ? `${fechaTxt(fecha)} · ${horaLabel}` : ''}</span></div>
           </div>
           <div className="cotizador-acts">
-            <button className="btn-primary w-full justify-center" onClick={enviarWhatsApp}>{t('quote.waConfirm')}</button>
-            <button className="btn-ghost w-full justify-center" onClick={descargarPDF}>{t('quote.pdf')}</button>
-            <button className="btn-ghost w-full justify-center" onClick={agendarCalendario}>{t('quote.calendar')}</button>
+            <button className="btn-primary w-full justify-center" onClick={descargarPDF}>{t('quote.pdf')}</button>
+            <button className="btn-ghost w-full justify-center" onClick={abrirGoogleCalendar}>{t('quote.googleCal')}</button>
+            <button className="btn-ghost w-full justify-center" onClick={abrirOutlook}>{t('quote.outlookCal')}</button>
+            <button className="btn-ghost w-full justify-center" onClick={enviarWhatsApp}>{t('quote.waConfirm')}</button>
           </div>
         </div>
       )}
