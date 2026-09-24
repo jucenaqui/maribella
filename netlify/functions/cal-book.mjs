@@ -1,3 +1,38 @@
+function flattenError(payload) {
+  if (!payload) return ''
+  if (typeof payload === 'string') return payload
+  const parts = []
+  const walk = (value) => {
+    if (!value) return
+    if (typeof value === 'string') {
+      parts.push(value)
+      return
+    }
+    if (Array.isArray(value)) {
+      value.forEach(walk)
+      return
+    }
+    if (typeof value === 'object') {
+      walk(value.message)
+      walk(value.error)
+      walk(value.details)
+    }
+  }
+  walk(payload)
+  return parts.join(' ')
+}
+
+function classifyError(payload) {
+  const text = flattenError(payload)
+  if (/maximum number of active bookings|already has an? (active )?booking|can't book because/i.test(text)) {
+    return 'already-booked'
+  }
+  if (/conflict|already booked|slot.*taken|no longer available|not available/i.test(text)) {
+    return 'slot-taken'
+  }
+  return 'failed'
+}
+
 function json(statusCode, body) {
   return {
     statusCode,
@@ -6,30 +41,15 @@ function json(statusCode, body) {
   }
 }
 
-function publicError(payload) {
-  const raw = typeof payload === 'string' ? payload : JSON.stringify(payload || {})
-  const msg = String(raw)
-    .replace(/cal_[A-Za-z0-9_]+/g, '[key]')
-    .replace(/Bearer\s+\S+/gi, '[auth]')
-    .slice(0, 280)
-  if (/unauthorized|api key|forbidden/i.test(msg)) {
-    return 'Cal.com rechazó la reserva. Revisa que el evento esté público.'
-  }
-  if (/conflict|already booked|slot.*taken|no longer available/i.test(msg)) {
-    return 'Ese horario ya no está disponible. Elige otro.'
-  }
-  return msg || 'No se pudo crear la cita en Cal.com.'
-}
-
 export async function handler(event) {
   if (event.httpMethod === 'OPTIONS') return json(204, {})
-  if (event.httpMethod !== 'POST') return json(405, { ok: false, error: 'Method not allowed' })
+  if (event.httpMethod !== 'POST') return json(405, { ok: false, code: 'failed' })
 
   let body
   try {
     body = JSON.parse(event.body || '{}')
   } catch {
-    return json(400, { ok: false, error: 'JSON inválido' })
+    return json(400, { ok: false, code: 'failed' })
   }
 
   const start = body.start
@@ -40,7 +60,7 @@ export async function handler(event) {
   const phone = String(body.phone || '').trim()
   const notes = String(body.notes || '').slice(0, 500)
   if (!start || !name || !email) {
-    return json(400, { ok: false, error: 'Faltan start, name o email' })
+    return json(400, { ok: false, code: 'failed' })
   }
 
   const payload = {
@@ -81,7 +101,7 @@ export async function handler(event) {
     if (!res.ok) {
       return json(res.status >= 400 && res.status < 600 ? res.status : 502, {
         ok: false,
-        error: publicError(data.error || data.message || data),
+        code: classifyError(data),
       })
     }
     return json(201, {
@@ -90,6 +110,6 @@ export async function handler(event) {
       status: data?.data?.status || data?.status || 'accepted',
     })
   } catch {
-    return json(502, { ok: false, error: 'Cal.com no respondió' })
+    return json(502, { ok: false, code: 'failed' })
   }
 }

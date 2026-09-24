@@ -143,7 +143,12 @@ export default function Cotizador() {
         servicios: chosen.map((s) => s.title).join(', '),
       })
     } catch (err) {
-      setBookError(err.message || t('quote.bookError'))
+      const code = err?.code
+      setBookError(t(
+        code === 'already-booked' ? 'quote.alreadyBooked'
+          : code === 'slot-taken' ? 'quote.slotTaken'
+            : 'quote.bookError',
+      ))
       setBooking(false)
       return
     }
@@ -478,7 +483,7 @@ export default function Cotizador() {
                         type="button"
                         className={`cotizador-day${off ? ' off' : ''}${isSel ? ' sel' : ''}`}
                         disabled={off}
-                        onClick={() => { setFecha(date); setHora(null) }}
+                        onClick={() => { setFecha(date); setHora(null); setBookError('') }}
                       >
                         {d}
                       </button>
@@ -496,7 +501,7 @@ export default function Cotizador() {
                       key={slot.start}
                       type="button"
                       className={`cotizador-slot${hora === slot.start ? ' sel' : ''}`}
-                      onClick={() => setHora(slot.start)}
+                      onClick={() => { setHora(slot.start); setBookError('') }}
                     >
                       {formatSlotLabel(slot.start)}
                     </button>
@@ -508,11 +513,11 @@ export default function Cotizador() {
               </div>
             </div>
           </div>
-          {bookError ? <p className="hint mt-4 text-center">{bookError}</p> : null}
+          {bookError ? <p className="cotizador-alert" role="alert">{bookError}</p> : null}
           <div className="cotizador-nav">
-            <button className="cotizador-back" onClick={() => setStep(3)}>{t('quote.back')}</button>
+            <button className="cotizador-back" onClick={() => setStep(3)} disabled={booking}>{t('quote.back')}</button>
             <button className="btn-primary" disabled={!(fecha && hora) || booking} onClick={confirmar}>
-              {booking ? t('quote.booking') : t('quote.confirm')}
+              {t('quote.confirm')}
             </button>
           </div>
         </>

@@ -66,7 +66,15 @@ export async function createCalBooking(payload) {
   })
   const data = await res.json().catch(() => ({}))
   if (!res.ok || data.ok === false) {
-    throw new Error(data.error || 'No se pudo crear la cita en Cal.com.')
+    const blob = `${data.code || ''} ${typeof data.error === 'string' ? data.error : ''}`
+    const code = /already-booked|maximum number of active bookings|can't book because/i.test(blob)
+      ? 'already-booked'
+      : /slot-taken|no longer available|conflict/i.test(blob)
+        ? 'slot-taken'
+        : 'failed'
+    const err = new Error(code)
+    err.code = code
+    throw err
   }
   return data
 }
