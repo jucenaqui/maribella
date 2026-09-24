@@ -57,3 +57,16 @@ export async function fetchCalSlots(start, end) {
   }
   return fallbackMonth(start, end)
 }
+
+export async function createCalBooking(payload) {
+  const res = await fetch('/api/cal-book', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok || data.ok === false) {
+    throw new Error(data.error || 'No se pudo crear la cita en Cal.com.')
+  }
+  return data
+}

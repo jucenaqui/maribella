@@ -4,7 +4,7 @@
 
 [build.environment]
   NODE_VERSION = "18"
-  SECRETS_SCAN_OMIT_KEYS = "RESEND_API_KEY,GUIDE_FROM"
+  SECRETS_SCAN_OMIT_KEYS = "RESEND_API_KEY,GUIDE_FROM,CAL_API_KEY"
 
 [[redirects]]
   from = "/api/send-guide"
@@ -14,6 +14,11 @@
 [[redirects]]
   from = "/api/cal-slots"
   to = "/.netlify/functions/cal-slots"
+  status = 200
+
+[[redirects]]
+  from = "/api/cal-book"
+  to = "/.netlify/functions/cal-book"
   status = 200
 
 [[redirects]]

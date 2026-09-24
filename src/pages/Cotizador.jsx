@@ -7,7 +7,7 @@ import { useCatalog } from '../lib/catalog'
 import { WHATSAPP_NUMBER } from '../data'
 import { formatQuoteAmount, quoteAmount, REGION_CO } from '../lib/region'
 import { dateKey, formatSlotLabel, icsStamp, isPastDay, SESSION_MINUTES } from '../lib/schedule'
-import { fetchCalSlots } from '../lib/cal'
+import { createCalBooking, fetchCalSlots } from '../lib/cal'
 import '../styles/cotizador.css'
 
 const PAISES = [
@@ -57,6 +57,8 @@ export default function Cotizador() {
   const [hora, setHora] = useState(null)
   const [slotMap, setSlotMap] = useState({})
   const [slotsReady, setSlotsReady] = useState(false)
+  const [booking, setBooking] = useState(false)
+  const [bookError, setBookError] = useState('')
 
   useEffect(() => {
     setPaisIdx(region === REGION_CO ? 0 : 2)
@@ -123,7 +125,28 @@ export default function Cotizador() {
       `${t('quote.investLine')}: ${totalLabel}\n${t('quote.sessionLine')}: ${fecha ? fechaTxt(fecha) : ''} ${t('quote.at')} ${horaLabel || ''}`
   }
 
-  function confirmar() {
+  async function confirmar() {
+    if (!fecha || !hora || booking) return
+    setBookError('')
+    setBooking(true)
+    try {
+      await createCalBooking({
+        start: hora,
+        name: nombre.trim(),
+        email: mail.trim(),
+        timeZone: 'America/Bogota',
+        language: locale,
+        phone: `+${telFull}`,
+        whatsapp: `+${telFull}`,
+        notes: `${giro}\n${chosen.map((s) => s.title).join(', ')}\n${totalLabel}`.trim(),
+        inversion: totalLabel,
+        servicios: chosen.map((s) => s.title).join(', '),
+      })
+    } catch (err) {
+      setBookError(err.message || t('quote.bookError'))
+      setBooking(false)
+      return
+    }
     try {
       const leads = JSON.parse(localStorage.getItem('maribella_leads') || '[]')
       leads.push({
@@ -139,6 +162,7 @@ export default function Cotizador() {
       servicios: chosen.map((s) => s.title).join(', '), inversion: totalLabel,
       sesion: fecha && hora ? `${fechaTxt(fecha)} · ${horaLabel}` : '',
     })
+    setBooking(false)
     setStep(5)
   }
 
@@ -484,9 +508,12 @@ export default function Cotizador() {
               </div>
             </div>
           </div>
+          {bookError ? <p className="hint mt-4 text-center">{bookError}</p> : null}
           <div className="cotizador-nav">
             <button className="cotizador-back" onClick={() => setStep(3)}>{t('quote.back')}</button>
-            <button className="btn-primary" disabled={!(fecha && hora)} onClick={confirmar}>{t('quote.confirm')}</button>
+            <button className="btn-primary" disabled={!(fecha && hora) || booking} onClick={confirmar}>
+              {booking ? t('quote.booking') : t('quote.confirm')}
+            </button>
           </div>
         </>
       )}
