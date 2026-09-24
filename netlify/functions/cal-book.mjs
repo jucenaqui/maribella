@@ -33,7 +33,27 @@ function classifyError(payload) {
   return 'failed'
 }
 
-function json(statusCode, body) {
+function toUtcStart(value) {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return value
+  return date.toISOString().replace(/\.\d{3}Z$/, 'Z')
+}
+
+function bogotaSessionLine(value) {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return ''
+  const formatted = new Intl.DateTimeFormat('es-CO', {
+    timeZone: 'America/Bogota',
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  }).format(date)
+  return `Sesión: ${formatted} (hora de Bogotá)`
+}
   return {
     statusCode,
     headers: { 'Content-Type': 'application/json' },
@@ -55,7 +75,6 @@ export async function handler(event) {
   const start = body.start
   const name = String(body.name || '').trim()
   const email = String(body.email || '').trim()
-  const timeZone = String(body.timeZone || 'America/Bogota')
   const language = body.language === 'en' ? 'en' : 'es'
   const phone = String(body.phone || '').trim()
   const notes = String(body.notes || '').slice(0, 500)
@@ -64,18 +83,18 @@ export async function handler(event) {
   }
 
   const payload = {
-    start: new Date(start).toISOString(),
+    start: toUtcStart(start),
     eventTypeSlug: 'sesion-maribella',
     username: 'maribella',
     attendee: {
       name,
       email,
-      timeZone,
+      timeZone: 'America/Bogota',
       language,
       ...(phone ? { phoneNumber: phone.startsWith('+') ? phone : `+${phone}` } : {}),
     },
     bookingFieldsResponses: {
-      notes,
+      notes: [bogotaSessionLine(start), notes].filter(Boolean).join('\n').slice(0, 500),
     },
     metadata: {
       whatsapp: String(body.whatsapp || '').slice(0, 40),
