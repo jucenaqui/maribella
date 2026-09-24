@@ -6,7 +6,7 @@ import { quizGift, quizQuestions, quizResult } from '../i18n/quiz'
 import '../styles/tu-terapia.css'
 
 const SHEET_ENDPOINT =
-  'https://script.google.com/macros/s/AKfycbxZnRJaqICFl3JxY1XKupIV92--qcP0pKsrWmWN2Q5DQHykFnx3SwKep_Qkk9OBm9Q/exec'
+  'https://script.google.com/macros/s/AKfycbyLXc5mnmF6dK8D2m62fzbCjjeamcmP3TG_GSkajgtpQh5isXpWHILGe86JaKCnEn9P/exec'
 
 const PAISES = [
   { c: 'CO', d: '57', f: '🇨🇴' }, { c: 'MX', d: '52', f: '🇲🇽' }, { c: 'US', d: '1', f: '🇺🇸' },
