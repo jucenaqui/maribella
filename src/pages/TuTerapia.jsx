@@ -48,8 +48,7 @@ function notifyNetlify(payload) {
 
 function GiftLine({ text }) {
   const parts = String(text).split(/\{\/?b\}/)
-  if (parts.length < 3) return text
-  return <>{parts[0]}<b>{parts[1]}</b>{parts[2]}</>
+  return parts.map((part, idx) => (idx % 2 === 1 ? <b key={idx}>{part}</b> : <span key={idx}>{part}</span>))
 }
 
 export default function TuTerapia() {
@@ -171,6 +170,8 @@ export default function TuTerapia() {
   const Q = QUESTIONS[i]
   const R = outcome ? quizResult(outcome.top, locale) : null
   const gift = outcome ? quizGift(outcome.top, locale) : null
+  const tallerGift = quizGift('taller', locale)
+  const wantsGroup = Boolean(outcome && (outcome.scores.taller || 0) >= 3)
   const secondName = outcome && outcome.scores[outcome.second] > 0 ? quizResult(outcome.second, locale).name : ''
 
   const waHref = useMemo(() => {
@@ -180,12 +181,13 @@ export default function TuTerapia() {
       t('quiz.wa2', { therapy: R.name }),
     ]
     if (giro.trim()) lines.push(t('quiz.wa3', { giro: giro.trim() }))
+    if (wantsGroup) lines.push(t('quiz.waGroup'))
     let dl = t('quiz.wa4', { tel: telFull, mail: mail.trim() })
     if (nacimiento) dl += t('quiz.waBorn', { born: nacimiento })
     lines.push(`${dl}.`)
     lines.push(t('quiz.wa5'))
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`
-  }, [R, nombre, giro, telFull, mail, nacimiento, t])
+  }, [R, nombre, giro, telFull, mail, nacimiento, t, wantsGroup])
 
   return (
     <div className="tu-terapia">
@@ -322,6 +324,17 @@ export default function TuTerapia() {
             <p className="secondary">
               {t('quiz.also')} <b>{secondName}</b>.
             </p>
+          ) : null}
+
+          {wantsGroup ? (
+            <div className="taller-note">
+              <div>
+                <span><GiftLine text={t('quiz.tallerNote')} /></span>
+                <a className="taller-dl" href={tallerGift.file} download={tallerGift.file.replace(/^\//, '')}>
+                  {t('quiz.tallerDl')}
+                </a>
+              </div>
+            </div>
           ) : null}
 
           <div className="gift">

@@ -333,6 +333,48 @@
   line-height: 1.5;
 }
 
+.tu-terapia .taller-note {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: var(--crema);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-top: 18px;
+  text-align: left;
+}
+
+.tu-terapia .taller-note > div {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.tu-terapia .taller-note span {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.tu-terapia .taller-note b {
+  color: var(--morado);
+  font-weight: 600;
+}
+
+.tu-terapia .taller-dl {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  text-decoration: none;
+  background: var(--morado);
+  color: var(--paper2);
+  font-weight: 600;
+  font-size: 13.5px;
+  border-radius: 999px;
+  padding: 9px 18px;
+  min-height: 40px;
+}
+
 .tu-terapia .gift {
   background: linear-gradient(135deg, #502d73, #7a3b78);
   border-radius: 18px;
