@@ -46,14 +46,6 @@ function notifyNetlify(payload) {
   }).catch(() => {})
 }
 
-function sendGuide(email) {
-  return fetch('/.netlify/functions/send-guide', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email }),
-  }).catch(() => {})
-}
-
 function GiftLine({ text }) {
   const parts = String(text).split(/\{\/?b\}/)
   if (parts.length < 3) return text
@@ -75,7 +67,6 @@ export default function TuTerapia() {
   const [tel, setTel] = useState('')
   const [mail, setMail] = useState('')
   const [giro, setGiro] = useState('')
-  const [guideStatus, setGuideStatus] = useState('idle')
 
   useEffect(() => {
     try {
@@ -172,10 +163,6 @@ export default function TuTerapia() {
       giro: giro.trim(),
       terapia: R.name,
       segunda: seg,
-    })
-    setGuideStatus('sending')
-    sendGuide(mail.trim()).then((res) => {
-      setGuideStatus(res && res.ok ? 'sent' : 'error')
     })
     setScreen('result')
     window.scrollTo(0, 0)
@@ -339,13 +326,7 @@ export default function TuTerapia() {
           <div className="gift">
             <div className="gk">{t('quiz.giftK')}</div>
             <div className="gt">{t('quiz.giftT')}</div>
-            <p className="gd">
-              {guideStatus === 'sent'
-                ? t('quiz.giftSent')
-                : guideStatus === 'sending'
-                  ? t('quiz.giftSending')
-                  : t('quiz.giftIdle')}
-            </p>
+            <p className="gd">{t('quiz.giftIdle')}</p>
             <a className="dl" href={GUIDE_PDF} download="guia-patrones-familiares-maribella.pdf">
               {t('quiz.openGuide')}
             </a>
@@ -364,7 +345,6 @@ export default function TuTerapia() {
               setI(0)
               setAnswers([])
               setLeadId('')
-              setGuideStatus('idle')
             }}
           >
             {t('quiz.restart')}
