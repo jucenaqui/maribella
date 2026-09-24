@@ -17,8 +17,35 @@ function pad(n) {
   return String(n).padStart(2, '0')
 }
 
-export function slotKey(slot) {
-  return `${pad(slot.hour)}:${pad(slot.minute)}`
+export function dateKey(date) {
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+}
+
+export function formatSlotLabel(iso) {
+  if (!iso) return ''
+  const formatted = new Intl.DateTimeFormat('en-US', {
+    timeZone: SESSION_TZ,
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  }).format(new Date(iso))
+  return formatted.replace(/\s?AM/i, ' a.m.').replace(/\s?PM/i, ' p.m.').replace(/\s+/g, ' ').trim()
+}
+
+export function icsStamp(iso, extraMinutes = 0) {
+  const date = extraMinutes ? new Date(new Date(iso).getTime() + extraMinutes * 60000) : new Date(iso)
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: SESSION_TZ,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hourCycle: 'h23',
+  }).formatToParts(date)
+  const get = (type) => parts.find((p) => p.type === type)?.value
+  return `${get('year')}${get('month')}${get('day')}T${get('hour')}${get('minute')}${get('second')}`
 }
 
 export function slotLabel(slot) {

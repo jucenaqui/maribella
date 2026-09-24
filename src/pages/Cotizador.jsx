@@ -6,7 +6,8 @@ import { useLocale } from '../context/LocaleContext'
 import { useCatalog } from '../lib/catalog'
 import { WHATSAPP_NUMBER } from '../data'
 import { formatQuoteAmount, quoteAmount, REGION_CO } from '../lib/region'
-import { isOpenDay, isPastDay, parseSlot, SESSION_MINUTES, slotsForDate } from '../lib/schedule'
+import { dateKey, formatSlotLabel, icsStamp, isPastDay, SESSION_MINUTES } from '../lib/schedule'
+import { fetchCalSlots } from '../lib/cal'
 import '../styles/cotizador.css'
 
 const PAISES = [
@@ -54,6 +55,8 @@ export default function Cotizador() {
   })
   const [fecha, setFecha] = useState(null)
   const [hora, setHora] = useState(null)
+  const [slotMap, setSlotMap] = useState({})
+  const [slotsReady, setSlotsReady] = useState(false)
 
   useEffect(() => {
     setPaisIdx(region === REGION_CO ? 0 : 2)
@@ -62,6 +65,23 @@ export default function Cotizador() {
   useEffect(() => {
     if (preset) setSel(new Set([preset]))
   }, [preset])
+
+  useEffect(() => {
+    if (step < 4) return undefined
+    const start = `${calRef.getFullYear()}-${String(calRef.getMonth() + 1).padStart(2, '0')}-01`
+    const last = new Date(calRef.getFullYear(), calRef.getMonth() + 1, 0).getDate()
+    const end = `${calRef.getFullYear()}-${String(calRef.getMonth() + 1).padStart(2, '0')}-${String(last).padStart(2, '0')}`
+    let live = true
+    setSlotsReady(false)
+    fetchCalSlots(start, end).then((map) => {
+      if (!live) return
+      setSlotMap(map)
+      setSlotsReady(true)
+    })
+    return () => {
+      live = false
+    }
+  }, [step, calRef])
 
   const pais = PAISES[paisIdx]
   const telFull = `${pais.d}${tel.replace(/\D/g, '')}`
@@ -72,6 +92,8 @@ export default function Cotizador() {
   const canLogin = nombre.trim() && dia !== '' && mes !== ''
   const canStep1 = okTel && okMail && okGiro
 
+  const horaLabel = formatSlotLabel(hora)
+  const daySlots = fecha ? (slotMap[dateKey(fecha)] || []) : []
   const chosen = useMemo(() => quoteCatalog.filter((s) => sel.has(s.id)), [quoteCatalog, sel])
   const total = chosen.reduce((sum, s) => sum + (quoteAmount(s.price, region) || 0), 0)
   const totalLabel = formatQuoteAmount(total, region, ask)
@@ -98,7 +120,7 @@ export default function Cotizador() {
     return `${t('quote.waBody')}\n\n` +
       `${t('quote.name')}: ${nombre}\n${t('quote.bornOn')}: ${cumple}\nWhatsApp: +${telFull}\n${t('quote.email')}: ${mail}\n` +
       `${t('quote.reasonLine')}: ${giro}\n\n${t('quote.myPath')}:\n${servs || `• ${t('quote.pending')}`}\n\n` +
-      `${t('quote.investLine')}: ${totalLabel}\n${t('quote.sessionLine')}: ${fecha ? fechaTxt(fecha) : ''} ${t('quote.at')} ${hora || ''}`
+      `${t('quote.investLine')}: ${totalLabel}\n${t('quote.sessionLine')}: ${fecha ? fechaTxt(fecha) : ''} ${t('quote.at')} ${horaLabel || ''}`
   }
 
   function confirmar() {
@@ -115,7 +137,7 @@ export default function Cotizador() {
     notifyLead({
       nombre, cumple, whatsapp: `+${telFull}`, email: mail, giro,
       servicios: chosen.map((s) => s.title).join(', '), inversion: totalLabel,
-      sesion: fecha && hora ? `${fechaTxt(fecha)} · ${hora}` : '',
+      sesion: fecha && hora ? `${fechaTxt(fecha)} · ${horaLabel}` : '',
     })
     setStep(5)
   }
@@ -126,14 +148,12 @@ export default function Cotizador() {
 
   function agendarCalendario() {
     if (!fecha || !hora) return
-    const slot = parseSlot(hora)
-    if (!slot) return
-    const ini = new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate(), slot.hour, slot.minute)
-    const fin = new Date(ini.getTime() + SESSION_MINUTES * 60000)
-    const z = (n) => String(n).padStart(2, '0')
-    const fmtDT = (d) => `${d.getFullYear()}${z(d.getMonth() + 1)}${z(d.getDate())}T${z(d.getHours())}${z(d.getMinutes())}00`
+    const picked = daySlots.find((slot) => slot.start === hora)
+    const startStamp = icsStamp(hora)
+    const endStamp = picked?.end ? icsStamp(picked.end) : icsStamp(hora, SESSION_MINUTES)
     const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Maribella//${locale.toUpperCase()}\nBEGIN:VEVENT\n` +
-      `UID:${Date.now()}@maribellaconexion.com\nDTSTAMP:${fmtDT(new Date())}\nDTSTART:${fmtDT(ini)}\nDTEND:${fmtDT(fin)}\n` +
+      `UID:${Date.now()}@maribellaconexion.com\nDTSTAMP:${icsStamp(new Date().toISOString())}\n` +
+      `DTSTART;TZID=America/Bogota:${startStamp}\nDTEND;TZID=America/Bogota:${endStamp}\n` +
       `SUMMARY:${t('quote.icsSummary')}\nDESCRIPTION:${giro}. ${t('quote.icsContact')}: ${mail} / +${telFull}\nEND:VEVENT\nEND:VCALENDAR`
     const blob = new Blob([ics], { type: 'text/calendar' })
     const url = URL.createObjectURL(blob)
@@ -212,7 +232,7 @@ export default function Cotizador() {
       doc.text(t('quote.pdfSession'), 56, y + 24)
       doc.setFont('helvetica', 'normal')
       doc.setTextColor(122, 106, 133)
-      doc.text(`${fechaTxt(fecha)} · ${hora}`, 56, y + 42)
+      doc.text(`${fechaTxt(fecha)} · ${horaLabel}`, 56, y + 42)
     }
     doc.save(`propuesta-${nombre || 'maribella'}.pdf`)
   }
@@ -425,7 +445,8 @@ export default function Cotizador() {
                   {days.map((d, i) => {
                     if (!d) return <div key={`e-${i}`} />
                     const date = new Date(y, m, d)
-                    const off = isPastDay(date, hoy) || !isOpenDay(date)
+                    const key = dateKey(date)
+                    const off = isPastDay(date, hoy) || (slotsReady && !(slotMap[key]?.length))
                     const isSel = fecha && fecha.getTime() === date.getTime()
                     return (
                       <button
@@ -446,11 +467,18 @@ export default function Cotizador() {
                   {fecha ? t('quote.slotsFor', { d: fecha.getDate(), m: months[fecha.getMonth()] }) : t('quote.pickDay')}
                 </h4>
                 <div className="cotizador-slotgrid">
-                  {fecha && slotsForDate(fecha, hoy).map((h) => (
-                    <button key={h} type="button" className={`cotizador-slot${hora === h ? ' sel' : ''}`} onClick={() => setHora(h)}>{h}</button>
+                  {fecha && daySlots.map((slot) => (
+                    <button
+                      key={slot.start}
+                      type="button"
+                      className={`cotizador-slot${hora === slot.start ? ' sel' : ''}`}
+                      onClick={() => setHora(slot.start)}
+                    >
+                      {formatSlotLabel(slot.start)}
+                    </button>
                   ))}
                 </div>
-                {fecha && slotsForDate(fecha, hoy).length === 0 ? (
+                {fecha && slotsReady && daySlots.length === 0 ? (
                   <p className="hint mt-3">{t('quote.noSlots')}</p>
                 ) : null}
               </div>
@@ -475,7 +503,7 @@ export default function Cotizador() {
             <div className="r"><span>{t('quote.whatBrings')}</span><span>{giro}</span></div>
             <div className="r"><span>{t('quote.yourPath')}</span><span>{chosen.map((s) => s.title).join(', ')}</span></div>
             <div className="r"><span>{t('quote.invest')}</span><span>{totalLabel}</span></div>
-            <div className="r"><span>{t('quote.session')}</span><span>{fecha && hora ? `${fechaTxt(fecha)} · ${hora}` : ''}</span></div>
+            <div className="r"><span>{t('quote.session')}</span><span>{fecha && hora ? `${fechaTxt(fecha)} · ${horaLabel}` : ''}</span></div>
           </div>
           <div className="cotizador-acts">
             <button className="btn-primary w-full justify-center" onClick={enviarWhatsApp}>{t('quote.waConfirm')}</button>
