@@ -328,7 +328,7 @@ export default function TuTerapia() {
             <div className="gk">{t('quiz.giftK')}</div>
             <div className="gt">{gift.title}</div>
             <p className="gd">{gift.desc}</p>
-            <a className="dl" href={gift.file} download>
+            <a className="dl" href={gift.file} download={gift.file.replace(/^\//, '')}>
               {t('quiz.openGuide')}
             </a>
           </div>
