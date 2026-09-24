@@ -5,6 +5,7 @@
 [build.environment]
   NODE_VERSION = "18"
   SECRETS_SCAN_OMIT_KEYS = "RESEND_API_KEY,GUIDE_FROM,CAL_API_KEY"
+  SECRETS_SCAN_OMIT_PATHS = "**/*.pdf,**/*.mp4,public/**,dist/**"
 
 [[redirects]]
   from = "/api/send-guide"
