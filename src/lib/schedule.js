@@ -4,8 +4,9 @@ export const SESSION_MINUTES = 75
 /** Lunes a viernes. 0 = domingo, 6 = sábado. */
 export const OPEN_WEEKDAYS = [1, 2, 3, 4, 5]
 
-/** Inicios de sesión, hora de Bogotá: 6:00 p.m. a 9:00 p.m. */
+/** Inicios de sesión, hora de Bogotá: 5:00 p.m. a 9:00 p.m. */
 export const BOOKING_SLOTS = [
+  { hour: 17, minute: 0 },
   { hour: 18, minute: 0 },
   { hour: 19, minute: 0 },
   { hour: 20, minute: 0 },
