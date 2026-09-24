@@ -54,6 +54,8 @@ function bogotaSessionLine(value) {
   }).format(date)
   return `Sesión: ${formatted} (hora de Bogotá)`
 }
+
+function json(statusCode, body) {
   return {
     statusCode,
     headers: { 'Content-Type': 'application/json' },
