@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { GUIDE_PDF, WHATSAPP_NUMBER } from '../data'
+import { WHATSAPP_NUMBER } from '../data'
 import { useLocale } from '../context/LocaleContext'
-import { quizQuestions, quizResult } from '../i18n/quiz'
+import { quizGift, quizQuestions, quizResult } from '../i18n/quiz'
 import '../styles/tu-terapia.css'
 
 const SHEET_ENDPOINT =
@@ -170,6 +170,7 @@ export default function TuTerapia() {
 
   const Q = QUESTIONS[i]
   const R = outcome ? quizResult(outcome.top, locale) : null
+  const gift = outcome ? quizGift(outcome.top, locale) : null
   const secondName = outcome && outcome.scores[outcome.second] > 0 ? quizResult(outcome.second, locale).name : ''
 
   const waHref = useMemo(() => {
@@ -325,9 +326,9 @@ export default function TuTerapia() {
 
           <div className="gift">
             <div className="gk">{t('quiz.giftK')}</div>
-            <div className="gt">{t('quiz.giftT')}</div>
-            <p className="gd">{t('quiz.giftIdle')}</p>
-            <a className="dl" href={GUIDE_PDF} download="guia-patrones-familiares-maribella.pdf">
+            <div className="gt">{gift.title}</div>
+            <p className="gd">{gift.desc}</p>
+            <a className="dl" href={gift.file} download>
               {t('quiz.openGuide')}
             </a>
           </div>

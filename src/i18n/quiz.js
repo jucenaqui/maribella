@@ -118,6 +118,46 @@ export const QUIZ_RESULTS = {
   },
 }
 
+export const QUIZ_GIFTS = {
+  cons: {
+    file: '/guia-patrones-familiares-maribella.pdf',
+    es: { title: 'Guía: Patrones familiares repetitivos', desc: 'Para reconocer eso que se repite en tu historia y empezar a soltarlo.' },
+    en: { title: 'Guide: Repeating family patterns', desc: 'To recognize what repeats in your story and begin to let it go.' },
+  },
+  feng: {
+    file: '/guia-feng-shui-maribella.pdf',
+    es: { title: 'Guía de Feng Shui: limpia tu casa en un fin de semana', desc: 'Un método simple para despejar tu espacio y devolverle el flujo.' },
+    en: { title: 'Feng Shui guide: clear your home in a weekend', desc: 'A simple method to clear your space and bring the flow back.' },
+  },
+  astro: {
+    file: '/guia-astrologia-maribella.pdf',
+    es: { title: 'Guía: Tus 3 llaves — Sol, Luna y Ascendente', desc: 'Descubre las tres piezas que mejor explican quién eres.' },
+    en: { title: 'Guide: Your 3 keys — Sun, Moon and Ascendant', desc: 'Discover the three pieces that best explain who you are.' },
+  },
+  acomp: {
+    file: '/guia-acompanamiento-maribella.pdf',
+    es: { title: 'Guía: 5 anclas para los días de ansiedad o vacío', desc: 'Prácticas sencillas para volver a ti cuando todo pesa.' },
+    en: { title: 'Guide: 5 anchors for days of anxiety or emptiness', desc: 'Simple practices to come back to yourself when everything feels heavy.' },
+  },
+  akas: {
+    file: '/guia-akashicos-maribella.pdf',
+    es: { title: 'Guía: Preguntas para tu alma', desc: 'Cómo prepararte para una lectura akáshica y qué preguntar.' },
+    en: { title: 'Guide: Questions for your soul', desc: 'How to prepare for an akashic reading and what to ask.' },
+  },
+  angel: {
+    file: '/guia-angelicales-maribella.pdf',
+    es: { title: 'Ritual de calma y protección', desc: 'Una práctica breve para serenar el corazón y sentirte acompañada.' },
+    en: { title: 'Ritual of calm and protection', desc: 'A short practice to soothe the heart and feel accompanied.' },
+  },
+  taller: {
+    file: '/guia-talleres-maribella.pdf',
+    es: { title: 'Guía: Sanar en compañía', desc: 'Cómo saber si es tu momento de un proceso grupal y qué esperar.' },
+    en: { title: 'Guide: Healing in company', desc: 'How to know if it is your moment for a group process and what to expect.' },
+  },
+}
+
+const GIFT_FALLBACK = QUIZ_GIFTS.cons
+
 export function quizQuestions(lang) {
   const en = lang === 'en'
   return QUIZ_WEIGHTS.map((q) => ({
@@ -131,4 +171,10 @@ export function quizResult(key, lang) {
   const item = QUIZ_RESULTS[key]
   const copy = lang === 'en' ? item.en : item.es
   return { ...copy, next: item.next }
+}
+
+export function quizGift(key, lang) {
+  const item = QUIZ_GIFTS[key] || GIFT_FALLBACK
+  const copy = lang === 'en' ? item.en : item.es
+  return { ...copy, file: item.file }
 }
