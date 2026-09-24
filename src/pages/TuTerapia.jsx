@@ -347,7 +347,12 @@ export default function TuTerapia() {
           </div>
 
           <div className="cta">
-            <a className="wa" href={waHref} target="_blank" rel="noreferrer">{t('quiz.write')}</a>
+            <a className="wa" href={waHref} target="_blank" rel="noreferrer">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M21 15.5c-2.5 0-4.9-.8-6.9-2.3a11 11 0 0 1-3.3-3.3C9.3 7.9 8.5 5.5 8.5 3a1.5 1.5 0 0 0-1.5-1.5H4A1.5 1.5 0 0 0 2.5 3 18.5 18.5 0 0 0 21 21.5a1.5 1.5 0 0 0 1.5-1.5V17a1.5 1.5 0 0 0-1.5-1.5z" />
+              </svg>
+              {t('quiz.write')}
+            </a>
             <Link className="alt" to="/cotizador">{t('quiz.quote')}</Link>
           </div>
           <p className="disclaimer">{t('quiz.disclaimer')}</p>

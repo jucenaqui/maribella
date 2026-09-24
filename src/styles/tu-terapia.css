@@ -438,9 +438,13 @@
   max-width: 360px;
 }
 .tu-terapia .cta a.wa {
-  background: var(--magenta);
+  background: #bf4e83;
   color: #fff;
   padding: 15px 30px;
+  font-size: 16px;
+}
+.tu-terapia .cta a.wa:hover {
+  background: #a33a6d;
 }
 .tu-terapia .cta a.alt {
   background: #fff;
