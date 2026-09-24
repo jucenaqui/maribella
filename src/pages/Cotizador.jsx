@@ -6,6 +6,7 @@ import { useLocale } from '../context/LocaleContext'
 import { useCatalog } from '../lib/catalog'
 import { WHATSAPP_NUMBER } from '../data'
 import { formatQuoteAmount, quoteAmount, REGION_CO } from '../lib/region'
+import { isOpenDay, isPastDay, parseSlot, SESSION_MINUTES, slotsForDate } from '../lib/schedule'
 import '../styles/cotizador.css'
 
 const PAISES = [
@@ -13,8 +14,6 @@ const PAISES = [
   { c: 'ES', d: '34', f: '🇪🇸' }, { c: 'AR', d: '54', f: '🇦🇷' }, { c: 'PE', d: '51', f: '🇵🇪' },
   { c: 'CL', d: '56', f: '🇨🇱' }, { c: 'EC', d: '593', f: '🇪🇨' }, { c: 'VE', d: '58', f: '🇻🇪' },
 ]
-const HORAS = ['9:00 a.m.', '10:00 a.m.', '11:00 a.m.', '12:00 m.', '2:00 p.m.', '3:00 p.m.', '4:00 p.m.', '5:00 p.m.']
-const HORAS24 = { '9:00 a.m.': 9, '10:00 a.m.': 10, '11:00 a.m.': 11, '12:00 m.': 12, '2:00 p.m.': 14, '3:00 p.m.': 15, '4:00 p.m.': 16, '5:00 p.m.': 17 }
 
 function notifyLead(payload) {
   const body = new URLSearchParams()
@@ -127,9 +126,10 @@ export default function Cotizador() {
 
   function agendarCalendario() {
     if (!fecha || !hora) return
-    const h = HORAS24[hora]
-    const ini = new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate(), h, 0)
-    const fin = new Date(ini.getTime() + 75 * 60000)
+    const slot = parseSlot(hora)
+    if (!slot) return
+    const ini = new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate(), slot.hour, slot.minute)
+    const fin = new Date(ini.getTime() + SESSION_MINUTES * 60000)
     const z = (n) => String(n).padStart(2, '0')
     const fmtDT = (d) => `${d.getFullYear()}${z(d.getMonth() + 1)}${z(d.getDate())}T${z(d.getHours())}${z(d.getMinutes())}00`
     const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Maribella//${locale.toUpperCase()}\nBEGIN:VEVENT\n` +
@@ -425,7 +425,7 @@ export default function Cotizador() {
                   {days.map((d, i) => {
                     if (!d) return <div key={`e-${i}`} />
                     const date = new Date(y, m, d)
-                    const off = date < hoy || date.getDay() === 0
+                    const off = isPastDay(date, hoy) || !isOpenDay(date)
                     const isSel = fecha && fecha.getTime() === date.getTime()
                     return (
                       <button
@@ -446,10 +446,13 @@ export default function Cotizador() {
                   {fecha ? t('quote.slotsFor', { d: fecha.getDate(), m: months[fecha.getMonth()] }) : t('quote.pickDay')}
                 </h4>
                 <div className="cotizador-slotgrid">
-                  {fecha && HORAS.map((h) => (
+                  {fecha && slotsForDate(fecha, hoy).map((h) => (
                     <button key={h} type="button" className={`cotizador-slot${hora === h ? ' sel' : ''}`} onClick={() => setHora(h)}>{h}</button>
                   ))}
                 </div>
+                {fecha && slotsForDate(fecha, hoy).length === 0 ? (
+                  <p className="hint mt-3">{t('quote.noSlots')}</p>
+                ) : null}
               </div>
             </div>
           </div>
