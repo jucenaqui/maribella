@@ -198,13 +198,15 @@
 }
 
 .cotizador-alert {
-  margin: 1rem 0 0;
-  padding: 0.95rem 1rem 1.05rem;
+  margin: 0.85rem auto 0;
+  max-width: 720px;
+  padding: 0.7rem 0.9rem;
   border-radius: 14px;
-  background: #fdecef;
-  color: #7a2444;
-  font-size: 0.9rem;
-  line-height: 1.45;
+  background: rgba(255, 252, 247, 0.72);
+  border: 1px solid var(--c-linea);
+  color: var(--c-gris);
+  font-size: 0.82rem;
+  line-height: 1.4;
   text-align: center;
 }
 
@@ -216,12 +218,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 0.85rem;
-  padding: 0.7rem 1.2rem;
+  margin-top: 0.55rem;
+  padding: 0.45rem 0.95rem;
   border-radius: 999px;
   background: #25d366;
   color: #fff;
-  font-size: 0.86rem;
+  font-size: 0.78rem;
   font-weight: 600;
 }
 
