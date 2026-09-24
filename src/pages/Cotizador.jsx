@@ -582,9 +582,12 @@ export default function Cotizador() {
           </div>
           <div className="cotizador-acts">
             <button className="btn-primary w-full justify-center" onClick={descargarPDF}>{t('quote.pdf')}</button>
-            <button className="btn-ghost w-full justify-center" onClick={abrirGoogleCalendar}>{t('quote.googleCal')}</button>
-            <button className="btn-ghost w-full justify-center" onClick={abrirOutlook}>{t('quote.outlookCal')}</button>
-            <button className="btn-ghost w-full justify-center" onClick={enviarWhatsApp}>{t('quote.waConfirm')}</button>
+            <p className="cotizador-acts-label">{t('quote.calendarGroup')}</p>
+            <div className="cotizador-acts-row">
+              <button className="btn-ghost justify-center" onClick={abrirGoogleCalendar}>{t('quote.googleCal')}</button>
+              <button className="btn-ghost justify-center" onClick={abrirOutlook}>{t('quote.outlookCal')}</button>
+            </div>
+            <button type="button" className="cotizador-acts-link" onClick={enviarWhatsApp}>{t('quote.waConfirm')}</button>
           </div>
         </div>
       )}

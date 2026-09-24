@@ -600,6 +600,43 @@
   gap: 0.7rem;
 }
 
+.cotizador-acts-label {
+  margin: 0.45rem 0 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-gris);
+}
+
+.cotizador-acts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+
+.cotizador-acts-row .btn-ghost {
+  width: 100%;
+  min-width: 0;
+}
+
+.cotizador-acts-link {
+  margin-top: 0.15rem;
+  padding: 0.35rem;
+  border: 0;
+  background: none;
+  color: var(--c-fucsia);
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.cotizador-acts-link:hover {
+  color: var(--c-morado);
+}
+
 .cotizador-bday {
   display: flex;
   flex-direction: column;
