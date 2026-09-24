@@ -143,12 +143,7 @@ export default function Cotizador() {
         servicios: chosen.map((s) => s.title).join(', '),
       })
     } catch (err) {
-      const code = err?.code
-      setBookError(t(
-        code === 'already-booked' ? 'quote.alreadyBooked'
-          : code === 'slot-taken' ? 'quote.slotTaken'
-            : 'quote.bookError',
-      ))
+      setBookError(err?.code === 'already-booked' || err?.code === 'slot-taken' ? err.code : 'failed')
       setBooking(false)
       return
     }
@@ -513,7 +508,33 @@ export default function Cotizador() {
               </div>
             </div>
           </div>
-          {bookError ? <p className="cotizador-alert" role="alert">{bookError}</p> : null}
+          {bookError ? (
+            <div className="cotizador-alert" role="alert">
+              <p>
+                {t(
+                  bookError === 'already-booked' ? 'quote.alreadyBooked'
+                    : bookError === 'slot-taken' ? 'quote.slotTaken'
+                      : 'quote.bookError',
+                )}
+              </p>
+              {bookError === 'already-booked' ? (
+                <a
+                  className="cotizador-alert-wa"
+                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+                    t('quote.waReschedule', {
+                      name: nombre.trim(),
+                      mail: mail.trim(),
+                      sesion: fecha && hora ? `${fechaTxt(fecha)} ${t('quote.at')} ${horaLabel}` : '',
+                    }),
+                  )}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {t('quote.rescheduleWa')}
+                </a>
+              ) : null}
+            </div>
+          ) : null}
           <div className="cotizador-nav">
             <button className="cotizador-back" onClick={() => setStep(3)} disabled={booking}>{t('quote.back')}</button>
             <button className="btn-primary" disabled={!(fecha && hora) || booking} onClick={confirmar}>
