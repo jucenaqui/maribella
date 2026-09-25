@@ -10,6 +10,7 @@ import Recursos from './pages/Recursos.jsx'
 import Cotizador from './pages/Cotizador.jsx'
 import Voces from './pages/Voces.jsx'
 import TuTerapia from './pages/TuTerapia.jsx'
+import Integracion from './pages/Integracion.jsx'
 
 function Page({ theme, children }) {
   return <Layout theme={theme}>{children}</Layout>
@@ -27,6 +28,7 @@ export default function App() {
       <Route path="/contacto" element={<Page theme="light"><Contacto /></Page>} />
       <Route path="/mentoria" element={<Page theme="dark"><Mentoria /></Page>} />
       <Route path="/taller" element={<Page theme="dark"><Taller /></Page>} />
+      <Route path="/integracion" element={<Page theme="light"><Integracion /></Page>} />
       <Route path="/recursos" element={<Page theme="dark"><Recursos /></Page>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

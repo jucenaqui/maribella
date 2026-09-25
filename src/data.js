@@ -8,6 +8,7 @@ export const GUIDE_PDF = '/guia-patrones-familiares-maribella.pdf'
 export const nav = [
   { to: '/', key: 'nav.home' },
   { to: '/servicios', key: 'nav.services' },
+  { to: '/integracion', key: 'nav.integration' },
   { to: '/tu-terapia', key: 'nav.therapy' },
   { to: '/cotizador', key: 'nav.quote' },
   { to: '/voces', key: 'nav.voices' },
@@ -20,6 +21,7 @@ export const nav = [
 
 export const navPrimary = [
   { to: '/servicios', key: 'nav.services' },
+  { to: '/integracion', key: 'nav.integration' },
   { to: '/tu-terapia', key: 'nav.therapy' },
   { to: '/cotizador', key: 'nav.quote' },
   { to: '/contacto', key: 'nav.contact' },
@@ -40,6 +42,7 @@ export const navGroups = [
       { to: '/voces', key: 'nav.voices' },
       { to: '/mentoria', key: 'nav.mentorship' },
       { to: '/taller', key: 'nav.workshop' },
+      { to: '/integracion', key: 'nav.integration' },
       { to: '/recursos', key: 'nav.resources' },
     ],
   },
