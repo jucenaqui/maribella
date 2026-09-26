@@ -82,17 +82,17 @@ export const QUIZ_WEIGHTS = [
 
 export const QUIZ_RESULTS = {
   cons: {
-    next: '/cotizador?servicio=constelaciones',
+    next: 'https://wa.me/573127442664',
     es: { name: 'Constelaciones Familiares', tag: 'Desenreda lo que se repite', desc: 'Miramos el sistema familiar al que perteneces para reconocer los patrones, lealtades y cargas que arrastras sin darte cuenta. Al devolver a cada quien su lugar, lo que se repetía empieza a soltarse y recuperas tu propia fuerza.', why: 'Tus respuestas apuntan a ciclos y cargas con raíz familiar. Este es el trabajo que va directo a esa raíz.' },
     en: { name: 'Family Constellations', tag: 'Untangle what repeats', desc: 'We look at the family system you belong to, to recognize patterns, loyalties and loads you carry without noticing. By giving each person their place, what was repeating begins to release and you recover your own strength.', why: 'Your answers point to cycles and loads with a family root. This is the work that goes straight there.' },
   },
   astro: {
-    next: '/cotizador?servicio=astrologia',
+    next: 'https://wa.me/573127442664',
     es: { name: 'Astrología Terapéutica', tag: 'Tu carta como mapa, no como horóscopo', desc: 'Leemos tu carta natal como un mapa de tu forma de ser, tus ciclos y tu potencial. Es una herramienta para reconocerte, entender el momento que atraviesas y reencontrar tu dirección cuando sientes que vives en automático.', why: 'Buscas conocerte y encontrar sentido. La astrología terapéutica te da un lenguaje para leerte con más claridad.' },
     en: { name: 'Therapeutic Astrology', tag: 'Your chart as a map, not a horoscope', desc: 'We read your natal chart as a map of how you are, your cycles and your potential. It is a tool to recognize yourself, understand this moment and find direction again when you feel you live on autopilot.', why: 'You want to know yourself and find meaning. Therapeutic astrology gives you a language to read yourself more clearly.' },
   },
   akas: {
-    next: '/cotizador',
+    next: 'https://wa.me/573127442664',
     es: { name: 'Registros Akáshicos', tag: 'Preguntas de alma y propósito', desc: 'Una lectura del registro de tu alma para las preguntas más profundas: por qué estás aquí, qué viniste a aprender y qué patrones traes de más atrás. Un espacio para el sentido, más allá de lo material.', why: 'Lo que te mueve son preguntas de propósito y trascendencia. Los registros abren justo esa puerta.' },
     en: { name: 'Akashic Records', tag: 'Soul and purpose questions', desc: 'A reading of your soul’s record for the deeper questions: why you are here, what you came to learn and which patterns you bring from further back. A space for meaning, beyond the material.', why: 'What moves you are questions of purpose and transcendence. The records open exactly that door.' },
   },
@@ -102,12 +102,12 @@ export const QUIZ_RESULTS = {
     en: { name: 'Integrative Therapeutic Accompaniment', tag: 'Someone who walks beside you', desc: 'A close process sustained over time to move through anxiety, emptiness or change. Not a quick answer, but ongoing accompaniment that weaves tools as you need them.', why: 'You describe a moment that asks for holding and continuity, not an isolated session. This accompaniment is that base.' },
   },
   feng: {
-    next: '/cotizador?servicio=feng-shui',
+    next: 'https://wa.me/573127442664',
     es: { name: 'Feng Shui · Armonización de Espacios', tag: 'Tu entorno también sana', desc: 'Tu casa u oficina influyen en tu ánimo, tus relaciones y tu prosperidad más de lo que crees. Limpiamos y reordenamos la energía de tu espacio para que deje de drenarte y vuelva a acompañarte.', why: 'Señalaste que tu espacio pesa o te afecta. El feng shui trabaja exactamente ahí, en tu entorno.' },
     en: { name: 'Feng Shui · Space Harmonization', tag: 'Your environment heals too', desc: 'Your home or office influence mood, relationships and prosperity more than you think. We clean and reorder the energy of your space so it stops draining you and begins to support you again.', why: 'You pointed to space that feels heavy or affecting. Feng shui works exactly there, in your environment.' },
   },
   angel: {
-    next: '/cotizador?servicio=angelical',
+    next: 'https://wa.me/573127442664',
     es: { name: 'Terapias Angelicales', tag: 'Sostén desde lo trascendente', desc: 'Un espacio de conexión, protección y paz espiritual para cuando necesitas apoyarte en algo más grande. Un acompañamiento suave para recuperar la calma y la confianza.', why: 'Buscas paz y sostén espiritual. Esta terapia te ofrece ese refugio y esa conexión.' },
     en: { name: 'Angel Therapies', tag: 'Holding from the transcendent', desc: 'A space of connection, protection and spiritual peace when you need to lean on something larger. Gentle accompaniment to recover calm and trust.', why: 'You seek peace and spiritual holding. This therapy offers that refuge and that connection.' },
   },

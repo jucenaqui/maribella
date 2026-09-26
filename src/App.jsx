@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { WHATSAPP } from './data'
 import Layout from './components/Layout.jsx'
 import Home from './pages/Home.jsx'
 import Servicios from './pages/Servicios.jsx'
@@ -7,7 +9,6 @@ import Contacto from './pages/Contacto.jsx'
 import Mentoria from './pages/Mentoria.jsx'
 import Taller from './pages/Taller.jsx'
 import Recursos from './pages/Recursos.jsx'
-import Cotizador from './pages/Cotizador.jsx'
 import Voces from './pages/Voces.jsx'
 import TuTerapia from './pages/TuTerapia.jsx'
 import Integracion from './pages/Integracion.jsx'
@@ -16,12 +17,19 @@ function Page({ theme, children }) {
   return <Layout theme={theme}>{children}</Layout>
 }
 
+function ToWhatsApp() {
+  useEffect(() => {
+    window.location.replace(WHATSAPP)
+  }, [])
+  return null
+}
+
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Page theme="light"><Home /></Page>} />
       <Route path="/servicios" element={<Page theme="light"><Servicios /></Page>} />
-      <Route path="/cotizador" element={<Page theme="light"><Cotizador /></Page>} />
+      <Route path="/cotizador" element={<ToWhatsApp />} />
       <Route path="/tu-terapia" element={<Page theme="light"><TuTerapia /></Page>} />
       <Route path="/sobre" element={<Page theme="light"><Sobre /></Page>} />
       <Route path="/voces" element={<Page theme="light"><Voces /></Page>} />

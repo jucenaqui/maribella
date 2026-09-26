@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { WHATSAPP_NUMBER } from '../data'
+import { WHATSAPP, WHATSAPP_NUMBER } from '../data'
 import { useLocale } from '../context/LocaleContext'
 import { quizGift, quizQuestions, quizResult } from '../i18n/quiz'
 import '../styles/tu-terapia.css'
@@ -353,7 +352,7 @@ export default function TuTerapia() {
               </svg>
               {t('quiz.write')}
             </a>
-            <Link className="alt" to="/cotizador">{t('quiz.quote')}</Link>
+            <a className="alt" href={WHATSAPP} target="_blank" rel="noreferrer">{t('quiz.quote')}</a>
           </div>
           <p className="disclaimer">{t('quiz.disclaimer')}</p>
           <button

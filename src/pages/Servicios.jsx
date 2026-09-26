@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { WHATSAPP } from '../data'
 import Price from '../components/Price.jsx'
 import { useRegion } from '../context/RegionContext'
 import { useLocale } from '../context/LocaleContext'
@@ -27,9 +28,9 @@ export default function Servicios() {
               </p>
             ) : null}
             <p className="mt-3 leading-relaxed text-purple/80">{s.detail}</p>
-            <Link className="mt-6 inline-block text-xs uppercase tracking-[0.16em] text-fuchsia" to={`/cotizador?servicio=${s.slug}`}>
+            <a className="mt-6 inline-block text-xs uppercase tracking-[0.16em] text-fuchsia" href={WHATSAPP} target="_blank" rel="noreferrer">
               {t('servicesPage.quoteThis')}
-            </Link>
+            </a>
           </article>
         ))}
       </div>

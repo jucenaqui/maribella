@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import { EMAIL, INSTAGRAM, PHONE_LABEL, WHATSAPP } from '../data'
 import { useLocale } from '../context/LocaleContext'
 
@@ -44,7 +43,7 @@ export default function Contacto() {
         <textarea name="mensaje" rows="4" required className="mt-1 w-full border-b border-purple/20 bg-transparent py-2 outline-none" />
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <button type="submit" className="btn-primary w-full justify-center sm:w-auto">{t('contact.send')}</button>
-          <Link to="/cotizador" className="btn-ghost w-full justify-center sm:w-auto">{t('contact.quote')}</Link>
+          <a href={WHATSAPP} target="_blank" rel="noreferrer" className="btn-ghost w-full justify-center sm:w-auto">{t('contact.quote')}</a>
         </div>
       </form>
     </div>

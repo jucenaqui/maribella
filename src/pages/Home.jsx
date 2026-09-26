@@ -22,7 +22,7 @@ export default function Home() {
           <p className="mt-6 max-w-md text-base leading-relaxed text-purple/80">{t('home.lead')}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Link className="btn-primary w-full sm:w-auto" to="/tu-terapia">{t('home.ctaQuiz')}</Link>
-            <Link className="btn-ghost w-full sm:w-auto" to="/cotizador">{t('home.ctaQuote')}</Link>
+            <Link className="btn-ghost w-full sm:w-auto" to="/integracion">{t('nav.integration')}</Link>
           </div>
         </div>
         <div className="relative overflow-hidden rounded-sm shadow-soft">

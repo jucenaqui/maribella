@@ -11,6 +11,21 @@ function linkClass(isActive, dark) {
   }`
 }
 
+function MenuAnchor({ item, className, children }) {
+  if (item.external) {
+    return (
+      <a href={item.to} target="_blank" rel="noreferrer" className={className}>
+        {children}
+      </a>
+    )
+  }
+  return (
+    <Link to={item.to} className={className}>
+      {children}
+    </Link>
+  )
+}
+
 export default function Layout({ children, theme = 'light' }) {
   const [open, setOpen] = useState(false)
   const [moreOpen, setMoreOpen] = useState(false)
@@ -50,11 +65,17 @@ export default function Layout({ children, theme = 'light' }) {
           </Link>
 
           <nav className="hidden items-center gap-4 xl:flex" aria-label={t('nav.mainMenu')}>
-            {navPrimary.map((item) => (
-              <NavLink key={item.to} to={item.to} className={({ isActive }) => linkClass(isActive, dark)}>
-                {t(item.key)}
-              </NavLink>
-            ))}
+            {navPrimary.map((item) =>
+              item.external ? (
+                <a key={item.key} href={item.to} target="_blank" rel="noreferrer" className={linkClass(false, dark)}>
+                  {t(item.key)}
+                </a>
+              ) : (
+                <NavLink key={item.to} to={item.to} className={({ isActive }) => linkClass(isActive, dark)}>
+                  {t(item.key)}
+                </NavLink>
+              ),
+            )}
             <div className="relative">
               <button
                 type="button"
@@ -114,15 +135,15 @@ export default function Layout({ children, theme = 'light' }) {
                 <p className="eyebrow mb-1">{t(group.titleKey)}</p>
                 <div className="flex flex-col">
                   {group.items.map((item) => (
-                    <Link
-                      key={item.to}
-                      to={item.to}
+                    <MenuAnchor
+                      key={item.key}
+                      item={item}
                       className={`border-b py-3.5 text-[1.05rem] ${
                         dark ? 'border-beige/10' : 'border-purple/10'
-                      } ${location.pathname === item.to ? 'text-fuchsia' : ''}`}
+                      } ${!item.external && location.pathname === item.to ? 'text-fuchsia' : ''}`}
                     >
                       {t(item.key)}
-                    </Link>
+                    </MenuAnchor>
                   ))}
                 </div>
               </div>
@@ -145,8 +166,8 @@ export default function Layout({ children, theme = 'light' }) {
             <p className="eyebrow">{t('layout.explore')}</p>
             <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
               {nav.map((item) => (
-                <li key={item.to}>
-                  <Link to={item.to}>{t(item.key)}</Link>
+                <li key={item.key}>
+                  <MenuAnchor item={item}>{t(item.key)}</MenuAnchor>
                 </li>
               ))}
             </ul>
