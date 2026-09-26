@@ -24,7 +24,7 @@ export const navPrimary = [
   { to: '/integracion', key: 'nav.integration' },
   { to: '/tu-terapia', key: 'nav.therapy' },
   { to: WHATSAPP, key: 'nav.quote', external: true },
-  { to: '/contacto', key: 'nav.contact' },
+  { to: '/mentoria', key: 'nav.mentorship' },
 ]
 
 export const navGroups = [
@@ -57,10 +57,10 @@ export const navGroups = [
 
 export const navMore = [
   { to: '/voces', key: 'nav.voices' },
-  { to: '/mentoria', key: 'nav.mentorship' },
   { to: '/taller', key: 'nav.workshop' },
   { to: '/recursos', key: 'nav.resources' },
   { to: '/sobre', key: 'nav.about' },
+  { to: '/contacto', key: 'nav.contact' },
 ]
 
 export const services = [
