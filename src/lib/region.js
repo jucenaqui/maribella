@@ -30,9 +30,9 @@ export function formatPrice(price, region, noteText) {
   if (usd == null) return ''
   if (typeof usd === 'number') return `$${usd.toLocaleString('en-US')} USD`
 
-  const range = `$${usd.from} – ${usd.to}`
+  const range = `$${Number(usd.from).toLocaleString('en-US')} – ${Number(usd.to).toLocaleString('en-US')} USD`
   const note = usd.note === 'scope' ? noteText : usd.note
-  return note ? `${range} (${note})` : `${range} USD`
+  return note ? `${range} (${note})` : range
 }
 
 export function regionLabel(region, colombia = 'Colombia', usa = 'Estados Unidos') {
