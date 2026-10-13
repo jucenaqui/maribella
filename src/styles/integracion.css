@@ -232,8 +232,8 @@
   margin-top: 20px;
 }
 
-.integracion .about-title {
-  margin: 10px 0 24px;
+.integracion .eyebrow + .box {
+  margin-top: 24px;
 }
 
 .integracion .box {

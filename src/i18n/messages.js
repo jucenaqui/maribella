@@ -73,7 +73,6 @@ export const messages = {
       ],
       presencial: 'Encuentros {b}presenciales{/b}, en un espacio seguro y cuidado.',
       aboutEyebrow: 'Quién te acompaña',
-      aboutTitle: 'Con Maribella',
       photo: 'Foto de Maribel',
       who: 'Maribel Naranjo Quintero · terapeuta holística',
       bio: [
@@ -557,7 +556,6 @@ export const messages = {
       ],
       presencial: '{b}In-person{/b} meetings, in a safe and cared-for space.',
       aboutEyebrow: 'Who walks with you',
-      aboutTitle: 'With Maribella',
       photo: 'Photo of Maribel',
       who: 'Maribel Naranjo Quintero · holistic therapist',
       bio: [

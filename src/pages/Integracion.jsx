@@ -99,7 +99,6 @@ export default function Integracion() {
       <section className="sec paper2">
         <div className="in">
           <p className="eyebrow">{t('integracion.aboutEyebrow')}</p>
-          <h2 className="center about-title">{t('integracion.aboutTitle')}</h2>
           <div className="box">
             <div className="ph">{t('integracion.photo')}</div>
             <div className="txt">
