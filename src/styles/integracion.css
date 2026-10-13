@@ -238,8 +238,8 @@
 
 .integracion .box {
   display: flex;
-  gap: 22px;
-  align-items: center;
+  gap: 28px;
+  align-items: flex-start;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -261,7 +261,43 @@
 }
 
 .integracion .txt {
-  max-width: 460px;
+  max-width: 520px;
+  flex: 1 1 280px;
+}
+
+.integracion .who {
+  margin: 0 0 14px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 22px;
+  color: var(--morado);
+  line-height: 1.25;
+}
+
+.integracion .bio-p {
+  margin: 0 0 14px;
+}
+
+.integracion .bio-p:last-of-type {
+  margin-bottom: 18px;
+}
+
+.integracion .formacion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.integracion .formacion li {
+  border: 1px solid #d7c6b3;
+  background: #fff;
+  color: var(--morado);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  padding: 6px 10px;
+  border-radius: 999px;
 }
 
 .integracion .paper2 {

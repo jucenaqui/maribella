@@ -18,6 +18,10 @@ export default function Integracion() {
   const yesIfItems = t('integracion.yesIfItems')
   const seekItems = t('integracion.seekItems')
   const faq = t('integracion.faq')
+  const bio = t('integracion.bio')
+  const bioParas = Array.isArray(bio) ? bio : [bio]
+  const training = t('integracion.training')
+  const trainingItems = Array.isArray(training) ? training : []
 
   return (
     <div className="integracion">
@@ -99,7 +103,15 @@ export default function Integracion() {
           <div className="box">
             <div className="ph">{t('integracion.photo')}</div>
             <div className="txt">
-              <p className="lead">{t('integracion.bio')}</p>
+              <p className="who">{t('integracion.who')}</p>
+              {bioParas.map((p) => (
+                <p className="lead bio-p" key={p.slice(0, 40)}>{p}</p>
+              ))}
+              <ul className="formacion">
+                {trainingItems.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
