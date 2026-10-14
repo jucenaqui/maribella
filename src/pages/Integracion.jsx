@@ -100,7 +100,13 @@ export default function Integracion() {
         <div className="in">
           <p className="eyebrow">{t('integracion.aboutEyebrow')}</p>
           <div className="box">
-            <div className="ph">{t('integracion.photo')}</div>
+            <img
+              className="ph"
+              src="/maribel.jpg"
+              alt={t('integracion.who')}
+              width="160"
+              height="160"
+            />
             <div className="txt">
               <p className="who">{t('integracion.who')}</p>
               {bioParas.map((p) => (

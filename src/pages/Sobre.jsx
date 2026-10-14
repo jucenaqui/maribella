@@ -6,6 +6,11 @@ export default function Sobre() {
   return (
     <div className="page-pad">
       <p className="eyebrow">Maribella · 2026</p>
+      <img
+        src="/maribel.jpg"
+        alt={t('integracion.who')}
+        className="mt-6 h-36 w-36 rounded-full object-cover object-[center_18%] ring-1 ring-purple/15 sm:h-44 sm:w-44"
+      />
       <h1 className="display mt-3 max-w-3xl text-purple">
         {t('sobre.titleA')} <span className="italic text-fuchsia">{t('sobre.titleB')}</span>
       </h1>
