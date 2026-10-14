@@ -51,7 +51,7 @@ export const messages = {
         'Un acompañamiento terapéutico para preparar, sostener e integrar tu proceso.',
         'Un espacio para elaborar lo vivido y traducirlo a tu vida cotidiana.',
         'Confidencial, respetuoso y a tu ritmo.',
-        'Respaldado por tres años de formación en constelaciones familiares y terapias holísticas, y por una formación en curso en psicodélicos y salud.',
+        'Respaldado por mi formación en constelaciones familiares y terapias holísticas, y por una formación en curso en psicodélicos y salud.',
       ],
       no: [
         'No administro, consigo ni recomiendo sustancias, ni indico dosis.',
@@ -76,7 +76,7 @@ export const messages = {
       photo: 'Foto de Maribel',
       who: 'Maribel Naranjo Quintero · terapeuta holística',
       bio: [
-        'Soy Maribel Naranjo Quintero, terapeuta holística. Durante tres años me he formado en constelaciones familiares y en otras terapias holísticas como los registros akáshicos, la terapia angelical y la astrología. Actualmente curso una formación en psicodélicos y salud, orientada al acompañamiento terapéutico antes, durante y después de las experiencias psicodélicas.',
+        'Soy Maribel Naranjo Quintero, terapeuta holística, formada en constelaciones familiares y en otras terapias holísticas como los registros akáshicos, la terapia angelical y la astrología. Actualmente curso una formación en psicodélicos y salud, orientada al acompañamiento terapéutico antes, durante y después de las experiencias psicodélicas.',
         'Siento una profunda conexión con cada persona que llega a Maribella, porque deposita una parte de su alma en su proceso de sanación. Cuando esa sanación ocurre, la liberación es tan grande que casi no tiene palabras, y acompañar ese momento despierta en mí una gran empatía.',
         'Mi enfoque es serio, ético y respetuoso: un espacio para que comprendas lo vivido con más claridad y menos juicio.',
       ],
@@ -136,7 +136,7 @@ export const messages = {
       aboutTitle: 'Maribel Naranjo Quintero',
       aboutLead: 'Terapeuta holística. Mi enfoque es serio, ético y respetuoso: un espacio para que comprendas lo vivido con más claridad y menos juicio.',
       aboutCta: 'Conoce mi historia',
-      fact1: 'Tres años de formación en constelaciones familiares',
+      fact1: 'Formada en constelaciones familiares',
       fact2: 'Registros akáshicos, terapia angelical y astrología',
       fact3: 'En formación: psicodélicos y salud · antes, durante y después',
       fact4: 'Acompañar la liberación con empatía, sin promesas mágicas',
@@ -282,7 +282,7 @@ export const messages = {
     sobre: {
       titleA: 'Maribel Naranjo',
       titleB: 'Quintero',
-      lead: 'Soy terapeuta holística. Durante tres años me he formado en constelaciones familiares y en otras terapias holísticas como los registros akáshicos, la terapia angelical y la astrología. Actualmente curso una formación en psicodélicos y salud, orientada al acompañamiento terapéutico antes, durante y después de las experiencias psicodélicas.',
+      lead: 'Soy Maribel Naranjo Quintero, terapeuta holística, formada en constelaciones familiares y en otras terapias holísticas como los registros akáshicos, la terapia angelical y la astrología. Actualmente curso una formación en psicodélicos y salud, orientada al acompañamiento terapéutico antes, durante y después de las experiencias psicodélicas.',
       look: 'La conexión con quien llega',
       p1: 'Siento una profunda conexión con cada persona que llega a Maribella, porque deposita una parte de su alma en su proceso de sanación. Cuando esa sanación ocurre, la liberación es tan grande que casi no tiene palabras, y acompañar ese momento despierta en mí una gran empatía.',
       p2: 'Mi enfoque es serio, ético y respetuoso: un espacio para que comprendas lo vivido con más claridad y menos juicio.',
@@ -534,7 +534,7 @@ export const messages = {
         'Therapeutic support to prepare, hold, and integrate your process.',
         'A space to work through what you lived and bring it into daily life.',
         'Confidential, respectful, and at your pace.',
-        'Backed by three years of training in family constellations and holistic therapies, and by ongoing training in psychedelics and health.',
+        'Backed by my training in family constellations and holistic therapies, and by ongoing training in psychedelics and health.',
       ],
       no: [
         'I do not administer, obtain, or recommend substances, and I do not indicate doses.',
@@ -559,7 +559,7 @@ export const messages = {
       photo: 'Photo of Maribel',
       who: 'Maribel Naranjo Quintero · holistic therapist',
       bio: [
-        'I am Maribel Naranjo Quintero, a holistic therapist. For three years I have trained in family constellations and in other holistic therapies such as Akashic records, angelic therapy, and astrology. I am currently in training in psychedelics and health, oriented to therapeutic accompaniment before, during, and after psychedelic experiences.',
+        'I am Maribel Naranjo Quintero, a holistic therapist, trained in family constellations and in other holistic therapies such as Akashic records, angelic therapy, and astrology. I am currently in training in psychedelics and health, oriented to therapeutic accompaniment before, during, and after psychedelic experiences.',
         'I feel a deep connection with each person who arrives at Maribella, because they place a part of their soul in their healing process. When that healing happens, the release is so great it almost has no words, and accompanying that moment awakens a great empathy in me.',
         'My approach is serious, ethical, and respectful: a space for you to understand what you lived with more clarity and less judgment.',
       ],
@@ -619,7 +619,7 @@ export const messages = {
       aboutTitle: 'Maribel Naranjo Quintero',
       aboutLead: 'Holistic therapist. My approach is serious, ethical, and respectful: a space for you to understand what you lived with more clarity and less judgment.',
       aboutCta: 'Read my story',
-      fact1: 'Three years of training in family constellations',
+      fact1: 'Trained in family constellations',
       fact2: 'Akashic records, angelic therapy, and astrology',
       fact3: 'In training: psychedelics and health · before, during, and after',
       fact4: 'Accompanying release with empathy, without magical promises',
@@ -765,7 +765,7 @@ export const messages = {
     sobre: {
       titleA: 'Maribel Naranjo',
       titleB: 'Quintero',
-      lead: 'I am a holistic therapist. For three years I have trained in family constellations and in other holistic therapies such as Akashic records, angelic therapy, and astrology. I am currently in training in psychedelics and health, oriented to therapeutic accompaniment before, during, and after psychedelic experiences.',
+      lead: 'I am Maribel Naranjo Quintero, a holistic therapist, trained in family constellations and in other holistic therapies such as Akashic records, angelic therapy, and astrology. I am currently in training in psychedelics and health, oriented to therapeutic accompaniment before, during, and after psychedelic experiences.',
       look: 'The connection with whoever arrives',
       p1: 'I feel a deep connection with each person who arrives at Maribella, because they place a part of their soul in their healing process. When that healing happens, the release is so great it almost has no words, and accompanying that moment awakens a great empathy in me.',
       p2: 'My approach is serious, ethical, and respectful: a space for you to understand what you lived with more clarity and less judgment.',
