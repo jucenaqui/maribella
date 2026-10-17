@@ -2,7 +2,6 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Menu, X, MessageCircle, ChevronDown } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { INSTAGRAM, nav, navGroups, navMore, navPrimary, PHONE_LABEL, WHATSAPP } from '../data'
-import LanguageSwitch from './LanguageSwitch.jsx'
 import { useLocale } from '../context/LocaleContext'
 
 function linkClass(isActive, dark) {
@@ -106,19 +105,14 @@ export default function Layout({ children, theme = 'light' }) {
             </div>
           </nav>
 
-          <div className="flex shrink-0 items-center gap-2">
-            <div className="hidden md:block">
-              <LanguageSwitch dark={dark} />
-            </div>
-            <button
-              className="grid h-11 w-11 place-items-center xl:hidden"
-              aria-label={open ? t('nav.closeMenu') : t('nav.openMenu')}
-              aria-expanded={open}
-              onClick={() => setOpen((v) => !v)}
-            >
-              {open ? <X /> : <Menu />}
-            </button>
-          </div>
+          <button
+            className="grid h-11 w-11 place-items-center xl:hidden"
+            aria-label={open ? t('nav.closeMenu') : t('nav.openMenu')}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X /> : <Menu />}
+          </button>
         </div>
 
         {open && (
@@ -127,9 +121,6 @@ export default function Layout({ children, theme = 'light' }) {
               dark ? 'bg-[#2a1838] text-beige' : 'bg-[#f7efe4] text-purple'
             }`}
           >
-            <div className="mb-5 md:hidden">
-              <LanguageSwitch dark={dark} />
-            </div>
             {navGroups.map((group) => (
               <div key={group.titleKey} className="mb-6">
                 <p className="eyebrow mb-1">{t(group.titleKey)}</p>

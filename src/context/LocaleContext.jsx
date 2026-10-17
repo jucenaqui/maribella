@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { detectGeo, LANG_EN, LANG_ES, persistLang } from '../lib/geo'
+import { detectGeo, LANG_EN, LANG_ES } from '../lib/geo'
 import { fill, messages } from '../i18n/messages'
 
 const LocaleContext = createContext(null)
@@ -39,11 +39,7 @@ export function LocaleProvider({ children }) {
       const str = typeof val === 'string' ? val : key
       return vars ? fill(str, vars) : str
     }
-    const setLocale = (next) => {
-      setLocaleState(next)
-      persistLang(next)
-    }
-    return { locale, ready, setLocale, t, dict, isEn: locale === LANG_EN }
+    return { locale, ready, t, dict, isEn: locale === LANG_EN }
   }, [locale, ready])
 
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>

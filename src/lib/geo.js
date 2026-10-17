@@ -11,10 +11,6 @@ const ES_COUNTRIES = new Set([
 
 let pending = null
 
-export function isLang(value) {
-  return value === LANG_ES || value === LANG_EN
-}
-
 function browserLang() {
   try {
     const lang = String(navigator.language || navigator.userLanguage || '').toLowerCase()
@@ -48,15 +44,15 @@ export async function detectGeo() {
         }
       }
 
-      let locale = LANG_EN
       try {
-        const stored = localStorage.getItem(LANG_KEY)
-        if (isLang(stored)) locale = stored
-        else if (country) locale = ES_COUNTRIES.has(country) ? LANG_ES : LANG_EN
-        else locale = browserLang()
+        localStorage.removeItem(LANG_KEY)
       } catch {
-        locale = country && ES_COUNTRIES.has(country) ? LANG_ES : browserLang()
+        /* ignore leftover switch */
       }
+
+      let locale = LANG_EN
+      if (country) locale = ES_COUNTRIES.has(country) ? LANG_ES : LANG_EN
+      else locale = browserLang()
 
       return { region, locale, country }
     })()
@@ -64,11 +60,3 @@ export async function detectGeo() {
   return pending
 }
 
-export function persistLang(lang) {
-  if (!isLang(lang)) return
-  try {
-    localStorage.setItem(LANG_KEY, lang)
-  } catch {
-    /* ignore */
-  }
-}
