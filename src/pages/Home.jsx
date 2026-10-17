@@ -59,7 +59,7 @@ export default function Home() {
         <p className="mt-3 max-w-2xl text-purple/75">{t('home.toolsLead')}</p>
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {services.map((s) => (
-            <Link key={s.slug} to="/servicios" className="card block p-6 transition hover:-translate-y-0.5">
+            <Link key={s.slug} to={s.slug === 'astrologia' ? '/carta-astral' : `/servicios#${s.slug}`} className="card block p-6 transition hover:-translate-y-0.5">
               <p className="eyebrow">{s.category}</p>
               <h3 className="mt-3 font-serif text-2xl text-purple">{s.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-purple/75">{s.summary}</p>

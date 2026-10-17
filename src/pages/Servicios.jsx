@@ -28,9 +28,16 @@ export default function Servicios() {
               </p>
             ) : null}
             <p className="mt-3 leading-relaxed text-purple/80">{s.detail}</p>
-            <a className="mt-6 inline-block text-xs uppercase tracking-[0.16em] text-fuchsia" href={WHATSAPP} target="_blank" rel="noreferrer">
-              {t('servicesPage.quoteThis')}
-            </a>
+            <div className="mt-6 flex flex-col gap-2">
+              {s.slug === 'astrologia' ? (
+                <Link className="text-xs uppercase tracking-[0.16em] text-fuchsia" to="/carta-astral">
+                  {t('servicesPage.chartThis')}
+                </Link>
+              ) : null}
+              <a className="inline-block text-xs uppercase tracking-[0.16em] text-fuchsia" href={WHATSAPP} target="_blank" rel="noreferrer">
+                {t('servicesPage.quoteThis')}
+              </a>
+            </div>
           </article>
         ))}
       </div>

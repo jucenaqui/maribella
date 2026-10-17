@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { EMAIL } from '../data'
 import { useLocale } from '../context/LocaleContext'
 
@@ -83,11 +84,17 @@ export default function Recursos() {
         ))}
       </div>
 
-      <section className="mt-16 grid gap-6 md:grid-cols-2">
+      <section className="mt-16 grid gap-6 md:grid-cols-3">
         <div className="card p-5 sm:p-8">
           <p className="eyebrow">{t('recursos.notebook')}</p>
           <h3 className="mt-2 font-serif text-3xl">{t('recursos.nTitle')}</h3>
           <p className="mt-3 text-beige/70">{t('recursos.nLead')}</p>
+        </div>
+        <div className="card p-5 sm:p-8">
+          <p className="eyebrow">{t('nav.chart')}</p>
+          <h3 className="mt-2 font-serif text-3xl">{t('recursos.chartTitle')}</h3>
+          <p className="mt-3 text-beige/70">{t('recursos.chartLead')}</p>
+          <Link className="btn-primary mt-6 inline-block" to="/carta-astral">{t('recursos.chartCta')}</Link>
         </div>
         <div className="card p-5 sm:p-8">
           <p className="eyebrow">{t('recursos.mini')}</p>

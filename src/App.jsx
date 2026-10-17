@@ -9,6 +9,7 @@ import Contacto from './pages/Contacto.jsx'
 import Mentoria from './pages/Mentoria.jsx'
 import Taller from './pages/Taller.jsx'
 import Recursos from './pages/Recursos.jsx'
+import CartaAstral from './pages/CartaAstral.jsx'
 import Voces from './pages/Voces.jsx'
 import TuTerapia from './pages/TuTerapia.jsx'
 import Integracion from './pages/Integracion.jsx'
@@ -38,6 +39,7 @@ export default function App() {
       <Route path="/taller" element={<Page theme="dark"><Taller /></Page>} />
       <Route path="/integracion" element={<Page theme="light"><Integracion /></Page>} />
       <Route path="/recursos" element={<Page theme="dark"><Recursos /></Page>} />
+      <Route path="/carta-astral" element={<Page theme="light"><CartaAstral /></Page>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

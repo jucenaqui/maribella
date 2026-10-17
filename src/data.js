@@ -15,6 +15,7 @@ export const nav = [
   { to: '/mentoria', key: 'nav.mentorship' },
   { to: '/taller', key: 'nav.workshop' },
   { to: '/recursos', key: 'nav.resources' },
+  { to: '/carta-astral', key: 'nav.chart' },
   { to: '/sobre', key: 'nav.about' },
   { to: '/contacto', key: 'nav.contact' },
 ]
@@ -44,6 +45,7 @@ export const navGroups = [
       { to: '/taller', key: 'nav.workshop' },
       { to: '/integracion', key: 'nav.integration' },
       { to: '/recursos', key: 'nav.resources' },
+      { to: '/carta-astral', key: 'nav.chart' },
     ],
   },
   {
@@ -59,6 +61,7 @@ export const navMore = [
   { to: '/voces', key: 'nav.voices' },
   { to: '/taller', key: 'nav.workshop' },
   { to: '/recursos', key: 'nav.resources' },
+  { to: '/carta-astral', key: 'nav.chart' },
   { to: '/sobre', key: 'nav.about' },
   { to: '/contacto', key: 'nav.contact' },
 ]
