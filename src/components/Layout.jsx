@@ -63,18 +63,12 @@ export default function Layout({ children, theme = 'light' }) {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-4 xl:flex" aria-label={t('nav.mainMenu')}>
-            {navPrimary.map((item) =>
-              item.external ? (
-                <a key={item.key} href={item.to} target="_blank" rel="noreferrer" className={linkClass(false, dark)}>
-                  {t(item.key)}
-                </a>
-              ) : (
-                <NavLink key={item.to} to={item.to} className={({ isActive }) => linkClass(isActive, dark)}>
-                  {t(item.key)}
-                </NavLink>
-              ),
-            )}
+          <nav className="hidden items-center gap-3 xl:flex 2xl:gap-4" aria-label={t('nav.mainMenu')}>
+            {navPrimary.map((item) => (
+              <NavLink key={item.to} to={item.to} className={({ isActive }) => linkClass(isActive, dark)}>
+                {t(item.key)}
+              </NavLink>
+            ))}
             <div className="relative">
               <button
                 type="button"

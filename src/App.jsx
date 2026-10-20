@@ -5,7 +5,6 @@ import Layout from './components/Layout.jsx'
 import Home from './pages/Home.jsx'
 import Servicios from './pages/Servicios.jsx'
 import Sobre from './pages/Sobre.jsx'
-import Contacto from './pages/Contacto.jsx'
 import Mentoria from './pages/Mentoria.jsx'
 import Taller from './pages/Taller.jsx'
 import Recursos from './pages/Recursos.jsx'
@@ -34,7 +33,7 @@ export default function App() {
       <Route path="/tu-terapia" element={<Page theme="light"><TuTerapia /></Page>} />
       <Route path="/sobre" element={<Page theme="light"><Sobre /></Page>} />
       <Route path="/voces" element={<Page theme="light"><Voces /></Page>} />
-      <Route path="/contacto" element={<Page theme="light"><Contacto /></Page>} />
+      <Route path="/contacto" element={<Navigate to="/sobre" replace />} />
       <Route path="/mentoria" element={<Page theme="dark"><Mentoria /></Page>} />
       <Route path="/taller" element={<Page theme="dark"><Taller /></Page>} />
       <Route path="/integracion" element={<Page theme="light"><Integracion /></Page>} />

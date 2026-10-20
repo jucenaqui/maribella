@@ -165,13 +165,15 @@ export default function CartaAstral() {
 
   return (
     <div className="carta carta-page page-pad">
-      <p className="eyebrow">{t('carta.eyebrow')}</p>
-      <h1 className="display mt-3 text-purple">
-        {t('carta.h1a')} <span className="italic text-fuchsia">{t('carta.h1b')}</span>
-      </h1>
-      <p className="mt-4 max-w-2xl text-lg text-purple/75">{t('carta.lead')}</p>
+      <div className="mx-auto max-w-2xl text-center">
+        <p className="eyebrow">{t('carta.eyebrow')}</p>
+        <h1 className="display mt-3 text-purple">
+          {t('carta.h1a')} <span className="italic text-fuchsia">{t('carta.h1b')}</span>
+        </h1>
+        <p className="mt-4 text-lg text-purple/75">{t('carta.lead')}</p>
+      </div>
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+      <div className={`mx-auto mt-10 grid gap-6 ${chart ? 'max-w-5xl lg:grid-cols-2' : 'max-w-xl'}`}>
         <form className="carta-form carta-hero-card" onSubmit={onSubmit}>
           <p className="eyebrow">{t('carta.formKicker')}</p>
           <h2 className="mt-2 font-serif text-3xl text-purple">{t('carta.formTitle')}</h2>
@@ -210,7 +212,7 @@ export default function CartaAstral() {
             </select>
           </div>
           {error ? <p className="mt-3 text-sm text-fuchsia">{error}</p> : null}
-          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <button className="btn-primary" type="submit">
               {t('carta.see')}
             </button>
@@ -220,9 +222,8 @@ export default function CartaAstral() {
           </div>
         </form>
 
-        <div className={`carta-result carta-hero-card ${chart ? 'is-on' : ''}`}>
-          {chart ? (
-            <>
+        {chart ? (
+          <div className="carta-result carta-hero-card is-on">
               <p className="eyebrow">{t('carta.resultKicker')}</p>
               <h2 className="mt-2 font-serif text-3xl text-purple">{chart.name}</h2>
               <p className="mt-1 text-sm text-purple/70">
@@ -299,7 +300,7 @@ export default function CartaAstral() {
                 </div>
               ) : null}
               <p className="mt-5 text-sm leading-relaxed text-purple/70">{t('carta.honesty')}</p>
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
                 <button className="btn-primary carta-btn-gold" type="button" onClick={downloadPng} disabled={busy}>
                   {busy ? t('carta.preparing') : t('carta.download')}
                 </button>
@@ -310,15 +311,8 @@ export default function CartaAstral() {
                   {t('carta.sessionCta')}
                 </Link>
               </div>
-            </>
-          ) : (
-            <div>
-              <p className="eyebrow">{t('carta.emptyKicker')}</p>
-              <h2 className="mt-2 font-serif text-3xl text-purple">{t('carta.emptyTitle')}</h2>
-              <p className="mt-3 text-purple/70">{t('carta.emptyLead')}</p>
-            </div>
-          )}
-        </div>
+          </div>
+        ) : null}
       </div>
     </div>
   )

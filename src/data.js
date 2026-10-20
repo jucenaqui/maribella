@@ -7,63 +7,49 @@ export const GUIDE_PDF = '/guia-patrones-familiares-maribella.pdf'
 
 export const nav = [
   { to: '/', key: 'nav.home' },
+  { to: '/sobre', key: 'nav.about' },
   { to: '/servicios', key: 'nav.services' },
   { to: '/integracion', key: 'nav.integration' },
+  { to: '/recursos', key: 'nav.resources' },
   { to: '/tu-terapia', key: 'nav.therapy' },
-  { to: WHATSAPP, key: 'nav.quote', external: true },
   { to: '/voces', key: 'nav.voices' },
   { to: '/mentoria', key: 'nav.mentorship' },
   { to: '/taller', key: 'nav.workshop' },
-  { to: '/recursos', key: 'nav.resources' },
-  { to: '/carta-astral', key: 'nav.chart' },
-  { to: '/sobre', key: 'nav.about' },
-  { to: '/contacto', key: 'nav.contact' },
 ]
 
 export const navPrimary = [
+  { to: '/sobre', key: 'nav.about' },
   { to: '/servicios', key: 'nav.services' },
   { to: '/integracion', key: 'nav.integration' },
+  { to: '/recursos', key: 'nav.resources' },
   { to: '/tu-terapia', key: 'nav.therapy' },
-  { to: WHATSAPP, key: 'nav.quote', external: true },
-  { to: '/mentoria', key: 'nav.mentorship' },
 ]
 
 export const navGroups = [
   {
     titleKey: 'nav.start',
     items: [
-      { to: '/tu-terapia', key: 'nav.quiz' },
-      { to: WHATSAPP, key: 'nav.quote', external: true },
+      { to: '/sobre', key: 'nav.about' },
       { to: '/servicios', key: 'nav.services' },
+      { to: '/integracion', key: 'nav.integration' },
+      { to: '/recursos', key: 'nav.resources' },
+      { to: '/tu-terapia', key: 'nav.therapy' },
     ],
   },
   {
-    titleKey: 'nav.deepen',
+    titleKey: 'nav.more',
     items: [
       { to: '/voces', key: 'nav.voices' },
       { to: '/mentoria', key: 'nav.mentorship' },
       { to: '/taller', key: 'nav.workshop' },
-      { to: '/integracion', key: 'nav.integration' },
-      { to: '/recursos', key: 'nav.resources' },
-      { to: '/carta-astral', key: 'nav.chart' },
-    ],
-  },
-  {
-    titleKey: 'nav.brand',
-    items: [
-      { to: '/sobre', key: 'nav.about' },
-      { to: '/contacto', key: 'nav.contact' },
     ],
   },
 ]
 
 export const navMore = [
   { to: '/voces', key: 'nav.voices' },
+  { to: '/mentoria', key: 'nav.mentorship' },
   { to: '/taller', key: 'nav.workshop' },
-  { to: '/recursos', key: 'nav.resources' },
-  { to: '/carta-astral', key: 'nav.chart' },
-  { to: '/sobre', key: 'nav.about' },
-  { to: '/contacto', key: 'nav.contact' },
 ]
 
 export const services = [
