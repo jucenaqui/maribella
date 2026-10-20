@@ -30,7 +30,8 @@ export default function Layout({ children, theme = 'light' }) {
   const [moreOpen, setMoreOpen] = useState(false)
   const location = useLocation()
   const dark = theme === 'dark'
-  const hideFab = location.pathname === '/cotizador' || location.pathname === '/tu-terapia'
+  const isApp = location.pathname.startsWith('/app/')
+  const hideFab = location.pathname === '/cotizador' || location.pathname === '/tu-terapia' || isApp
   const { t } = useLocale()
 
   useEffect(() => {
@@ -139,6 +140,7 @@ export default function Layout({ children, theme = 'light' }) {
 
       <main>{children}</main>
 
+      {isApp ? null : (
       <footer className={`mt-12 border-t sm:mt-16 ${dark ? 'border-beige/15' : 'border-purple/10'}`}>
         <div className="mx-auto grid max-w-6xl gap-10 px-5 py-12 md:grid-cols-3">
           <div>
@@ -177,6 +179,7 @@ export default function Layout({ children, theme = 'light' }) {
           © {new Date().getFullYear()} {t('layout.copy')}
         </p>
       </footer>
+      )}
 
       {!hideFab && !open && (
         <a className="whatsapp-fab" href={WHATSAPP} target="_blank" rel="noreferrer" aria-label="WhatsApp">

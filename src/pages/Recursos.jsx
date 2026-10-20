@@ -33,6 +33,46 @@ export default function Recursos() {
       </h1>
       <p className="mt-5 max-w-2xl text-lg text-beige/80">{t('recursos.lead')}</p>
 
+      <section className="mt-10">
+        <p className="eyebrow">{t('recursos.apps')}</p>
+        <h2 className="mt-2 font-serif text-3xl sm:text-4xl">{t('recursos.appsTitle')}</h2>
+        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              k: 'ancla',
+              to: '/app/ancla-3-minutos',
+              eyebrow: t('recursos.appAnclaEyebrow'),
+              title: t('recursos.appAnclaTitle'),
+              lead: t('recursos.appAnclaLead'),
+              cta: t('recursos.appOpen'),
+            },
+            {
+              k: 'arbol',
+              to: '/app/arbol-familiar',
+              eyebrow: t('recursos.appArbolEyebrow'),
+              title: t('recursos.appArbolTitle'),
+              lead: t('recursos.appArbolLead'),
+              cta: t('recursos.appOpen'),
+            },
+            {
+              k: 'carta',
+              to: '/carta-astral',
+              eyebrow: t('nav.chart'),
+              title: t('recursos.chartTitle'),
+              lead: t('recursos.chartLead'),
+              cta: t('recursos.chartCta'),
+            },
+          ].map((app) => (
+            <article key={app.k} className="card flex flex-col p-5 sm:p-8">
+              <p className="eyebrow">{app.eyebrow}</p>
+              <h3 className="mt-2 font-serif text-3xl">{app.title}</h3>
+              <p className="mt-3 flex-1 text-beige/70">{app.lead}</p>
+              <Link className="btn-primary mt-6 inline-block self-start" to={app.to}>{app.cta}</Link>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="card mt-10 grid gap-6 p-5 sm:mt-12 sm:gap-8 sm:p-8 lg:grid-cols-[1.2fr_0.8fr]">
         <div>
           <p className="eyebrow">{t('recursos.magnet')}</p>
@@ -84,17 +124,11 @@ export default function Recursos() {
         ))}
       </div>
 
-      <section className="mt-16 grid gap-6 md:grid-cols-3">
+      <section className="mt-16 grid gap-6 md:grid-cols-2">
         <div className="card p-5 sm:p-8">
           <p className="eyebrow">{t('recursos.notebook')}</p>
           <h3 className="mt-2 font-serif text-3xl">{t('recursos.nTitle')}</h3>
           <p className="mt-3 text-beige/70">{t('recursos.nLead')}</p>
-        </div>
-        <div className="card p-5 sm:p-8">
-          <p className="eyebrow">{t('nav.chart')}</p>
-          <h3 className="mt-2 font-serif text-3xl">{t('recursos.chartTitle')}</h3>
-          <p className="mt-3 text-beige/70">{t('recursos.chartLead')}</p>
-          <Link className="btn-primary mt-6 inline-block" to="/carta-astral">{t('recursos.chartCta')}</Link>
         </div>
         <div className="card p-5 sm:p-8">
           <p className="eyebrow">{t('recursos.mini')}</p>
