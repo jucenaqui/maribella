@@ -55,6 +55,22 @@ export default function Recursos() {
               cta: t('recursos.appOpen'),
             },
             {
+              k: 'perdon',
+              to: '/app/auto-perdon-7-dias',
+              eyebrow: t('recursos.appPerdonEyebrow'),
+              title: t('recursos.appPerdonTitle'),
+              lead: t('recursos.appPerdonLead'),
+              cta: t('recursos.appOpen'),
+            },
+            {
+              k: 'balanza',
+              to: '/app/balanza-dar-y-recibir',
+              eyebrow: t('recursos.appBalanzaEyebrow'),
+              title: t('recursos.appBalanzaTitle'),
+              lead: t('recursos.appBalanzaLead'),
+              cta: t('recursos.appOpen'),
+            },
+            {
               k: 'carta',
               to: '/carta-astral',
               eyebrow: t('nav.chart'),

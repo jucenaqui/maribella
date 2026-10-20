@@ -4,6 +4,8 @@ import { useLocale } from '../context/LocaleContext'
 const APPS = {
   'ancla-3-minutos': { src: '/apps/ancla-3-minutos.html', titleKey: 'recursos.appAnclaTitle' },
   'arbol-familiar': { src: '/apps/arbol-familiar.html', titleKey: 'recursos.appArbolTitle' },
+  'auto-perdon-7-dias': { src: '/apps/auto-perdon-7-dias.html', titleKey: 'recursos.appPerdonTitle' },
+  'balanza-dar-y-recibir': { src: '/apps/balanza-dar-y-recibir.html', titleKey: 'recursos.appBalanzaTitle' },
 }
 
 export default function Microapp() {
