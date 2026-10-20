@@ -216,7 +216,7 @@ html.mblg-locked,html.mblg-locked body{overflow:hidden}
 <script>
 (function(){
 'use strict';
-var CFG={app:'arbol-familiar',appName:'Mi árbol familiar',endpoint:'https://script.google.com/macros/s/AKfycbxZnRJaqICFl3JxY1XKupIV92--qcP0pKsrWmWN2Q5DQHykFnx3SwKep_Qkk9OBm9Q/exec',consent:'v1-2026-10',kLead:'mbl_lead_v1',kQueue:'mbl_leadq_v1'};
+var CFG={app:'arbol-familiar',appName:'Mi árbol familiar',endpoint:'https://script.google.com/macros/s/AKfycbyLXc5mnmF6dK8D2m62fzbCjjeamcmP3TG_GSkajgtpQh5isXpWHILGe86JaKCnEn9P/exec',consent:'v1-2026-10',kLead:'mbl_lead_v1',kQueue:'mbl_leadq_v1'};
 var mem={};
 function lsGet(k){try{var v=localStorage.getItem(k);if(v!==null)return v;}catch(e){}return mem.hasOwnProperty(k)?mem[k]:null;}
 function lsSet(k,v){mem[k]=v;try{localStorage.setItem(k,v);}catch(e){}}
@@ -229,6 +229,20 @@ var hasLead=!!(lead&&typeof lead==='object'&&lead.name&&lead.email&&lead.whatsap
 
 /* ---------- Envío (cola con reintento; nunca bloquea la entrada) ---------- */
 var sending=false;
+function sheetPayload(rec){
+  rec=rec||{};
+  return {
+    leadId: rec.leadId||rec.id||'',
+    fecha: rec.fecha||rec.ts||new Date().toISOString(),
+    nombre: rec.nombre||rec.name||'',
+    whatsapp: rec.whatsapp||'',
+    correo: rec.correo||rec.email||'',
+    nacimiento: rec.nacimiento||'',
+    motivo: rec.motivo||rec.appName||CFG.appName||'',
+    estado: rec.estado||('app:'+(rec.app||CFG.app||'')),
+    terapia: rec.terapia||rec.appName||CFG.appName||''
+  };
+}
 function flush(){
   if(!CFG.endpoint||sending)return;
   var q=jget(CFG.kQueue,[]);if(!Array.isArray(q)||!q.length)return;
@@ -237,7 +251,7 @@ function flush(){
     var q2=jget(CFG.kQueue,[]);
     if(!q2.length){sending=false;return;}
     var rec=q2[0];
-    fetch(CFG.endpoint,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(rec)})
+    fetch(CFG.endpoint,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(sheetPayload(rec))})
     .then(function(){
       var cur=jget(CFG.kQueue,[]).filter(function(r){return r&&r.id!==rec.id;});
       lsSet(CFG.kQueue,JSON.stringify(cur));next();
