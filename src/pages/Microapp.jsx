@@ -13,6 +13,12 @@ const APPS = {
   'limpieza-de-tu-espacio': { src: '/apps/limpieza-de-tu-espacio.html', titleKey: 'recursos.appLimpiezaTitle' },
   'fechas-que-se-repiten': { src: '/apps/fechas-que-se-repiten.html', titleKey: 'recursos.appFechasTitle' },
   'cuaderno-semanal': { src: '/apps/cuaderno-semanal.html', titleKey: 'recursos.appCuadernoTitle' },
+  'rueda-4-dimensiones': { src: '/apps/rueda-4-dimensiones.html', titleKey: 'recursos.appRuedaTitle' },
+  'que-orden-esta-movido': { src: '/apps/que-orden-esta-movido.html', titleKey: 'recursos.appOrdenTitle' },
+  'prepara-tu-sesion': { src: '/apps/prepara-tu-sesion.html', titleKey: 'recursos.appPreparaTitle' },
+  'numero-kua': { src: '/apps/numero-kua.html', titleKey: 'recursos.appKuaTitle' },
+  'mio-o-aprendido': { src: '/apps/mio-o-aprendido.html', titleKey: 'recursos.appMioTitle' },
+  'mi-arbol-de-vida': { src: '/apps/mi-arbol-de-vida.html', titleKey: 'recursos.appArbolVidaTitle' },
 }
 
 export default function Microapp() {
