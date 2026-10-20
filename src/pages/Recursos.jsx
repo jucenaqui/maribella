@@ -73,56 +73,61 @@ export default function Recursos() {
         </div>
       </section>
 
-      <section className="card mt-10 grid gap-6 p-5 sm:mt-12 sm:gap-8 sm:p-8 lg:grid-cols-[1.2fr_0.8fr]">
-        <div>
-          <p className="eyebrow">{t('recursos.magnet')}</p>
-          <h2 className="mt-2 font-serif text-3xl sm:text-4xl">{t('recursos.guideTitle')}</h2>
-          <p className="mt-4 text-beige/75">{t('recursos.guideLead')}</p>
+      <section className="card mt-10 p-5 sm:mt-12 sm:p-8">
+        <div className="grid gap-6 sm:gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+          <div>
+            <p className="eyebrow">{t('recursos.magnet')}</p>
+            <h2 className="mt-2 font-serif text-3xl sm:text-4xl">{t('recursos.guideTitle')}</h2>
+            <p className="mt-4 text-beige/75">{t('recursos.guideLead')}</p>
+          </div>
+          {status === 'sent' ? (
+            <p className="flex items-center font-serif text-2xl text-beige">{t('recursos.sent')}</p>
+          ) : (
+            <form
+              className="flex flex-col justify-center gap-3"
+              onSubmit={async (e) => {
+                e.preventDefault()
+                const email = e.currentTarget.email.value.trim()
+                setError('')
+                setStatus('sending')
+                try {
+                  await sendGuide(email)
+                  setStatus('sent')
+                } catch {
+                  setStatus('idle')
+                  setError(t('recursos.fail'))
+                }
+              }}
+            >
+              <input
+                name="email"
+                type="email"
+                required
+                placeholder={t('recursos.email')}
+                className="border-b border-beige/30 bg-transparent py-3 outline-none placeholder:text-beige/40"
+              />
+              <button className="btn-primary w-full sm:w-auto" type="submit" disabled={status === 'sending'}>
+                {status === 'sending' ? t('recursos.sending') : t('recursos.receive')}
+              </button>
+              {error ? <p className="text-xs text-fuchsia">{error}</p> : null}
+              <p className="text-xs text-beige/50">{t('recursos.hint', { email: EMAIL })}</p>
+            </form>
+          )}
         </div>
-        {status === 'sent' ? (
-          <p className="flex items-center font-serif text-2xl text-beige">{t('recursos.sent')}</p>
-        ) : (
-          <form
-            className="flex flex-col justify-center gap-3"
-            onSubmit={async (e) => {
-              e.preventDefault()
-              const email = e.currentTarget.email.value.trim()
-              setError('')
-              setStatus('sending')
-              try {
-                await sendGuide(email)
-                setStatus('sent')
-              } catch {
-                setStatus('idle')
-                setError(t('recursos.fail'))
-              }
-            }}
-          >
-            <input
-              name="email"
-              type="email"
-              required
-              placeholder={t('recursos.email')}
-              className="border-b border-beige/30 bg-transparent py-3 outline-none placeholder:text-beige/40"
-            />
-            <button className="btn-primary w-full sm:w-auto" type="submit" disabled={status === 'sending'}>
-              {status === 'sending' ? t('recursos.sending') : t('recursos.receive')}
-            </button>
-            {error ? <p className="text-xs text-fuchsia">{error}</p> : null}
-            <p className="text-xs text-beige/50">{t('recursos.hint', { email: EMAIL })}</p>
-          </form>
-        )}
-      </section>
 
-      <div className="mt-12 grid gap-5 md:grid-cols-3">
-        {lessons.map((l) => (
-          <article key={l.n} className="card p-6">
-            <p className="text-xs tracking-[0.2em] text-fuchsia">{t('recursos.lesson')} {l.n}</p>
-            <h3 className="mt-3 font-serif text-2xl">{l.t}</h3>
-            <p className="mt-2 text-sm text-beige/70">{l.d}</p>
-          </article>
-        ))}
-      </div>
+        <div className="mt-10 border-t border-beige/15 pt-8">
+          <p className="eyebrow">{t('recursos.guideInside')}</p>
+          <div className="mt-6 grid gap-8 md:grid-cols-3">
+            {lessons.map((l) => (
+              <article key={l.n}>
+                <p className="text-xs tracking-[0.2em] text-fuchsia">{t('recursos.lesson')} {l.n}</p>
+                <h3 className="mt-3 font-serif text-2xl">{l.t}</h3>
+                <p className="mt-2 text-sm text-beige/70">{l.d}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="mt-16 grid gap-6 md:grid-cols-2">
         <div className="card p-5 sm:p-8">
