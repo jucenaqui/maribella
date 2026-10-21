@@ -181,6 +181,55 @@ body {
   border-color: rgba(237, 227, 211, 0.12);
 }
 
+.apps-carousel {
+  display: flex;
+  gap: 1.1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 0.15rem;
+  padding-bottom: 0.35rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.apps-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.apps-carousel > * {
+  scroll-snap-align: start;
+  flex: 0 0 min(86%, 19.5rem);
+  min-height: 16.5rem;
+}
+
+@media (min-width: 768px) {
+  .apps-carousel > * {
+    flex-basis: calc((100% - 1.1rem) / 2);
+  }
+}
+
+@media (min-width: 1024px) {
+  .apps-carousel > * {
+    flex-basis: calc((100% - 2.2rem) / 3);
+  }
+}
+
+.apps-carousel-btn {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(237, 227, 211, 0.28);
+  background: rgba(42, 24, 56, 0.55);
+  color: #ede3d3;
+}
+
+.apps-carousel-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
 /* Netlify Drawer sits in the same corner on previews and can cover the FAB */
 iframe[title="Netlify Drawer"],
 iframe[title*="Netlify"],

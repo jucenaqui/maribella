@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { EMAIL } from '../data'
+import AppsCarousel from '../components/AppsCarousel.jsx'
 import { useLocale } from '../context/LocaleContext'
 
 async function sendGuide(email) {
@@ -24,6 +24,152 @@ export default function Recursos() {
     { n: '02', t: t('recursos.l2t'), d: t('recursos.l2d') },
     { n: '03', t: t('recursos.l3t'), d: t('recursos.l3d') },
   ]
+  const apps = [
+    {
+      k: 'ancla',
+      to: '/app/ancla-3-minutos',
+      eyebrow: t('recursos.appAnclaEyebrow'),
+      title: t('recursos.appAnclaTitle'),
+      lead: t('recursos.appAnclaLead'),
+      cta: t('recursos.appOpen'),
+    },
+    {
+      k: 'arbol',
+      to: '/app/arbol-familiar',
+      eyebrow: t('recursos.appArbolEyebrow'),
+      title: t('recursos.appArbolTitle'),
+      lead: t('recursos.appArbolLead'),
+      cta: t('recursos.appOpen'),
+    },
+    {
+      k: 'perdon',
+      to: '/app/auto-perdon-7-dias',
+      eyebrow: t('recursos.appPerdonEyebrow'),
+      title: t('recursos.appPerdonTitle'),
+      lead: t('recursos.appPerdonLead'),
+      cta: t('recursos.appOpen'),
+    },
+    {
+      k: 'balanza',
+      to: '/app/balanza-dar-y-recibir',
+      eyebrow: t('recursos.appBalanzaEyebrow'),
+      title: t('recursos.appBalanzaTitle'),
+      lead: t('recursos.appBalanzaLead'),
+      cta: t('recursos.appOpen'),
+    },
+    {
+      k: 'soltar',
+      to: '/app/carta-para-soltar',
+      eyebrow: t('recursos.appSoltarEyebrow'),
+      title: t('recursos.appSoltarTitle'),
+      lead: t('recursos.appSoltarLead'),
+      cta: t('recursos.appOpen'),
+    },
+    {
+      k: 'cartaDia',
+      to: '/app/carta-del-dia',
+      eyebrow: t('recursos.appCartaDiaEyebrow'),
+      title: t('recursos.appCartaDiaTitle'),
+      lead: t('recursos.appCartaDiaLead'),
+      cta: t('recursos.appOpen'),
+    },
+    {
+      k: 'lunar',
+      to: '/app/calendario-lunar',
+      eyebrow: t('recursos.appLunarEyebrow'),
+      title: t('recursos.appLunarTitle'),
+      lead: t('recursos.appLunarLead'),
+      cta: t('recursos.appOpen'),
+    },
+    {
+      k: 'bagua',
+      to: '/app/mapa-bagua',
+      eyebrow: t('recursos.appBaguaEyebrow'),
+      title: t('recursos.appBaguaTitle'),
+      lead: t('recursos.appBaguaLead'),
+      cta: t('recursos.appOpen'),
+    },
+    {
+      k: 'limpieza',
+      to: '/app/limpieza-de-tu-espacio',
+      eyebrow: t('recursos.appLimpiezaEyebrow'),
+      title: t('recursos.appLimpiezaTitle'),
+      lead: t('recursos.appLimpiezaLead'),
+      cta: t('recursos.appOpen'),
+    },
+    {
+      k: 'fechas',
+      to: '/app/fechas-que-se-repiten',
+      eyebrow: t('recursos.appFechasEyebrow'),
+      title: t('recursos.appFechasTitle'),
+      lead: t('recursos.appFechasLead'),
+      cta: t('recursos.appOpen'),
+    },
+    {
+      k: 'cuaderno',
+      to: '/app/cuaderno-semanal',
+      eyebrow: t('recursos.appCuadernoEyebrow'),
+      title: t('recursos.appCuadernoTitle'),
+      lead: t('recursos.appCuadernoLead'),
+      cta: t('recursos.appOpen'),
+    },
+    {
+      k: 'rueda',
+      to: '/app/rueda-4-dimensiones',
+      eyebrow: t('recursos.appRuedaEyebrow'),
+      title: t('recursos.appRuedaTitle'),
+      lead: t('recursos.appRuedaLead'),
+      cta: t('recursos.appOpen'),
+    },
+    {
+      k: 'orden',
+      to: '/app/que-orden-esta-movido',
+      eyebrow: t('recursos.appOrdenEyebrow'),
+      title: t('recursos.appOrdenTitle'),
+      lead: t('recursos.appOrdenLead'),
+      cta: t('recursos.appOpen'),
+    },
+    {
+      k: 'prepara',
+      to: '/app/prepara-tu-sesion',
+      eyebrow: t('recursos.appPreparaEyebrow'),
+      title: t('recursos.appPreparaTitle'),
+      lead: t('recursos.appPreparaLead'),
+      cta: t('recursos.appOpen'),
+    },
+    {
+      k: 'kua',
+      to: '/app/numero-kua',
+      eyebrow: t('recursos.appKuaEyebrow'),
+      title: t('recursos.appKuaTitle'),
+      lead: t('recursos.appKuaLead'),
+      cta: t('recursos.appOpen'),
+    },
+    {
+      k: 'mio',
+      to: '/app/mio-o-aprendido',
+      eyebrow: t('recursos.appMioEyebrow'),
+      title: t('recursos.appMioTitle'),
+      lead: t('recursos.appMioLead'),
+      cta: t('recursos.appOpen'),
+    },
+    {
+      k: 'arbolVida',
+      to: '/app/mi-arbol-de-vida',
+      eyebrow: t('recursos.appArbolVidaEyebrow'),
+      title: t('recursos.appArbolVidaTitle'),
+      lead: t('recursos.appArbolVidaLead'),
+      cta: t('recursos.appOpen'),
+    },
+    {
+      k: 'carta',
+      to: '/carta-astral',
+      eyebrow: t('nav.chart'),
+      title: t('recursos.chartTitle'),
+      lead: t('recursos.chartLead'),
+      cta: t('recursos.chartCta'),
+    },
+  ]
 
   return (
     <div className="page-pad">
@@ -36,161 +182,12 @@ export default function Recursos() {
       <section className="mt-10">
         <p className="eyebrow">{t('recursos.apps')}</p>
         <h2 className="mt-2 font-serif text-3xl sm:text-4xl">{t('recursos.appsTitle')}</h2>
-        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {[
-            {
-              k: 'ancla',
-              to: '/app/ancla-3-minutos',
-              eyebrow: t('recursos.appAnclaEyebrow'),
-              title: t('recursos.appAnclaTitle'),
-              lead: t('recursos.appAnclaLead'),
-              cta: t('recursos.appOpen'),
-            },
-            {
-              k: 'arbol',
-              to: '/app/arbol-familiar',
-              eyebrow: t('recursos.appArbolEyebrow'),
-              title: t('recursos.appArbolTitle'),
-              lead: t('recursos.appArbolLead'),
-              cta: t('recursos.appOpen'),
-            },
-            {
-              k: 'perdon',
-              to: '/app/auto-perdon-7-dias',
-              eyebrow: t('recursos.appPerdonEyebrow'),
-              title: t('recursos.appPerdonTitle'),
-              lead: t('recursos.appPerdonLead'),
-              cta: t('recursos.appOpen'),
-            },
-            {
-              k: 'balanza',
-              to: '/app/balanza-dar-y-recibir',
-              eyebrow: t('recursos.appBalanzaEyebrow'),
-              title: t('recursos.appBalanzaTitle'),
-              lead: t('recursos.appBalanzaLead'),
-              cta: t('recursos.appOpen'),
-            },
-            {
-              k: 'soltar',
-              to: '/app/carta-para-soltar',
-              eyebrow: t('recursos.appSoltarEyebrow'),
-              title: t('recursos.appSoltarTitle'),
-              lead: t('recursos.appSoltarLead'),
-              cta: t('recursos.appOpen'),
-            },
-            {
-              k: 'cartaDia',
-              to: '/app/carta-del-dia',
-              eyebrow: t('recursos.appCartaDiaEyebrow'),
-              title: t('recursos.appCartaDiaTitle'),
-              lead: t('recursos.appCartaDiaLead'),
-              cta: t('recursos.appOpen'),
-            },
-            {
-              k: 'lunar',
-              to: '/app/calendario-lunar',
-              eyebrow: t('recursos.appLunarEyebrow'),
-              title: t('recursos.appLunarTitle'),
-              lead: t('recursos.appLunarLead'),
-              cta: t('recursos.appOpen'),
-            },
-            {
-              k: 'bagua',
-              to: '/app/mapa-bagua',
-              eyebrow: t('recursos.appBaguaEyebrow'),
-              title: t('recursos.appBaguaTitle'),
-              lead: t('recursos.appBaguaLead'),
-              cta: t('recursos.appOpen'),
-            },
-            {
-              k: 'limpieza',
-              to: '/app/limpieza-de-tu-espacio',
-              eyebrow: t('recursos.appLimpiezaEyebrow'),
-              title: t('recursos.appLimpiezaTitle'),
-              lead: t('recursos.appLimpiezaLead'),
-              cta: t('recursos.appOpen'),
-            },
-            {
-              k: 'fechas',
-              to: '/app/fechas-que-se-repiten',
-              eyebrow: t('recursos.appFechasEyebrow'),
-              title: t('recursos.appFechasTitle'),
-              lead: t('recursos.appFechasLead'),
-              cta: t('recursos.appOpen'),
-            },
-            {
-              k: 'cuaderno',
-              to: '/app/cuaderno-semanal',
-              eyebrow: t('recursos.appCuadernoEyebrow'),
-              title: t('recursos.appCuadernoTitle'),
-              lead: t('recursos.appCuadernoLead'),
-              cta: t('recursos.appOpen'),
-            },
-            {
-              k: 'rueda',
-              to: '/app/rueda-4-dimensiones',
-              eyebrow: t('recursos.appRuedaEyebrow'),
-              title: t('recursos.appRuedaTitle'),
-              lead: t('recursos.appRuedaLead'),
-              cta: t('recursos.appOpen'),
-            },
-            {
-              k: 'orden',
-              to: '/app/que-orden-esta-movido',
-              eyebrow: t('recursos.appOrdenEyebrow'),
-              title: t('recursos.appOrdenTitle'),
-              lead: t('recursos.appOrdenLead'),
-              cta: t('recursos.appOpen'),
-            },
-            {
-              k: 'prepara',
-              to: '/app/prepara-tu-sesion',
-              eyebrow: t('recursos.appPreparaEyebrow'),
-              title: t('recursos.appPreparaTitle'),
-              lead: t('recursos.appPreparaLead'),
-              cta: t('recursos.appOpen'),
-            },
-            {
-              k: 'kua',
-              to: '/app/numero-kua',
-              eyebrow: t('recursos.appKuaEyebrow'),
-              title: t('recursos.appKuaTitle'),
-              lead: t('recursos.appKuaLead'),
-              cta: t('recursos.appOpen'),
-            },
-            {
-              k: 'mio',
-              to: '/app/mio-o-aprendido',
-              eyebrow: t('recursos.appMioEyebrow'),
-              title: t('recursos.appMioTitle'),
-              lead: t('recursos.appMioLead'),
-              cta: t('recursos.appOpen'),
-            },
-            {
-              k: 'arbolVida',
-              to: '/app/mi-arbol-de-vida',
-              eyebrow: t('recursos.appArbolVidaEyebrow'),
-              title: t('recursos.appArbolVidaTitle'),
-              lead: t('recursos.appArbolVidaLead'),
-              cta: t('recursos.appOpen'),
-            },
-            {
-              k: 'carta',
-              to: '/carta-astral',
-              eyebrow: t('nav.chart'),
-              title: t('recursos.chartTitle'),
-              lead: t('recursos.chartLead'),
-              cta: t('recursos.chartCta'),
-            },
-          ].map((app) => (
-            <article key={app.k} className="card flex flex-col p-5 sm:p-8">
-              <p className="eyebrow">{app.eyebrow}</p>
-              <h3 className="mt-2 font-serif text-3xl">{app.title}</h3>
-              <p className="mt-3 flex-1 text-beige/70">{app.lead}</p>
-              <Link className="btn-primary mt-6 inline-block self-start" to={app.to}>{app.cta}</Link>
-            </article>
-          ))}
-        </div>
+        <AppsCarousel
+          apps={apps}
+          prevLabel={t('recursos.appPrev')}
+          nextLabel={t('recursos.appNext')}
+          countLabel={(n, total) => t('recursos.appCount', { n: String(n), total: String(total) })}
+        />
       </section>
 
       <section className="card mt-10 p-5 sm:mt-12 sm:p-8">
