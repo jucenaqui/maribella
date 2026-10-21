@@ -23,6 +23,16 @@
   status = 200
 
 [[redirects]]
+  from = "/carta-natal-curso"
+  to = "/carta-natal-curso/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/carta-natal-curso/"
+  to = "/carta-natal-curso/index.html"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200

@@ -30,7 +30,7 @@ export default function Layout({ children, theme = 'light' }) {
   const [moreOpen, setMoreOpen] = useState(false)
   const location = useLocation()
   const dark = theme === 'dark'
-  const isApp = location.pathname.startsWith('/app/')
+  const isApp = location.pathname.startsWith('/app/') || location.pathname.startsWith('/carta-natal-curso')
   const hideFab = location.pathname === '/cotizador' || location.pathname === '/tu-terapia' || isApp
   const { t } = useLocale()
 

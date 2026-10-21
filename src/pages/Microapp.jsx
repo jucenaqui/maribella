@@ -21,15 +21,15 @@ const APPS = {
   'mi-arbol-de-vida': { src: '/apps/mi-arbol-de-vida.html', titleKey: 'recursos.appArbolVidaTitle' },
 }
 
-export default function Microapp() {
+export default function Microapp({ src, title }) {
   const { slug } = useParams()
   const { t } = useLocale()
-  const app = APPS[slug]
+  const app = src ? { src, title } : APPS[slug]
   if (!app) return <Navigate to="/recursos" replace />
 
   return (
     <iframe
-      title={t(app.titleKey)}
+      title={app.title || t(app.titleKey)}
       src={app.src}
       className="block h-[calc(100dvh-4.25rem)] w-full border-0 bg-[#F2EBC4]"
     />

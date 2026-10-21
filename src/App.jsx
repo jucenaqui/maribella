@@ -40,6 +40,7 @@ export default function App() {
       <Route path="/integracion" element={<Page theme="light"><Integracion /></Page>} />
       <Route path="/recursos" element={<Page theme="dark"><Recursos /></Page>} />
       <Route path="/app/:slug" element={<Page theme="light"><Microapp /></Page>} />
+      <Route path="/carta-natal-curso" element={<Page theme="light"><Microapp src="/carta-natal-curso/index.html" title="Calculadora de carta natal del curso" /></Page>} />
       <Route path="/carta-astral" element={<Page theme="light"><CartaAstral /></Page>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
