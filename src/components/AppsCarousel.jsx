@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 export default function AppsCarousel({ apps, prevLabel, nextLabel, countLabel }) {
   const trackRef = useRef(null)
+  const viewportRef = useRef(null)
   const hovering = useRef(false)
   const [held, setHeld] = useState(false)
   const [nudge, setNudge] = useState(0)
@@ -28,19 +29,40 @@ export default function AppsCarousel({ apps, prevLabel, nextLabel, countLabel })
     return card.getBoundingClientRect().width + gap
   }
 
-  function go(dir) {
+  function wrapNudge(value, step) {
+    const loop = step * total
+    let next = ((value % loop) + loop) % loop
+    if (next > 0) next -= loop
+    return next
+  }
+
+  function shift(px) {
     if (!total) return
     pause()
     const step = cardStep()
-    const loop = step * total
     setNudge((n) => {
-      let next = n - dir * step
-      next = ((next % loop) + loop) % loop
-      if (next > 0) next -= loop
+      const next = wrapNudge(n - px, step)
+      setIndex(Math.round(Math.abs(next) / step) % total)
       return next
     })
-    setIndex((i) => ((i + dir) % total + total) % total)
   }
+
+  function go(dir) {
+    shift(dir * cardStep())
+  }
+
+  useEffect(() => {
+    const el = viewportRef.current
+    if (!el || total < 2) return
+    const onWheel = (e) => {
+      const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY
+      if (!dx) return
+      e.preventDefault()
+      shift(dx)
+    }
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [total])
 
   return (
     <div
@@ -54,7 +76,7 @@ export default function AppsCarousel({ apps, prevLabel, nextLabel, countLabel })
         resume()
       }}
     >
-      <div className="apps-carousel-viewport">
+      <div className="apps-carousel-viewport" ref={viewportRef}>
         <div
           ref={trackRef}
           className={`apps-carousel-track${held || total < 2 ? ' is-paused' : ''}`}
