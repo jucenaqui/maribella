@@ -11,7 +11,7 @@ export const nav = [
   { to: '/servicios', key: 'nav.services' },
   { to: '/integracion', key: 'nav.integration' },
   { to: '/recursos', key: 'nav.resources' },
-  { to: '/tu-terapia', key: 'nav.therapy' },
+  { to: '/tu-camino', key: 'nav.therapy' },
   { to: '/voces', key: 'nav.voices' },
   { to: '/mentoria', key: 'nav.mentorship' },
   { to: '/taller', key: 'nav.workshop' },
@@ -22,7 +22,7 @@ export const navPrimary = [
   { to: '/servicios', key: 'nav.services' },
   { to: '/integracion', key: 'nav.integration' },
   { to: '/recursos', key: 'nav.resources' },
-  { to: '/tu-terapia', key: 'nav.therapy' },
+  { to: '/tu-camino', key: 'nav.therapy' },
 ]
 
 export const navGroups = [
@@ -33,7 +33,7 @@ export const navGroups = [
       { to: '/servicios', key: 'nav.services' },
       { to: '/integracion', key: 'nav.integration' },
       { to: '/recursos', key: 'nav.resources' },
-      { to: '/tu-terapia', key: 'nav.therapy' },
+      { to: '/tu-camino', key: 'nav.therapy' },
     ],
   },
   {

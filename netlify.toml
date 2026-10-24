@@ -33,13 +33,13 @@
   status = 200
 
 [[redirects]]
-  from = "/tu-camino"
-  to = "/tu-terapia"
+  from = "/tu-terapia"
+  to = "/tu-camino"
   status = 301
 
 [[redirects]]
-  from = "/tu-camino/"
-  to = "/tu-terapia"
+  from = "/tu-terapia/"
+  to = "/tu-camino"
   status = 301
 
 [[redirects]]

@@ -31,7 +31,7 @@ export default function Layout({ children, theme = 'light' }) {
   const location = useLocation()
   const dark = theme === 'dark'
   const isApp = location.pathname.startsWith('/app/') || location.pathname.startsWith('/carta-natal-curso')
-  const hideFab = location.pathname === '/cotizador' || location.pathname === '/tu-terapia' || isApp
+  const hideFab = location.pathname === '/cotizador' || location.pathname === '/tu-camino' || location.pathname === '/tu-terapia' || isApp
   const { t } = useLocale()
 
   useEffect(() => {
