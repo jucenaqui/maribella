@@ -2,81 +2,93 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
+const SPEED = 0.45
+
 export default function AppsCarousel({ apps, prevLabel, nextLabel, countLabel }) {
   const scroller = useRef(null)
-  const indexRef = useRef(0)
   const paused = useRef(false)
+  const hovering = useRef(false)
+  const [held, setHeld] = useState(false)
   const [index, setIndex] = useState(0)
   const total = apps.length
+  const track = total > 1 ? [...apps, ...apps] : apps
+
+  function pause() {
+    paused.current = true
+    setHeld(true)
+  }
+
+  function resume() {
+    if (hovering.current) return
+    paused.current = false
+    setHeld(false)
+  }
+
+  function currentIndex(el) {
+    const cards = [...el.children]
+    let best = 0
+    let dist = Infinity
+    cards.forEach((card, i) => {
+      const d = Math.abs(card.offsetLeft - el.scrollLeft)
+      if (d < dist) {
+        dist = d
+        best = i
+      }
+    })
+    return total ? best % total : 0
+  }
 
   function go(next) {
     const el = scroller.current
     if (!el || !total) return
     const clamped = ((next % total) + total) % total
     const card = el.children[clamped]
-    if (card) {
-      el.scrollTo({ left: card.offsetLeft, behavior: 'smooth' })
-    }
-    indexRef.current = clamped
+    if (card) el.scrollTo({ left: card.offsetLeft, behavior: 'smooth' })
     setIndex(clamped)
   }
-
-  function pause() {
-    paused.current = true
-  }
-
-  function resume() {
-    paused.current = false
-  }
-
-  useEffect(() => {
-    indexRef.current = index
-  }, [index])
 
   useEffect(() => {
     const el = scroller.current
     if (!el) return
-    const onScroll = () => {
-      const cards = [...el.children]
-      let best = 0
-      let dist = Infinity
-      cards.forEach((card, i) => {
-        const d = Math.abs(card.offsetLeft - el.scrollLeft)
-        if (d < dist) {
-          dist = d
-          best = i
-        }
-      })
-      indexRef.current = best
-      setIndex(best)
-    }
+    const onScroll = () => setIndex(currentIndex(el))
     el.addEventListener('scroll', onScroll, { passive: true })
     return () => el.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [total])
 
   useEffect(() => {
-    if (total < 2) return
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)')
-    if (reduce.matches) return
-    const id = window.setInterval(() => {
-      if (paused.current || document.hidden) return
-      go(indexRef.current + 1)
-    }, 4200)
-    return () => window.clearInterval(id)
+    const el = scroller.current
+    if (!el || total < 2) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    let raf = 0
+    const tick = () => {
+      if (!paused.current && !document.hidden) {
+        const loopAt = el.scrollWidth / 2
+        el.scrollLeft += SPEED
+        if (el.scrollLeft >= loopAt) el.scrollLeft -= loopAt
+      }
+      raf = window.requestAnimationFrame(tick)
+    }
+    raf = window.requestAnimationFrame(tick)
+    return () => window.cancelAnimationFrame(raf)
   }, [total])
 
   return (
     <div
       className="mt-8"
-      onMouseEnter={pause}
-      onMouseLeave={resume}
+      onMouseEnter={() => {
+        hovering.current = true
+        pause()
+      }}
+      onMouseLeave={() => {
+        hovering.current = false
+        resume()
+      }}
       onFocus={pause}
       onBlur={resume}
-      onPointerDown={pause}
-      onPointerUp={resume}
     >
       <div
-        className="apps-carousel"
+        className={`apps-carousel${held ? ' is-paused' : ''}`}
         ref={scroller}
         tabIndex={0}
         onKeyDown={(e) => {
@@ -92,8 +104,8 @@ export default function AppsCarousel({ apps, prevLabel, nextLabel, countLabel })
           }
         }}
       >
-        {apps.map((app) => (
-          <article key={app.k} className="card flex flex-col p-5 sm:p-6">
+        {track.map((app, i) => (
+          <article key={`${app.k}-${i}`} className="card flex flex-col p-5 sm:p-6">
             <p className="eyebrow">{app.eyebrow}</p>
             <h3 className="mt-2 font-serif text-2xl sm:text-[1.7rem] leading-tight">{app.title}</h3>
             <p className="mt-3 flex-1 text-sm text-beige/70 line-clamp-3">{app.lead}</p>

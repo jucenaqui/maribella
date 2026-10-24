@@ -185,11 +185,15 @@ body {
   display: flex;
   gap: 1.1rem;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: none;
   scroll-padding-inline: 0.15rem;
   padding-bottom: 0.35rem;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+}
+
+.apps-carousel.is-paused {
+  scroll-snap-type: x mandatory;
 }
 
 .apps-carousel::-webkit-scrollbar {
@@ -231,7 +235,7 @@ body {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .apps-carousel {
+  .apps-carousel.is-paused {
     scroll-behavior: smooth;
   }
 }
