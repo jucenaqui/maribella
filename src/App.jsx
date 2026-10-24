@@ -9,7 +9,6 @@ import Mentoria from './pages/Mentoria.jsx'
 import Taller from './pages/Taller.jsx'
 import Recursos from './pages/Recursos.jsx'
 import Microapp from './pages/Microapp.jsx'
-import CartaAstral from './pages/CartaAstral.jsx'
 import Voces from './pages/Voces.jsx'
 import TuTerapia from './pages/TuTerapia.jsx'
 import Integracion from './pages/Integracion.jsx'
@@ -42,7 +41,7 @@ export default function App() {
       <Route path="/recursos" element={<Page theme="dark"><Recursos /></Page>} />
       <Route path="/app/:slug" element={<Page theme="light"><Microapp /></Page>} />
       <Route path="/carta-natal-curso" element={<Page theme="light"><Microapp src="/carta-natal-curso/index.html" title="Calculadora de carta natal del curso" /></Page>} />
-      <Route path="/carta-astral" element={<Page theme="light"><CartaAstral /></Page>} />
+      <Route path="/carta-astral" element={<Page theme="light"><Microapp src="/carta-astral/index.html" title="Tu carta astral" /></Page>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

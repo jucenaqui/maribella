@@ -33,6 +33,16 @@
   status = 200
 
 [[redirects]]
+  from = "/carta-astral"
+  to = "/carta-astral/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/carta-astral/"
+  to = "/carta-astral/index.html"
+  status = 200
+
+[[redirects]]
   from = "/tu-terapia"
   to = "/tu-camino"
   status = 301
