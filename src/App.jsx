@@ -32,6 +32,7 @@ export default function App() {
       <Route path="/servicios" element={<Page theme="light"><Servicios /></Page>} />
       <Route path="/cotizador" element={<ToWhatsApp />} />
       <Route path="/tu-terapia" element={<Page theme="light"><TuTerapia /></Page>} />
+      <Route path="/tu-camino" element={<Navigate to="/tu-terapia" replace />} />
       <Route path="/sobre" element={<Page theme="light"><Sobre /></Page>} />
       <Route path="/voces" element={<Page theme="light"><Voces /></Page>} />
       <Route path="/contacto" element={<Navigate to="/sobre" replace />} />

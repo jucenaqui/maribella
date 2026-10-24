@@ -33,6 +33,16 @@
   status = 200
 
 [[redirects]]
+  from = "/tu-camino"
+  to = "/tu-terapia"
+  status = 301
+
+[[redirects]]
+  from = "/tu-camino/"
+  to = "/tu-terapia"
+  status = 301
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
