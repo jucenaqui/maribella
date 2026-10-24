@@ -4,19 +4,34 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 export default function AppsCarousel({ apps, prevLabel, nextLabel, countLabel }) {
   const scroller = useRef(null)
+  const indexRef = useRef(0)
+  const paused = useRef(false)
   const [index, setIndex] = useState(0)
-  const last = apps.length - 1
+  const total = apps.length
 
   function go(next) {
     const el = scroller.current
-    if (!el) return
-    const clamped = Math.max(0, Math.min(last, next))
+    if (!el || !total) return
+    const clamped = ((next % total) + total) % total
     const card = el.children[clamped]
     if (card) {
       el.scrollTo({ left: card.offsetLeft, behavior: 'smooth' })
     }
+    indexRef.current = clamped
     setIndex(clamped)
   }
+
+  function pause() {
+    paused.current = true
+  }
+
+  function resume() {
+    paused.current = false
+  }
+
+  useEffect(() => {
+    indexRef.current = index
+  }, [index])
 
   useEffect(() => {
     const el = scroller.current
@@ -32,14 +47,34 @@ export default function AppsCarousel({ apps, prevLabel, nextLabel, countLabel })
           best = i
         }
       })
+      indexRef.current = best
       setIndex(best)
     }
     el.addEventListener('scroll', onScroll, { passive: true })
     return () => el.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    if (total < 2) return
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)')
+    if (reduce.matches) return
+    const id = window.setInterval(() => {
+      if (paused.current || document.hidden) return
+      go(indexRef.current + 1)
+    }, 4200)
+    return () => window.clearInterval(id)
+  }, [total])
+
   return (
-    <div className="mt-8">
+    <div
+      className="mt-8"
+      onMouseEnter={pause}
+      onMouseLeave={resume}
+      onFocus={pause}
+      onBlur={resume}
+      onPointerDown={pause}
+      onPointerUp={resume}
+    >
       <div
         className="apps-carousel"
         ref={scroller}
@@ -47,10 +82,12 @@ export default function AppsCarousel({ apps, prevLabel, nextLabel, countLabel })
         onKeyDown={(e) => {
           if (e.key === 'ArrowRight') {
             e.preventDefault()
+            pause()
             go(index + 1)
           }
           if (e.key === 'ArrowLeft') {
             e.preventDefault()
+            pause()
             go(index - 1)
           }
         }}
@@ -65,14 +102,16 @@ export default function AppsCarousel({ apps, prevLabel, nextLabel, countLabel })
         ))}
       </div>
       <div className="mt-4 flex items-center justify-between gap-3">
-        <p className="text-xs tracking-[0.16em] uppercase text-beige/55">{countLabel(index + 1, apps.length)}</p>
+        <p className="text-xs tracking-[0.16em] uppercase text-beige/55">{countLabel(index + 1, total)}</p>
         <div className="flex gap-2">
           <button
             type="button"
             className="apps-carousel-btn"
             aria-label={prevLabel}
-            disabled={index <= 0}
-            onClick={() => go(index - 1)}
+            onClick={() => {
+              pause()
+              go(index - 1)
+            }}
           >
             <ChevronLeft size={18} />
           </button>
@@ -80,8 +119,10 @@ export default function AppsCarousel({ apps, prevLabel, nextLabel, countLabel })
             type="button"
             className="apps-carousel-btn"
             aria-label={nextLabel}
-            disabled={index >= last}
-            onClick={() => go(index + 1)}
+            onClick={() => {
+              pause()
+              go(index + 1)
+            }}
           >
             <ChevronRight size={18} />
           </button>

@@ -230,6 +230,12 @@ body {
   cursor: default;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .apps-carousel {
+    scroll-behavior: smooth;
+  }
+}
+
 /* Netlify Drawer sits in the same corner on previews and can cover the FAB */
 iframe[title="Netlify Drawer"],
 iframe[title*="Netlify"],
