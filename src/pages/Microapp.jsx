@@ -19,6 +19,7 @@ const APPS = {
   'numero-kua': { src: '/apps/numero-kua.html', titleKey: 'recursos.appKuaTitle' },
   'mio-o-aprendido': { src: '/apps/mio-o-aprendido.html', titleKey: 'recursos.appMioTitle' },
   'mi-arbol-de-vida': { src: '/apps/mi-arbol-de-vida.html', titleKey: 'recursos.appArbolVidaTitle' },
+  'carta-astral': { src: '/apps/carta-astral.html', titleKey: 'recursos.chartTitle' },
 }
 
 export default function Microapp({ src, title }) {

@@ -34,13 +34,13 @@
 
 [[redirects]]
   from = "/carta-astral"
-  to = "/carta-astral/index.html"
-  status = 200
+  to = "/app/carta-astral"
+  status = 301
 
 [[redirects]]
   from = "/carta-astral/"
-  to = "/carta-astral/index.html"
-  status = 200
+  to = "/app/carta-astral"
+  status = 301
 
 [[redirects]]
   from = "/tu-terapia"

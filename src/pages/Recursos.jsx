@@ -163,7 +163,7 @@ export default function Recursos() {
     },
     {
       k: 'carta',
-      to: '/carta-astral',
+              to: '/app/carta-astral',
       eyebrow: t('nav.chart'),
       title: t('recursos.chartTitle'),
       lead: t('recursos.chartLead'),

@@ -30,7 +30,7 @@ export default function Servicios() {
             <p className="mt-3 leading-relaxed text-purple/80">{s.detail}</p>
             <div className="mt-6 flex flex-col gap-2">
               {s.slug === 'astrologia' ? (
-                <Link className="text-xs uppercase tracking-[0.16em] text-fuchsia" to="/carta-astral">
+                <Link className="text-xs uppercase tracking-[0.16em] text-fuchsia" to="/app/carta-astral">
                   {t('servicesPage.chartThis')}
                 </Link>
               ) : null}
