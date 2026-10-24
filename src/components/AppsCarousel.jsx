@@ -1,77 +1,46 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-const SPEED = 0.45
-
 export default function AppsCarousel({ apps, prevLabel, nextLabel, countLabel }) {
-  const scroller = useRef(null)
-  const paused = useRef(false)
+  const trackRef = useRef(null)
   const hovering = useRef(false)
   const [held, setHeld] = useState(false)
+  const [nudge, setNudge] = useState(0)
   const [index, setIndex] = useState(0)
   const total = apps.length
   const track = total > 1 ? [...apps, ...apps] : apps
 
   function pause() {
-    paused.current = true
     setHeld(true)
   }
 
   function resume() {
     if (hovering.current) return
-    paused.current = false
     setHeld(false)
   }
 
-  function currentIndex(el) {
-    const cards = [...el.children]
-    let best = 0
-    let dist = Infinity
-    cards.forEach((card, i) => {
-      const d = Math.abs(card.offsetLeft - el.scrollLeft)
-      if (d < dist) {
-        dist = d
-        best = i
-      }
+  function cardStep() {
+    const card = trackRef.current?.children[0]
+    if (!card) return 280
+    const styles = window.getComputedStyle(trackRef.current)
+    const gap = Number.parseFloat(styles.columnGap || styles.gap) || 17.6
+    return card.getBoundingClientRect().width + gap
+  }
+
+  function go(dir) {
+    if (!total) return
+    pause()
+    const step = cardStep()
+    const loop = step * total
+    setNudge((n) => {
+      let next = n - dir * step
+      next = ((next % loop) + loop) % loop
+      if (next > 0) next -= loop
+      return next
     })
-    return total ? best % total : 0
+    setIndex((i) => ((i + dir) % total + total) % total)
   }
-
-  function go(next) {
-    const el = scroller.current
-    if (!el || !total) return
-    const clamped = ((next % total) + total) % total
-    const card = el.children[clamped]
-    if (card) el.scrollTo({ left: card.offsetLeft, behavior: 'smooth' })
-    setIndex(clamped)
-  }
-
-  useEffect(() => {
-    const el = scroller.current
-    if (!el) return
-    const onScroll = () => setIndex(currentIndex(el))
-    el.addEventListener('scroll', onScroll, { passive: true })
-    return () => el.removeEventListener('scroll', onScroll)
-  }, [total])
-
-  useEffect(() => {
-    const el = scroller.current
-    if (!el || total < 2) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
-    let raf = 0
-    const tick = () => {
-      if (!paused.current && !document.hidden) {
-        const loopAt = el.scrollWidth / 2
-        el.scrollLeft += SPEED
-        if (el.scrollLeft >= loopAt) el.scrollLeft -= loopAt
-      }
-      raf = window.requestAnimationFrame(tick)
-    }
-    raf = window.requestAnimationFrame(tick)
-    return () => window.cancelAnimationFrame(raf)
-  }, [total])
 
   return (
     <div
@@ -84,58 +53,33 @@ export default function AppsCarousel({ apps, prevLabel, nextLabel, countLabel })
         hovering.current = false
         resume()
       }}
-      onFocus={pause}
-      onBlur={resume}
     >
-      <div
-        className={`apps-carousel${held ? ' is-paused' : ''}`}
-        ref={scroller}
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === 'ArrowRight') {
-            e.preventDefault()
-            pause()
-            go(index + 1)
-          }
-          if (e.key === 'ArrowLeft') {
-            e.preventDefault()
-            pause()
-            go(index - 1)
-          }
-        }}
-      >
-        {track.map((app, i) => (
-          <article key={`${app.k}-${i}`} className="card flex flex-col p-5 sm:p-6">
-            <p className="eyebrow">{app.eyebrow}</p>
-            <h3 className="mt-2 font-serif text-2xl sm:text-[1.7rem] leading-tight">{app.title}</h3>
-            <p className="mt-3 flex-1 text-sm text-beige/70 line-clamp-3">{app.lead}</p>
-            <Link className="btn-primary mt-5 inline-block self-start" to={app.to}>{app.cta}</Link>
-          </article>
-        ))}
+      <div className="apps-carousel-viewport">
+        <div
+          ref={trackRef}
+          className={`apps-carousel-track${held || total < 2 ? ' is-paused' : ''}`}
+        >
+          {track.map((app, i) => (
+            <article
+              key={`${app.k}-${i}`}
+              className="card flex flex-col p-5 sm:p-6"
+              style={i === 0 ? { marginLeft: `${nudge}px` } : undefined}
+            >
+              <p className="eyebrow">{app.eyebrow}</p>
+              <h3 className="mt-2 font-serif text-2xl sm:text-[1.7rem] leading-tight">{app.title}</h3>
+              <p className="mt-3 flex-1 text-sm text-beige/70 line-clamp-3">{app.lead}</p>
+              <Link className="btn-primary mt-5 inline-block self-start" to={app.to}>{app.cta}</Link>
+            </article>
+          ))}
+        </div>
       </div>
       <div className="mt-4 flex items-center justify-between gap-3">
         <p className="text-xs tracking-[0.16em] uppercase text-beige/55">{countLabel(index + 1, total)}</p>
         <div className="flex gap-2">
-          <button
-            type="button"
-            className="apps-carousel-btn"
-            aria-label={prevLabel}
-            onClick={() => {
-              pause()
-              go(index - 1)
-            }}
-          >
+          <button type="button" className="apps-carousel-btn" aria-label={prevLabel} onClick={() => go(-1)}>
             <ChevronLeft size={18} />
           </button>
-          <button
-            type="button"
-            className="apps-carousel-btn"
-            aria-label={nextLabel}
-            onClick={() => {
-              pause()
-              go(index + 1)
-            }}
-          >
+          <button type="button" className="apps-carousel-btn" aria-label={nextLabel} onClick={() => go(1)}>
             <ChevronRight size={18} />
           </button>
         </div>
